@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, } from 'react';
 import {
     Text,
+    SafeAreaView
   } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';

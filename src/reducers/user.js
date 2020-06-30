@@ -10,6 +10,13 @@ const initialState = {
     password: '',
     access_token: '',
     refresh_token: '',
+    messages_new: 0,
+    messages_total: 0,
+    info: null,
+    info_full: null,
+    dialogs: [],
+    dialog: [],
+    dialog_messages: [],
 };
 
 export default function user(state = initialState, action = {}) {
@@ -20,10 +27,10 @@ export default function user(state = initialState, action = {}) {
                 loading: true,
             };
         case types.AUTH.SUCCESS:
-            const { 
+            const {
                 phone,
                 password,
-                access_token, 
+                access_token,
                 refresh_token,
             } = action;
             return {
@@ -44,6 +51,139 @@ export default function user(state = initialState, action = {}) {
             return {
                 ...state,
                 logIn: false,
+                access_token: '',
+                refresh_token: '',
+            };
+        case types.INFO.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.INFO.SUCCESS:
+            const { messages, user } = action;
+            return {
+                ...state,
+                messages_new: messages.new,
+                messages_total: messages.total,
+                info: user,
+                loading: false,
+            };
+        case types.INFO.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.INFO_FULL.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.INFO_FULL.SUCCESS:
+            return {
+                ...state,
+                info_full: action.user,
+                loading: false,
+            };
+        case types.INFO_FULL.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.INFO_FULL_UPDATE.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.INFO_FULL_UPDATE.SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.INFO_FULL_UPDATE.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.SEND_EMAIL.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.SEND_EMAIL.SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.SEND_EMAIL.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.UPLOAD_PHOTO.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.UPLOAD_PHOTO.SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.UPLOAD_PHOTO.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.DIALOGS.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.DIALOGS.SUCCESS:
+            return {
+                ...state,
+                dialogs: action.dialogs,
+                loading: false,
+            };
+        case types.DIALOGS.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.DIALOG.REQUEST:
+            return {
+                ...state,
+                dialog: [],
+                dialog_messages: [],
+                loading: true,
+            };
+        case types.DIALOG.SUCCESS:
+            const { dialog, dialog_messages } = action;
+            return {
+                ...state,
+                dialog,
+                dialog_messages,
+                loading: false,
+            };
+        case types.DIALOG.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.MESSAGE_SEND.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.MESSAGE_SEND.SUCCESS:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.MESSAGE_SEND.FAILURE:
+            return {
+                ...state,
+                loading: false,
             };
         default:
             return state;

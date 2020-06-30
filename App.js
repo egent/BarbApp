@@ -3,20 +3,21 @@ import {
   StyleSheet,
   Dimensions,
   AppRegistry,
+  SafeAreaView,
+  Image,
+  View,
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import configureStore from './src/store/configure';
 import Navigator from './src/screens/Navigator';
 
-
 console.disableYellowBox = true;
-
 
 const { width, height } = Dimensions.get('window');
 const { store, persistor } = configureStore();
-
-// const imgSplash = require('./assets/images/splash.png');
+const imgLoading = require('./src/assets/images/barb-anime2.gif');
+const imgLogo =  require('./src/assets/images/logo.png');
 
 export default class App extends Component<{}> {
 
@@ -35,46 +36,44 @@ export default class App extends Component<{}> {
 
   render() {
 
-    // if (!this.state.reHydrated) {
-    //   return (
-    //     <View style={styles.container}>
-    //     <ImageBackground source={imgSplash} style={styles.image}>
-    //       <Text style={styles.text}>v 0.27</Text>
-    //     </ImageBackground>
-    //   </View>
-    //   );
-    // }
+    if (!this.state.reHydrated) {
+      return (
+        <View style={styles.container}>
+          <Image source={imgLoading} style={styles.image} />
+          <Image source={imgLogo} style={styles.logo} />
+        </View>
+      );
+    }
 
     return (
-      <Provider store={store}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <Provider store={store}>
           <Navigator />
-      </Provider>
+        </Provider>
+      </SafeAreaView>
 
     );
   }
-
 };
 
 
 const styles = StyleSheet.create({
   container: {
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
-    flexDirection: "column"
+    backgroundColor: '#FF5E89',
   },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center"
+  image: { 
+    width: 123, 
+    height: 112, 
+    resizeMode: 'contain',
   },
-  text: {
-    position: 'absolute',
-    bottom: 15,
-    left: 0,
-    color: "#fff",
-    fontSize: 10,
-    width: '100%',
-    textAlign: 'center',
-  }
+  logo: { 
+    width: 225, 
+    height: 125, 
+    resizeMode: 'contain',
+  },
 });
 
 AppRegistry.registerComponent('barbapp', () => App);

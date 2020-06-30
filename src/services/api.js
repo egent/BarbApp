@@ -1,10 +1,21 @@
 import axios from 'axios';
+import _ from '../services/i18n';
 
+const config = {
+    timeout: 30000,
+};
 
 export const api = (url, method, data = null, token = '', headers = {}) => {
 
+    const abort = axios.CancelToken.source();
+
+    const id = setTimeout(
+        () => abort.cancel('TIMEOUT ERROR'),
+        config.timeout
+    );
+
     if (token.length !== 0) {
-        headers = {Authorization: `Token ${token}`, ...headers,};
+        headers = {Authorization: `Bearer ${token}`, ...headers,};
     }
 
     // if(method === 'post') {
@@ -19,6 +30,7 @@ export const api = (url, method, data = null, token = '', headers = {}) => {
         method,
         [method.toLowerCase() === 'get' ? 'params' : 'data']: data,
         url,
+        cancelToken: abort.token,
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -32,17 +44,22 @@ export const api = (url, method, data = null, token = '', headers = {}) => {
 
     return axios(axiosConfig)
         .then(res => {
+            clearTimeout(id);
             return Promise.resolve(res);
         })
         .catch(error => {
-
-            console.log(JSON.stringify(error)); 
-
-            return Promise.resolve({
+            // console.log(error);
+            // console.log(JSON.stringify(error)); 
+            let error_message = '';
+            if (axios.isCancel(error)) {
+                error_message = _.t('timeout_error');
+            } else {
+                error_message = error.message;
+            }
+            return Promise.resolve({data:{
                 status: 0,
                 type: 'error',
-                message: error.message,
-            });
-          
+                message: error_message,
+            }}); 
         });
 };

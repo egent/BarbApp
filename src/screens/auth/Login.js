@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { TextInputMask } from 'react-native-masked-text';
 import { connect } from 'react-redux';
-
+import PreLoader from '../../components/PreLoader';
 import _ from '../../services/i18n';
 import { authRequest } from '../../actions/user';
 
@@ -25,10 +25,16 @@ class Login extends Component {
         super(props);
 
         this.state = {
-            phone: '+38',
+            phone: '',
             password: '',
             btnActive: false,
         };
+    }
+
+    componentDidMount() {
+        const {phone, password} = this.props.user;
+        const btnActive = phone.length > 0 ? true : false;
+        this.setState({phone: phone.length > 0 ? phone : "+38", password, btnActive});
     }
 
     onChangePassword = password => {
@@ -39,7 +45,13 @@ class Login extends Component {
     };
 
     render() {
+        const {loading} = this.props.user;
         const { phone, password, btnActive } = this.state;
+
+        if (loading) {
+            return (<PreLoader />);
+        }
+
         return (
             <KeyboardAvoidingView style={[styles.container]}>
                 <View style={styles.titleContainer}>
@@ -117,15 +129,7 @@ class Login extends Component {
 
 
                 </View>
-                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-                    <Text style={{
-                        fontSize: 10,
-                        lineHeight: 12,
-                        color: '#000',
-                        opacity: 0.5,
-                        marginBottom: 10,
-                    }}>ver. 1.0</Text>
-                </View>
+                <View style={{ flex: 1, justifyContent: 'flex-end' }}></View>
             </KeyboardAvoidingView>
         );
     }

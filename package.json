@@ -1,5 +1,5 @@
 {
-  "name": "barbapp",
+  "name": "Barb",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,16 +11,21 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.11.0",
+    "@react-native-community/datetimepicker": "^2.4.2",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.4.3",
     "@react-navigation/stack": "^5.4.0",
     "axios": "^0.19.2",
     "i18n-js": "^3.7.0",
+    "moment": "^2.26.0",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-image-picker": "^2.3.1",
+    "react-native-keyboard-spacer": "^0.4.1",
     "react-native-localize": "^1.4.0",
     "react-native-masked-text": "^1.13.0",
+    "react-native-onesignal": "^3.8.1",
     "react-native-reanimated": "^1.9.0",
     "react-native-safe-area-context": "^2.0.0",
     "react-native-screens": "^2.8.0",

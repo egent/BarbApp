@@ -5,6 +5,51 @@ export const types = {
         FAILURE: 'AUTH.FAILURE',
         LOGOUT: 'AUTH.LOGOUT',
     },
+    INFO: {
+        REQUEST: 'INFO.REQUEST',
+        SUCCESS: 'INFO.SUCCESS',
+        FAILURE: 'INFO.FAILURE',
+    },
+    INFO_FULL: {
+        REQUEST: 'INFO_FULL.REQUEST',
+        SUCCESS: 'INFO_FULL.SUCCESS',
+        FAILURE: 'INFO_FULL.FAILURE',
+    },
+    INFO_FULL_UPDATE: {
+        REQUEST: 'INFO_FULL_UPDATE.REQUEST',
+        SUCCESS: 'INFO_FULL_UPDATE.SUCCESS',
+        FAILURE: 'INFO_FULL_UPDATE.FAILURE',
+    },
+    SEND_EMAIL: {
+        REQUEST: 'SEND_EMAIL.REQUEST',
+        SUCCESS: 'SEND_EMAIL.SUCCESS',
+        FAILURE: 'SEND_EMAIL.FAILURE',
+    },
+    UPLOAD_PHOTO: {
+        REQUEST: 'UPLOAD_PHOTO.REQUEST',
+        SUCCESS: 'UPLOAD_PHOTO.SUCCESS',
+        FAILURE: 'UPLOAD_PHOTO.FAILURE',
+    },
+    DIALOGS: {
+        REQUEST: 'DIALOGS.REQUEST',
+        SUCCESS: 'DIALOGS.SUCCESS',
+        FAILURE: 'DIALOGS.FAILURE',
+    },
+    DIALOG: {
+        REQUEST: 'DIALOG.REQUEST',
+        SUCCESS: 'DIALOG.SUCCESS',
+        FAILURE: 'DIALOG.FAILURE',
+    },
+    MESSAGE_SEND: {
+        REQUEST: 'MESSAGE_SEND.REQUEST',
+        SUCCESS: 'MESSAGE_SEND.SUCCESS',
+        FAILURE: 'MESSAGE_SEND.FAILURE',
+    },
+    SAVE_TOKEN: {
+        REQUEST: 'SAVE_TOKEN.REQUEST',
+        SUCCESS: 'SAVE_TOKEN.SUCCESS',
+        FAILURE: 'SAVE_TOKEN.FAILURE',
+    },
 };
 
 const authRequest = data => ({
@@ -27,9 +72,171 @@ const authLogout = data => ({
     ...data,
 });
 
+const userInfoRequest = data => ({
+    type: types.INFO.REQUEST,
+    ...data,
+});
+
+const userInfoSuccess = data => ({
+    type: types.INFO.SUCCESS,
+    ...data,
+});
+
+const userInfoFailure = data => ({
+    type: types.INFO.FAILURE,
+    ...data,
+});
+
+const userInfoFullRequest = data => ({
+    type: types.INFO_FULL.REQUEST,
+    ...data,
+});
+
+const userInfoFullSuccess = data => ({
+    type: types.INFO_FULL.SUCCESS,
+    ...data,
+});
+
+const userInfoFullFailure = data => ({
+    type: types.INFO_FULL_UPDATE.FAILURE,
+    ...data,
+});
+
+const userInfoFullUpdateRequest = data => ({
+    type: types.INFO_FULL_UPDATE.REQUEST,
+    ...data,
+});
+
+const userInfoFullUpdateSuccess = data => ({
+    type: types.INFO_FULL_UPDATE.SUCCESS,
+    ...data,
+});
+
+const userInfoFullUpdateFailure = data => ({
+    type: types.INFO_FULL_UPDATE.FAILURE,
+    ...data,
+});
+
+const sendEmailRequest = data => ({
+    type: types.SEND_EMAIL.REQUEST,
+    ...data,
+});
+
+const sendEmailSuccess = data => ({
+    type: types.SEND_EMAIL.SUCCESS,
+    ...data,
+});
+
+const sendEmailFailure = data => ({
+    type: types.SEND_EMAIL.FAILURE,
+    ...data,
+});
+
+const uploadPhotoRequest = data => ({
+    type: types.UPLOAD_PHOTO.REQUEST,
+    ...data,
+});
+
+const uploadPhotoSuccess = data => ({
+    type: types.UPLOAD_PHOTO.SUCCESS,
+    ...data,
+});
+
+const uploadPhotoFailure = data => ({
+    type: types.UPLOAD_PHOTO.FAILURE,
+    ...data,
+});
+
+const dialogsRequest = data => ({
+    type: types.DIALOGS.REQUEST,
+    ...data,
+});
+
+const dialogsSuccess = data => ({
+    type: types.DIALOGS.SUCCESS,
+    ...data,
+});
+
+const dialogsFailure = data => ({
+    type: types.DIALOGS.FAILURE,
+    ...data,
+});
+
+const dialogRequest = data => ({
+    type: types.DIALOG.REQUEST,
+    ...data,
+});
+
+const dialogSuccess = data => ({
+    type: types.DIALOG.SUCCESS,
+    ...data,
+});
+
+const dialogFailure = data => ({
+    type: types.DIALOG.FAILURE,
+    ...data,
+});
+
+const messageSendRequest = data => ({
+    type: types.MESSAGE_SEND.REQUEST,
+    ...data,
+});
+
+const messageSendSuccess = data => ({
+    type: types.MESSAGE_SEND.SUCCESS,
+    ...data,
+});
+
+const messageSendFailure = data => ({
+    type: types.DIALOG.FAILURE,
+    ...data,
+});
+
+const saveTokenRequest = data => ({
+    type: types.SAVE_TOKEN.REQUEST,
+    ...data,
+});
+
+const saveTokenSuccess = data => ({
+    type: types.SAVE_TOKEN.SUCCESS,
+    ...data,
+});
+
+const saveTokenFailure = data => ({
+    type: types.SAVE_TOKEN.FAILURE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
     authFailure,
     authLogout,
+    userInfoRequest,
+    userInfoSuccess,
+    userInfoFailure,
+    userInfoFullRequest,
+    userInfoFullSuccess,
+    userInfoFullFailure,
+    userInfoFullUpdateRequest,
+    userInfoFullUpdateSuccess,
+    userInfoFullUpdateFailure,
+    sendEmailRequest,
+    sendEmailSuccess,
+    sendEmailFailure,
+    uploadPhotoRequest,
+    uploadPhotoSuccess,
+    uploadPhotoFailure,
+    dialogsRequest,
+    dialogsSuccess,
+    dialogsFailure,
+    dialogRequest,
+    dialogSuccess,
+    dialogFailure,
+    messageSendRequest,
+    messageSendSuccess,
+    messageSendFailure,
+    saveTokenRequest,
+    saveTokenSuccess,
+    saveTokenFailure,
 };

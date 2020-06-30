@@ -132,8 +132,9 @@ android {
         applicationId "com.barbapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 6
         versionName "1.0"
+        manifestPlaceholders = [onesignal_app_id: "69e49fe0-635c-42f2-acda-2ff356bed6e5", onesignal_google_project_number: "REMOTE"]
     }
     splits {
         abi {
@@ -202,6 +203,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'   //use
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

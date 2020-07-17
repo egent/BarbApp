@@ -58,7 +58,7 @@ class Home extends Component {
     };
 
     myiOSPromptCallback = () => {
-        console.log('myiOSPromptCallback');
+        // console.log('myiOSPromptCallback');
     };
 
     onReceived = notification => {
@@ -108,20 +108,22 @@ class Home extends Component {
                         <Text style={globalStyle.name}>{info.name}</Text>
                         <Text style={globalStyle.spec}>{info.spec}</Text>
                     </View>
-                    <View style={globalStyle.infoContainer}>
+                    {/* <View style={globalStyle.infoContainer}>
                         <Text style={globalStyle.tarif}>
+
                             {_.t('tariff')} {info.tarif.toUpperCase()} <Text style={globalStyle.tarifDate}>{info.tarif_date !== null ? 'до ' + info.tarif_date : ''}
 
                                 {
                                     info.tarif === 'free' ? (
                                         <Text onPress={() => { Linking.openURL('https://barb.ua/tarifs').catch(err => console.error("Couldn't load page", err)) }} style={styles.txtLink}>{_.t('change')}</Text>
-                                    ) : (
+                                    ) 
+                                    : (
                                             <Text onPress={() => { Linking.openURL('https://barb.ua/tarifs').catch(err => console.error("Couldn't load page", err)) }} style={styles.txtLink}>{_.t('prolong')}</Text>
                                         )
                                 }
                             </Text>
                         </Text>
-                    </View>
+                    </View> */}
 
                     <MenuItem
                         icon={iconMessages}
@@ -131,12 +133,12 @@ class Home extends Component {
                         navigation={this.props.navigation}
                     />
 
-                    <MenuItem
+                    {/* <MenuItem
                         icon={iconProfile}
                         name={_.t('barb_profile')}
                         qty={0}
                         url={'https://barb.ua/cabinet/'}
-                    />
+                    /> */}
 
                     <MenuItem
                         icon={iconSettings}
@@ -148,7 +150,7 @@ class Home extends Component {
 
 
                 </ScrollView>
-                <Text style={styles.version}>ver. 1.02</Text>
+                <Text style={styles.version}>ver. 1.2.1</Text>
             </>
         );
     }

@@ -7,9 +7,12 @@ import {
     Dimensions,
     KeyboardAvoidingView,
     TextInput,
-    Linking,
     Platform,
+    Alert,
+    Linking,
 } from 'react-native';
+// import InAppBrowser from 'react-native-inappbrowser-reborn';
+import analytics from '@react-native-firebase/analytics';
 import { TextInputMask } from 'react-native-masked-text';
 import { connect } from 'react-redux';
 import PreLoader from '../../components/PreLoader';
@@ -32,9 +35,22 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        const {phone, password} = this.props.user;
+        const {phone, password, check_code_from_sms} = this.props.user;
         const btnActive = phone.length > 0 ? true : false;
+
+        if (check_code_from_sms === true) {
+            this.props.navigation.navigate('CheckSms');
+        }
+
         this.setState({phone: phone.length > 0 ? phone : "+38", password, btnActive});
+        analytics().logEvent('LoginScreen', {});
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const {phone, password} = this.props.user;
+        if (prevProps.user.password !== password && password.length > 0) {
+            this.setState({phone, password, btnActive: true});
+        }
     }
 
     onChangePassword = password => {
@@ -43,6 +59,45 @@ class Login extends Component {
             btnActive: password.length > 0 ? true : false,
         });
     };
+
+
+    // async openLink(url) {
+    //     try {
+    //       if (await InAppBrowser.isAvailable()) {
+    //         const result = await InAppBrowser.open(url, {
+    //              // iOS Properties
+    //             dismissButtonStyle: 'cancel',
+    //             preferredBarTintColor: '#FF5E89',
+    //             preferredControlTintColor: 'white',
+    //             readerMode: false,
+    //             animated: false,
+    //             modalPresentationStyle: 'fullScreen',
+    //             modalTransitionStyle: 'partialCurl',
+    //             modalEnabled: true,
+    //             enableBarCollapsing: false,
+    //              // Android Properties
+    //              showTitle: false,
+    //              toolbarColor: '#FF5E89',
+    //              secondaryToolbarColor: 'black',
+    //              enableUrlBarHiding: true,
+    //              enableDefaultShare: true,
+    //              forceCloseOnRedirection: false,
+    //              // Specify full animation resource identifier(package:anim/name)
+    //              // or only resource name(in case of animation bundled with app).
+    //              animations: {
+    //                  startEnter: 'slide_in_right',
+    //                  startExit: 'slide_out_left',
+    //                  endEnter: 'slide_in_left',
+    //                  endExit: 'slide_out_right'
+    //              },
+    //         })
+    //         // Alert.alert(JSON.stringify(result))
+    //       }
+    //       else Linking.openURL(url)
+    //     } catch (error) {
+    //       Alert.alert(error.message)
+    //     }
+    //   }
 
     render() {
         const {loading} = this.props.user;
@@ -78,10 +133,6 @@ class Login extends Component {
                             }}
                             underlineColorAndroid={'transparent'}
                             keyboardType={'phone-pad'}
-                            // onSubmitEditing={() => {
-                            //   // this.login()
-                            // }}
-                            // placeholder={'Ваш номер телефона'}
                             autofocus={true}
                         />
                     </View>
@@ -113,15 +164,15 @@ class Login extends Component {
                     </TouchableOpacity>
 
                     <View style={styles.linksContainer}>
-                        <Text
+                        {/* <Text
                             style={styles.link}
-                            onPress={() => { Linking.openURL('https://barb.ua/password/reset') }}
+                            onPress={() => { this.openLink('https://barb.ua/password/reset') }}
                         >
                             {_.t('password_reset')}
-                        </Text>
+                        </Text> */}
                         <Text
                             style={[styles.link, { textAlign: 'right' }]}
-                            onPress={() => { Linking.openURL('https://barb.ua/join') }}
+                            onPress={() => { this.props.navigation.navigate('Registration') }}
                         >
                             {_.t('registration')}
                         </Text>
@@ -179,13 +230,9 @@ const styles = StyleSheet.create({
     },
     input: {
         marginHorizontal: margin * 0.5,
-        
         marginTop: Platform.OS === 'ios' ? 5 : 0,
         fontSize: 17,
-        // lineHeight: 20,
         overflow: 'visible',
-
-        // backgroundColor: 'yellow',
     },
     btn: {
         marginVertical: 10,

@@ -1,5 +1,7 @@
 apply plugin: "com.android.application"
-
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+apply plugin: 'com.google.gms.google-services' 
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 import com.android.build.OutputFile
 
 /**
@@ -132,9 +134,10 @@ android {
         applicationId "com.barbapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 6
+        versionCode 8
         versionName "1.0"
         manifestPlaceholders = [onesignal_app_id: "69e49fe0-635c-42f2-acda-2ff356bed6e5", onesignal_google_project_number: "REMOTE"]
+        multiDexEnabled true
     }
     splits {
         abi {
@@ -224,6 +227,8 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
 
 // Run this once to be able to run the application with BUCK

@@ -11,6 +11,9 @@ import {
     watchDialogSaga,
     watchMessageSendSaga,
     watchSaveTokenSaga,
+    watchRegisterInfoSaga,
+    watchRegisterSaga,
+    watchCheckCodeSaga,
 } from './user';
 
 export default function* rootSaga() {
@@ -26,5 +29,8 @@ export default function* rootSaga() {
         watchDialogSaga(),
         watchMessageSendSaga(),
         watchSaveTokenSaga(),
+        watchRegisterInfoSaga(),
+        watchRegisterSaga(),
+        watchCheckCodeSaga(),
     ]);
 }

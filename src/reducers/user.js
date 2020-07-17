@@ -17,6 +17,10 @@ const initialState = {
     dialogs: [],
     dialog: [],
     dialog_messages: [],
+    user_types: [],
+    cities: [],
+    sms_code_for_test: '',
+    check_code_from_sms: false,
 };
 
 export default function user(state = initialState, action = {}) {
@@ -181,6 +185,61 @@ export default function user(state = initialState, action = {}) {
                 loading: false,
             };
         case types.MESSAGE_SEND.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.REGISTER_INFO.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.REGISTER_INFO.SUCCESS:
+            return {
+                ...state,
+                user_types: action.types,
+                cities: action.cities,
+                loading: false,
+            };
+        case types.REGISTER_INFO.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+        case types.REGISTER.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.REGISTER.SUCCESS:
+            const { data, sms_code_for_test } = action;
+            return {
+                ...state,
+                loading: false,
+                info: data,
+                sms_code_for_test,
+                check_code_from_sms: true,
+            };
+        case types.REGISTER.FAILURE:
+            return {
+                ...state,
+                loading: false,
+            };
+
+        case types.CHECK_CODE.REQUEST:
+            return {
+                ...state,
+                loading: true,
+            };
+        case types.CHECK_CODE.SUCCESS:
+            return {
+                ...state,
+                phone: action.phone,
+                password: action.password,
+                check_code_from_sms: false,
+                loading: false,
+            };
+        case types.CHECK_CODE.FAILURE:
             return {
                 ...state,
                 loading: false,

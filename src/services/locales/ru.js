@@ -13,7 +13,30 @@ export default {
     password_reset: "Забыли пароль?",
     registration: "Регистрация",
     logout: 'Выход',  
-    
+
+    // Registration Screen
+    registration: 'Регистрация',
+    select_user_type: 'Выберите тип пользователя',
+    user_type: 'Тип пользователя',
+    first_name: 'Имя',
+    last_name: 'Фамилия',
+    org_name: 'Название организации',
+    btn_registration: 'Зарегистрироваться',
+    select_city: 'Выберите город',
+    i_accept: 'Я принимаю',
+    app_rules: 'правила приложения',
+    email_error: 'Не верный формат Email',
+    name_error: 'Вы не заполнили имя или фамилию',
+    org_error: 'Вы не заполнили название организации',
+    city_error: 'Вы не выбрали город',
+    phone_error: 'Вы не заполнили телефон',
+
+    // Check Code Screen
+    check_code_title: 'Проверка кода',
+    check_code_description: 'Введите код отправленный Вам в смс',
+    code_from_sms: 'Код из смс',
+    send: 'Отправить',
+
     // Home screen
     tariff: 'Тариф',
     messages: 'Сообщения',
@@ -58,6 +81,12 @@ export default {
     // Dialog screen
     message: 'Сообщение',
     you: 'Вы',
+
+    // Select Two
+    cancelButtonText: 'Отмена',
+    selectButtonText: 'Выбрать',
+    searchPlaceHolderText: "Поиск по названию",
+    listEmptyTitle: 'Список пуст',
 };
 
   

@@ -44,8 +44,10 @@ class Settings extends Component {
                     icon={iconDoc}
                     name={_.t('user_agreement')}
                     qty={0}
-                    url={'https://barb.ua/terms'}
                     borderColor={'rgba(0, 0, 0, 0.1)'}
+                    // url={'https://barb.ua/terms'}
+                    screenName={'UserAgreement'}
+                    navigation={this.props.navigation}
                 /> 
             </ScrollView>
         );

@@ -33,7 +33,6 @@ export const api = (url, method, data = null, token = '', headers = {}) => {
         cancelToken: abort.token,
         headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
             ...headers,
         },
         // httpsAgent: new https.Agent({ rejectUnauthorized: false }),

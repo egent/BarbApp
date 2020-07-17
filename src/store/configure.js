@@ -10,7 +10,7 @@ import rootSaga from '../sagas';
 const saveSubsetBlackFilterUser = createBlacklistFilter('user', ['loading']);
 
 const persistConfig = {
-    timeout: 5000,
+    timeout: 2000,
     key: 'appStore',
     storage: AsyncStorage,
     stateReconciler: autoMergeLevel2,

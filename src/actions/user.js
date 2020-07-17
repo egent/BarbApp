@@ -5,6 +5,21 @@ export const types = {
         FAILURE: 'AUTH.FAILURE',
         LOGOUT: 'AUTH.LOGOUT',
     },
+    REGISTER: {
+        REQUEST: 'REGISTER.REQUEST',
+        SUCCESS: 'REGISTER.SUCCESS',
+        FAILURE: 'REGISTER.FAILURE',
+    },
+    REGISTER_INFO: {
+        REQUEST: 'REGISTER_INFO.REQUEST',
+        SUCCESS: 'REGISTER_INFO.SUCCESS',
+        FAILURE: 'REGISTER_INFO.FAILURE',
+    },
+    CHECK_CODE: {
+        REQUEST: 'CHECK_CODE.REQUEST',
+        SUCCESS: 'CHECK_CODE.SUCCESS',
+        FAILURE: 'CHECK_CODE.FAILURE',
+    },
     INFO: {
         REQUEST: 'INFO.REQUEST',
         SUCCESS: 'INFO.SUCCESS',
@@ -64,6 +79,21 @@ const authSuccess = data => ({
 
 const authFailure = data => ({
     type: types.AUTH.FAILURE,
+    ...data,
+});
+
+const registerRequest = data => ({
+    type: types.REGISTER.REQUEST,
+    ...data,
+});
+
+const registerSuccess = data => ({
+    type: types.REGISTER.SUCCESS,
+    ...data,
+});
+
+const registerFailure = data => ({
+    type: types.REGISTER.FAILURE,
     ...data,
 });
 
@@ -207,11 +237,44 @@ const saveTokenFailure = data => ({
     ...data,
 });
 
+const getRegisterInfoRequest = data => ({
+    type: types.REGISTER_INFO.REQUEST,
+    ...data,
+});
+
+const getRegisterInfoSuccess = data => ({
+    type: types.REGISTER_INFO.SUCCESS,
+    ...data,
+});
+
+const getRegisterInfoFailure = data => ({
+    type: types.REGISTER_INFO.FAILURE,
+    ...data,
+});
+
+const checkCodeRequest = data => ({
+    type: types.CHECK_CODE.REQUEST,
+    ...data,
+});
+
+const checkCodeSuccess = data => ({
+    type: types.CHECK_CODE.SUCCESS,
+    ...data,
+});
+
+const checkCodeFailure = data => ({
+    type: types.CHECK_CODE.FAILURE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
     authFailure,
     authLogout,
+    registerRequest,
+    registerSuccess,
+    registerFailure,
     userInfoRequest,
     userInfoSuccess,
     userInfoFailure,
@@ -239,4 +302,10 @@ export {
     saveTokenRequest,
     saveTokenSuccess,
     saveTokenFailure,
+    getRegisterInfoRequest,
+    getRegisterInfoSuccess,
+    getRegisterInfoFailure,
+    checkCodeRequest,
+    checkCodeSuccess,
+    checkCodeFailure,
 };

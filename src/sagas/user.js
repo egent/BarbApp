@@ -24,6 +24,12 @@ import {
     messageSendFailure,
     saveTokenSuccess,
     saveTokenFailure,
+    getRegisterInfoSuccess,
+    getRegisterInfoFailure,
+    registerSuccess,
+    registerFailure,
+    checkCodeSuccess,
+    checkCodeFailure,
 } from '../actions/user';
 import {
     getClientId,
@@ -42,6 +48,9 @@ import {
     ENDPOINT_DIALOGS,
     ENDPOINT_DIALOG,
     ENDPOINT_SAVE_PUSH_TOKEN,
+    ENDPOINT_REGISTER_INFO,
+    ENDPOINT_REGISTER,
+    ENDPOINT_CHECK_CODE,
 } from "../constants/api";
 
 
@@ -228,8 +237,63 @@ function* saveTokenSaga(params) {
     }
 }
 
+function* registerInfoSaga() {
+    const response = yield call(api, ENDPOINT_REGISTER_INFO, 'GET', {});
+
+    if (response.status === 200) {
+        const {types, cities} = response.data.data;
+        yield put(getRegisterInfoSuccess({
+           types,
+           cities,
+        }));
+    }
+    else {
+        Alert.alert('', response.data.message);
+        yield put(getRegisterInfoFailure({}));
+    }
+}
+
+function* registerSaga(params) {
+    const { city_id, name, last_name, phone, email, userType } = params;
+    const response = yield call(api, ENDPOINT_REGISTER, 'POST', { city_id,name,last_name, phone, email, type: userType});
+    if (response.data.status_code === 200) {
+        const {message, data, sms_code_for_test} = response.data.data;
+        yield put(registerSuccess({
+            data, 
+            sms_code_for_test,
+        }));
+        Alert.alert('', message);
+    }
+    else {
+        Alert.alert('', response.data.error);
+        yield put(registerFailure({}));
+    }
+}
+
+function* checkCodeSaga(params) {
+    const response = yield call(api, ENDPOINT_CHECK_CODE, 'POST', params);
+
+    if (response.status === 200) {
+        const {message, password} = response.data.data;
+        yield put(checkCodeSuccess({
+            phone: params.phone,
+            password,
+        }));
+
+        Alert.alert('', message);
+    }
+    else {
+        Alert.alert('', response.data.message);
+        yield put(checkCodeFailure({}));
+    }
+} 
+
 function* watchAuthSaga() {
     yield takeLatest(types.AUTH.REQUEST, authSaga);
+}
+
+function* watchRegisterInfoSaga() {
+    yield takeLatest(types.REGISTER_INFO.REQUEST, registerInfoSaga);
 }
 
 function* watchUserInfoSaga() {
@@ -268,6 +332,14 @@ function* watchSaveTokenSaga() {
     yield takeLatest(types.SAVE_TOKEN.REQUEST, saveTokenSaga);
 }
 
+function* watchRegisterSaga() {
+    yield takeLatest(types.REGISTER.REQUEST, registerSaga);
+}
+
+function* watchCheckCodeSaga() {
+    yield takeLatest(types.CHECK_CODE.REQUEST, checkCodeSaga);
+}
+
 export {
     watchAuthSaga,
     watchUserInfoSaga,
@@ -279,4 +351,7 @@ export {
     watchDialogSaga,
     watchMessageSendSaga,
     watchSaveTokenSaga,
+    watchRegisterInfoSaga,
+    watchRegisterSaga,
+    watchCheckCodeSaga,
 };

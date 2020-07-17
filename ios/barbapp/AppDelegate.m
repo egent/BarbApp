@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import <Firebase.h>
 
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
@@ -31,9 +32,13 @@ static void InitializeFlipper(UIApplication *application) {
   self.oneSignal = [[RCTOneSignal alloc] initWithLaunchOptions:launchOptions
                                                        appId:@"69e49fe0-635c-42f2-acda-2ff356bed6e5"];
 
-#if DEBUG
-  InitializeFlipper(application);
-#endif
+  if ([FIRApp defaultApp] == nil) {
+    [FIRApp configure];
+  }
+
+  #if DEBUG
+    InitializeFlipper(application);
+  #endif
 
   RCTBridge *bridge = [[RCTBridge alloc] initWithDelegate:self launchOptions:launchOptions];
   RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:bridge

@@ -10,7 +10,7 @@ import Settings from './Settings';
 import Messages from './Messages';
 import MessageDetail from './MessageDetail';
 import ShowImage from './ShowImage';
-
+import UserAgreement from '../auth/Agreement';
 
 const UserStack = createStackNavigator();
 
@@ -73,6 +73,15 @@ const UserStackScreens = ({ navigation }) => (
             component={ShowImage} 
             options={({ navigation, route }) => ({
                 headerShown: false,
+            })} 
+        />
+        <UserStack.Screen 
+            name="UserAgreement" 
+            component={UserAgreement} 
+            options={({ navigation, route }) => ({
+                headerShown: true,
+                headerTitle: _.t('user_agreement'),
+                headerLeft: props => <HeaderLeft {...props} navigation={navigation} />
             })} 
         />
     </UserStack.Navigator>

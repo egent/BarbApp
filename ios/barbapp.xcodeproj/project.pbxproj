@@ -19,7 +19,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* barbappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* barbappTests.m */; };
 		3E8F42E50FFB727BA4FC0C4B /* libPods-barbapp-barbappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB4CF8F73CA48EBAA2CB3F7 /* libPods-barbapp-barbappTests.a */; };
 		4B195C7A24A8C06E00ED7E79 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B195C7924A8C06E00ED7E79 /* Launch Screen.storyboard */; };
-		4B4B9CE324B1EDF6009271A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4B4B9CE224B1EDF6009271A8 /* GoogleService-Info.plist */; };
+		4B82B3E5262DC65100C3D586 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4B82B3E4262DC65100C3D586 /* GoogleService-Info.plist */; };
 		57B1A8191E70C1947A34301C /* libPods-barbapp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A70016D556E3FF85D02B31C8 /* libPods-barbapp-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
@@ -54,7 +54,7 @@
 		2D02E47B1E0B4A5D006451C7 /* barbapp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "barbapp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* barbapp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "barbapp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B195C7924A8C06E00ED7E79 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		4B4B9CE224B1EDF6009271A8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4B82B3E4262DC65100C3D586 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "barbapp/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4B9BC7A124A6592600A9CC15 /* Barb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Barb.entitlements; path = barbapp/Barb.entitlements; sourceTree = "<group>"; };
 		634C91E962D6114094EB6DC8 /* libPods-barbapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-barbapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A7104A1183EFA5FF9982B27 /* libPods-barbapp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-barbapp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,7 +163,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				4B4B9CE224B1EDF6009271A8 /* GoogleService-Info.plist */,
+				4B82B3E4262DC65100C3D586 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* barbapp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* barbappTests */,
@@ -349,7 +349,7 @@
 			files = (
 				4B195C7A24A8C06E00ED7E79 /* Launch Screen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				4B4B9CE324B1EDF6009271A8 /* GoogleService-Info.plist in Resources */,
+				4B82B3E5262DC65100C3D586 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

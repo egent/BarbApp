@@ -4,6 +4,7 @@ export default {
     timeout_error: 'Ошибка сетевого подключения.',
 
     // Login screen
+    create_account: 'Создать аккаунт',
     authorization: "Авторизация",
     login_description: "Введите номер телефона и пароль, который вы используете на Barb.ua",
     phone: "Телефон",

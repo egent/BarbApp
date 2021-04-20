@@ -41,6 +41,8 @@ export const api = (url, method, data = null, token = '', headers = {}) => {
         }
     };
 
+    console.info('🚀', method, url, axiosConfig); // todo comment in production
+
     return axios(axiosConfig)
         .then(res => {
             clearTimeout(id);

@@ -6,6 +6,7 @@ const initialState = {
     client_secret: 'bwtAjwvRw6lnQdfOKkMHmcJ7JAxF0QwOP6wqaln1',
     loading: false,
     logIn: false,
+    city: null,
     phone: '',
     password: '',
     access_token: '',
@@ -195,35 +196,28 @@ export default function user(state = initialState, action = {}) {
                 loading: true,
             };
         case types.REGISTER_INFO.SUCCESS:
+            let cities = [];
+            action.cities.map(function(city){
+                cities.push({
+                  id: city.id,
+                  name: city.name,
+                  checked: city.id === false,
+                });
+            });
             return {
                 ...state,
                 user_types: action.types,
-                cities: action.cities,
+                cities,
                 loading: false,
             };
-        case types.REGISTER_INFO.FAILURE:
+        case types.GET_CODE.SUCCESS:
             return {
                 ...state,
                 loading: false,
-            };
-        case types.REGISTER.REQUEST:
-            return {
-                ...state,
-                loading: true,
-            };
-        case types.REGISTER.SUCCESS:
-            const { data, sms_code_for_test } = action;
-            return {
-                ...state,
-                loading: false,
-                info: data,
-                sms_code_for_test,
+                sms_code_for_test: action.code,
+                phone: action.phone,
+                city: action.city,
                 check_code_from_sms: true,
-            };
-        case types.REGISTER.FAILURE:
-            return {
-                ...state,
-                loading: false,
             };
 
         case types.CHECK_CODE.REQUEST:

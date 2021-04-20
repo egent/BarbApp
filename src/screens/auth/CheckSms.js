@@ -1,156 +1,90 @@
-import React, { Component } from "react";
+import React, {useState} from 'react';
 import {
-    View,
-    Text,
-    StyleSheet,
-    TouchableOpacity,
-    Dimensions,
-    KeyboardAvoidingView,
-    TextInput,
-    Platform,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  StyleSheet,
+  Dimensions,
 } from 'react-native';
-import { connect } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCodeRequest} from '../../actions/user';
 import PreLoader from '../../components/PreLoader';
+import Input from '../../components/ui/Input';
+import Button from '../../components/ui/Button';
 import _ from '../../services/i18n';
-import { checkCodeRequest } from '../../actions/user';
 
-const { width, height } = Dimensions.get('window');
-const margin = width * 0.1;
+const {width} = Dimensions.get('window');
 
-class CheckSms extends Component {
+const CheckSms = ({navigation}) => {
+  const {phone, city, loading, sms_code_for_test} = useSelector((state) => state.user);
+  const [code, setCode] = useState(sms_code_for_test.toString());
+  const dispatch = useDispatch();
 
-    constructor(props) {
-        super(props);
+  if (loading) {
+    return <PreLoader />;
+  }
 
-        this.state = {
-            code: '',
-            btnActive: false,
-        };
-    }
+  console.log('code', code, sms_code_for_test)
 
-    componentDidUpdate(prevProps, prevState) {
-        const {check_code_from_sms} = this.props.user;
-        if (prevProps.user.check_code_from_sms !== check_code_from_sms && check_code_from_sms === false) {
-            this.props.navigation.navigate('Login');
-        }
-    }
+  const active = code.length > 0 ? true : false;
 
-    render() {
-        const {loading} = this.props.user;
-        const { code, btnActive } = this.state;
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="position"
+      enabled
+      keyboardVerticalOffset={-25}>
+      <View style={styles.content}>
+        <Text style={styles.title}>{_.t('check_code_title')}</Text>
+        <Text style={styles.description}>
+          {_.t('check_code_description', {phone})}
+        </Text>
+        <Text
+          onPress={() => dispatch(getCodeRequest({phone, city}))}
+          style={styles.resendCode}>
+          {_.t('resendCode')}
+        </Text>
+        <Input
+            label="confirmation_code"
+            value={code}
+            setData={setCode}
+          />
 
-        if (loading) {
-            return (<PreLoader />);
-        }
-
-        return (
-            <KeyboardAvoidingView style={[styles.container]}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>{_.t('check_code_title')}</Text>
-                    <Text style={styles.subtitleContainer}>{_.t('check_code_description')}</Text>
-                </View>
-                <View style={{ flex: 2, }}>
-
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.legend}>{_.t('code_from_sms')}</Text>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={val => {this.setState({code: val, btnActive: val.length > 0 ? true : false})}}
-                            value={code}
-                            autoCapitalize={'none'}
-                        />
-                    </View>
-
-                    <TouchableOpacity
-                        activeOpacity={btnActive ? 0.2 : 1}
-                        style={[styles.btn, { backgroundColor: btnActive ? '#FF5E89' : 'rgba(0, 0, 0, 0.1)', }]}
-                        onPress={() => {
-                            if (code.length > 0) {
-                                this.props.checkCodeRequest({
-                                    code,
-                                    phone: this.props.user.info.phone
-                                });
-                            }
-                        }}
-                    >
-                        <Text style={styles.btnTxt}>{_.t('send')}</Text>
-                    </TouchableOpacity>
-
-                </View>
-                <View style={{ flex: 1, justifyContent: 'flex-end' }}></View>
-            </KeyboardAvoidingView>
-        );
-    }
+        <Button
+          onPress={() => {
+            if(active) {
+            //   todo send to server
+            }
+          }}
+          btnText="continue"
+          active={active}
+        />
+      </View>
+    </KeyboardAvoidingView>
+  );
 };
 
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    titleContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    title: {
-        fontSize: 17,
-        fontWeight: 'bold',
-    },
-    subtitleContainer: {
-        marginTop: 14,
-        marginHorizontal: 40,
-        fontSize: 14,
-        lineHeight: 17,
-        textAlign: 'center',
-        color: '#000',
-        opacity: 0.5,
-    },
-    inputContainer: {
-        width: width - margin,
-        // height: 60,
-        marginHorizontal: margin,
-        borderWidth: 1,
-        borderRadius: 4,
-        borderColor: 'rgba(0, 0, 0, 0.1)',
-        marginBottom: 10,
-        paddingBottom: Platform.OS === 'ios' ? 10 : 0,
-    },
-    legend: {
-        marginHorizontal: margin * 0.5,
-        marginTop: margin * 0.25,
-        color: 'rgba(0, 0, 0, 0.4)',
-        fontSize: 12,
-        lineHeight: 14,
-    },
-    input: {
-        marginHorizontal: margin * 0.5,
-        marginTop: Platform.OS === 'ios' ? 5 : 0,
-        fontSize: 17,
-        overflow: 'visible',
-    },
-    btn: {
-        marginVertical: 10,
-        width: width - margin,
-        marginHorizontal: margin,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 4,
-    },
-    btnTxt: {
-        fontSize: 17,
-        lineHeight: 20,
-        color: '#fff'
-    },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    width,
+  },
+  title: {
+    fontSize: 16,
+    marginVertical: 25,
+    textAlign: 'center',
+  },
+  description: {
+    color: '#B3B9BF',
+    fontSize: 12,
+  },
+  resendCode: {
+    color: '#6DB7E8',
+    fontSize: 12,
+    marginTop: 10,
+    marginBottom: 25,
+  },
 });
 
-const mapStateToProps = state => ({
-    user: state.user
-});
-
-export default connect(mapStateToProps, {
-    checkCodeRequest,
-})(CheckSms);
+export default CheckSms;

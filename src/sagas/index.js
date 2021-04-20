@@ -14,6 +14,7 @@ import {
     watchRegisterInfoSaga,
     watchRegisterSaga,
     watchCheckCodeSaga,
+    watchGetCodeSaga,
 } from './user';
 
 export default function* rootSaga() {
@@ -32,5 +33,6 @@ export default function* rootSaga() {
         watchRegisterInfoSaga(),
         watchRegisterSaga(),
         watchCheckCodeSaga(),
+        watchGetCodeSaga(),
     ]);
 }

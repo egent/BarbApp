@@ -1,17 +1,22 @@
 import React from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
-import _ from "../../services/i18n"
+import {Text, View, StyleSheet} from 'react-native';
+import Button from '../../components/ui/Button';
+import _ from '../../services/i18n';
 
-const FirstScreen = ({ navigation}) => {
+const FirstScreen = ({navigation}) => {
   return (
     <>
       <View style={styles.box} />
       <View style={styles.box}>
         <Text style={styles.logo}>Barb</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Registration')} style={styles.btn} activeOpacity={0.8}>
-          <Text style={styles.btnText}>{_.t('create_account')}</Text>
-        </TouchableOpacity>
-        <Text onPress={()=>{navigation.navigate('Login')}} style={styles.enterText}>{_.t('enter')}</Text>
+        <Button btnText="create_account" onPress={() => navigation.navigate('Registration')} />
+        <Text
+          onPress={() => {
+            navigation.navigate('Login');
+          }}
+          style={styles.enterText}>
+          {_.t('enter')}
+        </Text>
       </View>
       <View style={styles.box} />
     </>
@@ -30,20 +35,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 25,
   },
-  btn: {
-    width: '100%',
-    backgroundColor: '#F50263',
-    justifyContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 48,
-  },
-  btnText: {
-    color: '#fff',
-    fontSize: 16,
-  },
   enterText: {
-    marginTop: 25,
+    marginTop: 5,
     color: '#6DB7E8',
     fontSize: 16,
   },

@@ -1,4 +1,14 @@
 export const types = {
+    REGISTER_INFO: {
+        REQUEST: 'REGISTER_INFO.REQUEST',
+        SUCCESS: 'REGISTER_INFO.SUCCESS',
+        FAILURE: 'REGISTER_INFO.FAILURE',
+    },
+    GET_CODE: {
+        REQUEST: 'GET_CODE.REQUEST',
+        SUCCESS: 'GET_CODE.SUCCESS',
+        FAILURE: 'GET_CODE.FAILURE',
+    },
     AUTH: {
         REQUEST: 'AUTH.REQUEST',
         SUCCESS: 'AUTH.SUCCESS',
@@ -10,11 +20,7 @@ export const types = {
         SUCCESS: 'REGISTER.SUCCESS',
         FAILURE: 'REGISTER.FAILURE',
     },
-    REGISTER_INFO: {
-        REQUEST: 'REGISTER_INFO.REQUEST',
-        SUCCESS: 'REGISTER_INFO.SUCCESS',
-        FAILURE: 'REGISTER_INFO.FAILURE',
-    },
+ 
     CHECK_CODE: {
         REQUEST: 'CHECK_CODE.REQUEST',
         SUCCESS: 'CHECK_CODE.SUCCESS',
@@ -267,6 +273,21 @@ const checkCodeFailure = data => ({
     ...data,
 });
 
+const getCodeRequest = data => ({
+    type: types.GET_CODE.REQUEST,
+    ...data,
+});
+
+const getCodeSuccess = data => ({
+    type: types.GET_CODE.SUCCESS,
+    ...data,
+});
+
+const getCodeFailure = data => ({
+    type: types.GET_CODE.FAILURE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -308,4 +329,7 @@ export {
     checkCodeRequest,
     checkCodeSuccess,
     checkCodeFailure,
+    getCodeRequest,
+    getCodeSuccess,
+    getCodeFailure,
 };

@@ -1,357 +1,410 @@
 import {Alert} from 'react-native';
-import { put, takeLatest, call, select } from 'redux-saga/effects';
+import {put, takeLatest, call, select} from 'redux-saga/effects';
 import {
-    types,
-    authSuccess,
-    authFailure,
-    authLogout,
-    userInfoSuccess,
-    userInfoFailure,
-    userInfoFullSuccess,
-    userInfoFullFailure,
-    userInfoFullUpdateSuccess,
-    userInfoFullUpdateFailure,
-    sendEmailSuccess,
-    sendEmailFailure,
-    uploadPhotoSuccess,
-    uploadPhotoFailure,
-    dialogsSuccess,
-    dialogsFailure,
-    dialogRequest,
-    dialogSuccess,
-    dialogFailure,
-    messageSendSuccess,
-    messageSendFailure,
-    saveTokenSuccess,
-    saveTokenFailure,
-    getRegisterInfoSuccess,
-    getRegisterInfoFailure,
-    registerSuccess,
-    registerFailure,
-    checkCodeSuccess,
-    checkCodeFailure,
+  types,
+  authSuccess,
+  authFailure,
+  authLogout,
+  userInfoSuccess,
+  userInfoFailure,
+  userInfoFullSuccess,
+  userInfoFullFailure,
+  userInfoFullUpdateSuccess,
+  userInfoFullUpdateFailure,
+  sendEmailSuccess,
+  sendEmailFailure,
+  uploadPhotoSuccess,
+  uploadPhotoFailure,
+  dialogsSuccess,
+  dialogsFailure,
+  dialogRequest,
+  dialogSuccess,
+  dialogFailure,
+  messageSendSuccess,
+  messageSendFailure,
+  saveTokenSuccess,
+  saveTokenFailure,
+  getRegisterInfoSuccess,
+  getRegisterInfoFailure,
+  registerSuccess,
+  registerFailure,
+  checkCodeSuccess,
+  checkCodeFailure,
+  getCodeSuccess,
+  getCodeFailure,
 } from '../actions/user';
 import {
-    getClientId,
-    getClientSecret,
-    getGrantType,
-    getAccessToken,
+  getClientId,
+  getClientSecret,
+  getGrantType,
+  getAccessToken,
 } from './selectors';
-import { api } from '../services/api';
+import {api} from '../services/api';
 import {
-    BACKEND_URL,
-    ENDPOINT_AUTH,
-    ENDPOINT_USER_INFO,
-    ENDPOINT_USER_INFO_FULL,
-    ENDPOINT_SEND_EMAIL,
-    ENDPOINT_UPLOAD_PHOTO,
-    ENDPOINT_DIALOGS,
-    ENDPOINT_DIALOG,
-    ENDPOINT_SAVE_PUSH_TOKEN,
-    ENDPOINT_REGISTER_INFO,
-    ENDPOINT_REGISTER,
-    ENDPOINT_CHECK_CODE,
-} from "../constants/api";
-
+  BACKEND_URL,
+  ENDPOINT_AUTH,
+  ENDPOINT_USER_INFO,
+  ENDPOINT_USER_INFO_FULL,
+  ENDPOINT_SEND_EMAIL,
+  ENDPOINT_UPLOAD_PHOTO,
+  ENDPOINT_DIALOGS,
+  ENDPOINT_DIALOG,
+  ENDPOINT_SAVE_PUSH_TOKEN,
+  ENDPOINT_REGISTER_INFO,
+  ENDPOINT_REGISTER,
+  ENDPOINT_CHECK_CODE,
+  ENDPOINT_GET_CODE,
+} from '../constants/api';
 
 function* authSaga(params) {
-    const grant_type = yield select(getGrantType);
-    const client_id = yield select(getClientId);
-    const client_secret = yield select(getClientSecret);
-    const {phone, password, navigation} = params;
-    const response = yield call(api, ENDPOINT_AUTH, 'POST', {
-        username: phone, 
-        password,
-        grant_type,
-        client_id,
-        client_secret,
-    });
+  const grant_type = yield select(getGrantType);
+  const client_id = yield select(getClientId);
+  const client_secret = yield select(getClientSecret);
+  const {phone, password, navigation} = params;
+  const response = yield call(api, ENDPOINT_AUTH, 'POST', {
+    username: phone,
+    password,
+    grant_type,
+    client_id,
+    client_secret,
+  });
 
-    if (response.status === 200) {
-        yield put(authSuccess({
-            phone,
-            password,
-            access_token: response.data.access_token,
-            refresh_token: response.data.refresh_token,
-        }));
-    } else {
-        Alert.alert('', response.data.message);
-        yield put(authFailure({}));
-    }
+  if (response.status === 200) {
+    yield put(
+      authSuccess({
+        phone,
+        password,
+        access_token: response.data.access_token,
+        refresh_token: response.data.refresh_token,
+      }),
+    );
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(authFailure({}));
+  }
 }
 
-
 function* userInfoSaga() {
-    const token = yield select(getAccessToken);
-    const response = yield call(api, ENDPOINT_USER_INFO, 'GET', {}, token);
+  const token = yield select(getAccessToken);
+  const response = yield call(api, ENDPOINT_USER_INFO, 'GET', {}, token);
 
-    if (response.status === 200) {
-        const {messages, user} = response.data.data;
-        yield put(userInfoSuccess({
-           messages,
-           user,
-        }));
-    }
-    else if (response.status === 401) {
-        yield put(authLogout());
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(userInfoFailure({}));
-    }
+  if (response.status === 200) {
+    const {messages, user} = response.data.data;
+    yield put(
+      userInfoSuccess({
+        messages,
+        user,
+      }),
+    );
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(userInfoFailure({}));
+  }
 }
 
 function* userInfoFullSaga() {
-    const token = yield select(getAccessToken);
-    const response = yield call(api, ENDPOINT_USER_INFO_FULL, 'GET', {}, token);
+  const token = yield select(getAccessToken);
+  const response = yield call(api, ENDPOINT_USER_INFO_FULL, 'GET', {}, token);
 
-    if (response.status === 200) {
-        const {user} = response.data.data;
-        yield put(userInfoFullSuccess({
-           user,
-        }));
-    }
-    else if (response.status === 401) {
-        yield put(authLogout());
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(userInfoFullFailure({}));
-    }
+  if (response.status === 200) {
+    const {user} = response.data.data;
+    yield put(
+      userInfoFullSuccess({
+        user,
+      }),
+    );
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(userInfoFullFailure({}));
+  }
 }
 
-
 function* userInfoFullUpdateSaga(params) {
-    const token = yield select(getAccessToken);
-    const response = yield call(api, ENDPOINT_USER_INFO_FULL, 'POST', params, token);
+  const token = yield select(getAccessToken);
+  const response = yield call(
+    api,
+    ENDPOINT_USER_INFO_FULL,
+    'POST',
+    params,
+    token,
+  );
 
-    if (response.status === 200) {
-        yield put(userInfoFullUpdateSuccess());
-    }
-    else if (response.status === 401) {
-        yield put(authLogout());
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(userInfoFullUpdateFailure({}));
-    }
+  if (response.status === 200) {
+    yield put(userInfoFullUpdateSuccess());
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(userInfoFullUpdateFailure({}));
+  }
 }
 
 function* sendEmailSaga() {
-    const token = yield select(getAccessToken);
-    const response = yield call(api, ENDPOINT_SEND_EMAIL, 'GET', {}, token);
-    if (response.status === 200) {
-        Alert.alert('', response.data.data);
-        yield put(sendEmailSuccess());
-    }
-    else if (response.status === 401) {
-        yield put(authLogout());
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(sendEmailFailure({}));
-    }
+  const token = yield select(getAccessToken);
+  const response = yield call(api, ENDPOINT_SEND_EMAIL, 'GET', {}, token);
+  if (response.status === 200) {
+    Alert.alert('', response.data.data);
+    yield put(sendEmailSuccess());
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(sendEmailFailure({}));
+  }
 }
 
 function* uploadPhotoSaga(params) {
-    const token = yield select(getAccessToken);
-    const response = yield call(api, ENDPOINT_UPLOAD_PHOTO, 'POST', params, token);
+  const token = yield select(getAccessToken);
+  const response = yield call(
+    api,
+    ENDPOINT_UPLOAD_PHOTO,
+    'POST',
+    params,
+    token,
+  );
 
-    if (response.status === 200) {
-        yield put(uploadPhotoSuccess());
-    }
-    else if (response.status === 401) {
-        yield put(authLogout());
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(uploadPhotoFailure({}));
-    }
+  if (response.status === 200) {
+    yield put(uploadPhotoSuccess());
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(uploadPhotoFailure({}));
+  }
 }
 
 function* dialogsSaga() {
-    const token = yield select(getAccessToken);
-    const response = yield call(api, ENDPOINT_DIALOGS, 'GET', {}, token);
-    if (response.status === 200) {
-        yield put(dialogsSuccess({dialogs: response.data.data.dialogs}));
-    }
-    else if (response.status === 401) {
-        yield put(authLogout());
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(dialogsFailure({}));
-    }
+  const token = yield select(getAccessToken);
+  const response = yield call(api, ENDPOINT_DIALOGS, 'GET', {}, token);
+  if (response.status === 200) {
+    yield put(dialogsSuccess({dialogs: response.data.data.dialogs}));
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(dialogsFailure({}));
+  }
 }
 
-
 function* dialogSaga(params) {
-    const token = yield select(getAccessToken);
-    const response = yield call(api, ENDPOINT_DIALOG + params.id, 'GET', {}, token);
-    if (response.status === 200) {
-        yield put(dialogSuccess({
-            dialog: response.data.data.dialog,
-            dialog_messages: response.data.data.messages,
-        }));
-    }
-    else if (response.status === 401) {
-        yield put(authLogout());
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(dialogFailure({}));
-    }
+  const token = yield select(getAccessToken);
+  const response = yield call(
+    api,
+    ENDPOINT_DIALOG + params.id,
+    'GET',
+    {},
+    token,
+  );
+  if (response.status === 200) {
+    yield put(
+      dialogSuccess({
+        dialog: response.data.data.dialog,
+        dialog_messages: response.data.data.messages,
+      }),
+    );
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(dialogFailure({}));
+  }
 }
 
 function* messageSendSaga(params) {
-    const token = yield select(getAccessToken);
-    const response = yield call(api, BACKEND_URL + '/api-dialog/'+params.dialog_id+'/send', 'POST', params, token);
-    
-    if (response.status === 200) {
-        yield put(messageSendSuccess());
-        yield put(dialogRequest({id: params.dialog_id}));
-    }
-    else if (response.status === 401) {
-        yield put(authLogout());
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(messageSendFailure({}));
-    }
+  const token = yield select(getAccessToken);
+  const response = yield call(
+    api,
+    BACKEND_URL + '/api-dialog/' + params.dialog_id + '/send',
+    'POST',
+    params,
+    token,
+  );
+
+  if (response.status === 200) {
+    yield put(messageSendSuccess());
+    yield put(dialogRequest({id: params.dialog_id}));
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(messageSendFailure({}));
+  }
 }
 
 function* saveTokenSaga(params) {
-    const token = yield select(getAccessToken);
+  const token = yield select(getAccessToken);
 
-    const response = yield call(api, BACKEND_URL + ENDPOINT_SAVE_PUSH_TOKEN, 'POST', params, token);
+  const response = yield call(
+    api,
+    BACKEND_URL + ENDPOINT_SAVE_PUSH_TOKEN,
+    'POST',
+    params,
+    token,
+  );
 
-    if (response.status === 200) {
-        yield put(saveTokenSuccess());
-    }
-    else if (response.status === 401) {
-        yield put(authLogout());
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(saveTokenFailure({}));
-    }
+  if (response.status === 200) {
+    yield put(saveTokenSuccess());
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(saveTokenFailure({}));
+  }
 }
 
 function* registerInfoSaga() {
-    const response = yield call(api, ENDPOINT_REGISTER_INFO, 'GET', {});
+  const response = yield call(api, ENDPOINT_REGISTER_INFO, 'GET', {});
 
-    if (response.status === 200) {
-        const {types, cities} = response.data.data;
-        yield put(getRegisterInfoSuccess({
-           types,
-           cities,
-        }));
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(getRegisterInfoFailure({}));
-    }
+  if (response.status === 200) {
+    const {types, cities} = response.data.data;
+    yield put(
+      getRegisterInfoSuccess({
+        types,
+        cities,
+      }),
+    );
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(getRegisterInfoFailure({}));
+  }
 }
 
 function* registerSaga(params) {
-    const { city_id, name, last_name, phone, email, userType } = params;
-    const response = yield call(api, ENDPOINT_REGISTER, 'POST', { city_id,name,last_name, phone, email, type: userType});
-    if (response.data.status_code === 200) {
-        const {message, data, sms_code_for_test} = response.data.data;
-        yield put(registerSuccess({
-            data, 
-            sms_code_for_test,
-        }));
-        Alert.alert('', message);
-    }
-    else {
-        Alert.alert('', response.data.error);
-        yield put(registerFailure({}));
-    }
+  const {city_id, name, last_name, phone, email, userType} = params;
+  const response = yield call(api, ENDPOINT_REGISTER, 'POST', {
+    city_id,
+    name,
+    last_name,
+    phone,
+    email,
+    type: userType,
+  });
+  if (response.data.status_code === 200) {
+    const {message, data, sms_code_for_test} = response.data.data;
+    yield put(
+      registerSuccess({
+        data,
+        sms_code_for_test,
+      }),
+    );
+    Alert.alert('', message);
+  } else {
+    Alert.alert('', response.data.error);
+    yield put(registerFailure({}));
+  }
 }
 
 function* checkCodeSaga(params) {
-    const response = yield call(api, ENDPOINT_CHECK_CODE, 'POST', params);
+  const response = yield call(api, ENDPOINT_CHECK_CODE, 'POST', params);
 
-    if (response.status === 200) {
-        const {message, password} = response.data.data;
-        yield put(checkCodeSuccess({
-            phone: params.phone,
-            password,
-        }));
+  if (response.status === 200) {
+    const {message, password} = response.data.data;
+    yield put(
+      checkCodeSuccess({
+        phone: params.phone,
+        password,
+      }),
+    );
 
-        Alert.alert('', message);
-    }
-    else {
-        Alert.alert('', response.data.message);
-        yield put(checkCodeFailure({}));
-    }
-} 
+    Alert.alert('', message);
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(checkCodeFailure({}));
+  }
+}
+
+function* getCodeSaga(params) {
+  const {phone, city} = params;
+  const response = yield call(api, ENDPOINT_GET_CODE, 'POST', {city_id: city.id, phone});
+
+  if (response.status === 200) {
+    const {code} = response.data.data;
+    yield put(
+      getCodeSuccess({
+        code,
+        phone,
+        city
+      }),
+    );
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(getCodeFailure({}));
+  }
+}
 
 function* watchAuthSaga() {
-    yield takeLatest(types.AUTH.REQUEST, authSaga);
+  yield takeLatest(types.AUTH.REQUEST, authSaga);
 }
 
 function* watchRegisterInfoSaga() {
-    yield takeLatest(types.REGISTER_INFO.REQUEST, registerInfoSaga);
+  yield takeLatest(types.REGISTER_INFO.REQUEST, registerInfoSaga);
 }
 
 function* watchUserInfoSaga() {
-    yield takeLatest(types.INFO.REQUEST, userInfoSaga);
+  yield takeLatest(types.INFO.REQUEST, userInfoSaga);
 }
 
 function* watchUserInfoFullSaga() {
-    yield takeLatest(types.INFO_FULL.REQUEST, userInfoFullSaga);
+  yield takeLatest(types.INFO_FULL.REQUEST, userInfoFullSaga);
 }
 
 function* watchUserInfoFullUpdateSaga() {
-    yield takeLatest(types.INFO_FULL_UPDATE.REQUEST, userInfoFullUpdateSaga);
+  yield takeLatest(types.INFO_FULL_UPDATE.REQUEST, userInfoFullUpdateSaga);
 }
 
 function* watchSendEmailSaga() {
-    yield takeLatest(types.SEND_EMAIL.REQUEST, sendEmailSaga);
+  yield takeLatest(types.SEND_EMAIL.REQUEST, sendEmailSaga);
 }
 
 function* watchUploadPhotoSaga() {
-    yield takeLatest(types.UPLOAD_PHOTO.REQUEST, uploadPhotoSaga);
+  yield takeLatest(types.UPLOAD_PHOTO.REQUEST, uploadPhotoSaga);
 }
 
 function* watchDialogsSaga() {
-    yield takeLatest(types.DIALOGS.REQUEST, dialogsSaga);
+  yield takeLatest(types.DIALOGS.REQUEST, dialogsSaga);
 }
 
 function* watchDialogSaga() {
-    yield takeLatest(types.DIALOG.REQUEST, dialogSaga);
+  yield takeLatest(types.DIALOG.REQUEST, dialogSaga);
 }
 
 function* watchMessageSendSaga() {
-    yield takeLatest(types.MESSAGE_SEND.REQUEST, messageSendSaga);
+  yield takeLatest(types.MESSAGE_SEND.REQUEST, messageSendSaga);
 }
 
 function* watchSaveTokenSaga() {
-    yield takeLatest(types.SAVE_TOKEN.REQUEST, saveTokenSaga);
+  yield takeLatest(types.SAVE_TOKEN.REQUEST, saveTokenSaga);
 }
 
 function* watchRegisterSaga() {
-    yield takeLatest(types.REGISTER.REQUEST, registerSaga);
+  yield takeLatest(types.REGISTER.REQUEST, registerSaga);
 }
 
 function* watchCheckCodeSaga() {
-    yield takeLatest(types.CHECK_CODE.REQUEST, checkCodeSaga);
+  yield takeLatest(types.CHECK_CODE.REQUEST, checkCodeSaga);
+}
+
+function* watchGetCodeSaga() {
+  yield takeLatest(types.GET_CODE.REQUEST, getCodeSaga);
 }
 
 export {
-    watchAuthSaga,
-    watchUserInfoSaga,
-    watchUserInfoFullSaga,
-    watchUserInfoFullUpdateSaga,
-    watchSendEmailSaga,
-    watchUploadPhotoSaga,
-    watchDialogsSaga,
-    watchDialogSaga,
-    watchMessageSendSaga,
-    watchSaveTokenSaga,
-    watchRegisterInfoSaga,
-    watchRegisterSaga,
-    watchCheckCodeSaga,
+  watchAuthSaga,
+  watchUserInfoSaga,
+  watchUserInfoFullSaga,
+  watchUserInfoFullUpdateSaga,
+  watchSendEmailSaga,
+  watchUploadPhotoSaga,
+  watchDialogsSaga,
+  watchDialogSaga,
+  watchMessageSendSaga,
+  watchSaveTokenSaga,
+  watchRegisterInfoSaga,
+  watchRegisterSaga,
+  watchCheckCodeSaga,
+  watchGetCodeSaga,
 };

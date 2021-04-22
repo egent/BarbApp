@@ -2,6 +2,7 @@ import {Alert} from 'react-native';
 import {put, takeLatest, call, select} from 'redux-saga/effects';
 import {
   types,
+  authRequest,
   authSuccess,
   authFailure,
   authLogout,
@@ -50,7 +51,6 @@ import {
   ENDPOINT_DIALOGS,
   ENDPOINT_DIALOG,
   ENDPOINT_SAVE_PUSH_TOKEN,
-  ENDPOINT_REGISTER_INFO,
   ENDPOINT_REGISTER,
   ENDPOINT_CHECK_CODE,
   ENDPOINT_GET_CODE,
@@ -69,7 +69,7 @@ function* authSaga(params) {
     client_secret,
   });
 
-  if (response.status === 200) {
+  if (response.status === 200) {    
     yield put(
       authSuccess({
         phone,
@@ -78,6 +78,7 @@ function* authSaga(params) {
         refresh_token: response.data.refresh_token,
       }),
     );
+
   } else {
     Alert.alert('', response.data.message);
     yield put(authFailure({}));
@@ -257,7 +258,7 @@ function* saveTokenSaga(params) {
 }
 
 function* registerInfoSaga() {
-  const response = yield call(api, ENDPOINT_REGISTER_INFO, 'GET', {});
+  const response = yield call(api, ENDPOINT_REGISTER, 'GET', {});
 
   if (response.status === 200) {
     const {types, cities} = response.data.data;
@@ -274,24 +275,20 @@ function* registerInfoSaga() {
 }
 
 function* registerSaga(params) {
-  const {city_id, name, last_name, phone, email, userType} = params;
-  const response = yield call(api, ENDPOINT_REGISTER, 'POST', {
-    city_id,
-    name,
-    last_name,
-    phone,
-    email,
-    type: userType,
-  });
+  const {payload, navigation} = params;
+  const {phone, password} = payload;
+  const response = yield call(api, ENDPOINT_REGISTER, 'POST', payload);
   if (response.data.status_code === 200) {
-    const {message, data, sms_code_for_test} = response.data.data;
+    const {message, result} = response.data.data;
     yield put(
       registerSuccess({
-        data,
-        sms_code_for_test,
+        result,
       }),
     );
-    Alert.alert('', message);
+
+    yield put(authRequest({ phone, password, navigation }));
+
+    // Alert.alert('', message);
   } else {
     Alert.alert('', response.data.error);
     yield put(registerFailure({}));
@@ -299,18 +296,21 @@ function* registerSaga(params) {
 }
 
 function* checkCodeSaga(params) {
-  const response = yield call(api, ENDPOINT_CHECK_CODE, 'POST', params);
+  const {phone, code, navigation} = params;
+  const response = yield call(api, ENDPOINT_CHECK_CODE, 'POST', {phone, code});
 
   if (response.status === 200) {
     const {message, password} = response.data.data;
     yield put(
       checkCodeSuccess({
-        phone: params.phone,
+        phone,
         password,
       }),
     );
 
-    Alert.alert('', message);
+    // Alert.alert('', message);
+    navigation.navigate('UserInfo');
+
   } else {
     Alert.alert('', response.data.message);
     yield put(checkCodeFailure({}));
@@ -323,6 +323,7 @@ function* getCodeSaga(params) {
 
   if (response.status === 200) {
     const {code} = response.data.data;
+
     yield put(
       getCodeSuccess({
         code,

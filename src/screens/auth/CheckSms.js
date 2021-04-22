@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -7,7 +7,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCodeRequest} from '../../actions/user';
+import {getCodeRequest, checkCodeRequest} from '../../actions/user';
 import PreLoader from '../../components/PreLoader';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
@@ -17,14 +17,16 @@ const {width} = Dimensions.get('window');
 
 const CheckSms = ({navigation}) => {
   const {phone, city, loading, sms_code_for_test} = useSelector((state) => state.user);
-  const [code, setCode] = useState(sms_code_for_test.toString());
+  const [code, setCode] = useState('');
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setCode(sms_code_for_test);
+  }, [sms_code_for_test]); 
 
   if (loading) {
     return <PreLoader />;
   }
-
-  console.log('code', code, sms_code_for_test)
 
   const active = code.length > 0 ? true : false;
 
@@ -33,7 +35,7 @@ const CheckSms = ({navigation}) => {
       style={styles.container}
       behavior="position"
       enabled
-      keyboardVerticalOffset={-25}>
+      keyboardVerticalOffset={-100}>
       <View style={styles.content}>
         <Text style={styles.title}>{_.t('check_code_title')}</Text>
         <Text style={styles.description}>
@@ -48,12 +50,12 @@ const CheckSms = ({navigation}) => {
             label="confirmation_code"
             value={code}
             setData={setCode}
+            keyboardType="number-pad"
           />
-
         <Button
           onPress={() => {
             if(active) {
-            //   todo send to server
+              dispatch(checkCodeRequest({phone, code, navigation}))
             }
           }}
           btnText="continue"

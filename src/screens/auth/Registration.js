@@ -16,12 +16,13 @@ const {width} = Dimensions.get('window');
 import {getRegisterInfoRequest, getCodeRequest} from '../../actions/user';
 
 const Registration = ({navigation}) => {
-  const [city, setCity] = useState(null);
-  const [phone, setPhone] = useState('+380');
-
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const {cities, loading} = user;
+  const [city, setCity] = useState(user.city);
+  const [phone, setPhone] = useState(user.phone);
+
+  const dispatch = useDispatch();
+ 
   useEffect(() => {
     dispatch(getRegisterInfoRequest());
   }, []);
@@ -37,7 +38,7 @@ const Registration = ({navigation}) => {
       style={styles.container}
       behavior="position"
       enabled
-      keyboardVerticalOffset={-25}>
+      keyboardVerticalOffset={-100}>
       <ScrollView>
         <Text style={styles.title}>{_.t('registration_master')}</Text>
         <SelectInput
@@ -51,15 +52,14 @@ const Registration = ({navigation}) => {
           help="phone_number_help"
           value={phone}
           setData={setPhone}
+          keyboardType="phone-pad"
         />
         <Button
           onPress={() => {
-            // if(active) {
-            //   dispatch(getCodeRequest({phone, city}))
-            //   navigation.navigate('CheckSms');
-            // }
-
-            navigation.navigate('CheckSms'); // todo comment in production
+            if(active) {
+              dispatch(getCodeRequest({phone, city}))
+              navigation.navigate('CheckSms');
+            }
           }}
           btnText="continue"
           active={active}

@@ -5,6 +5,7 @@ import LoginScreen from './Login';
 import RegistrationScreen from './Registration';
 import UserAgreement from './Agreement';
 import CheckSms from './CheckSms';
+import UserInfo from './UserInfo';
 import HeaderLeft from '../../components/HeaderLeft';
 import _ from '../../services/i18n';
 
@@ -29,6 +30,13 @@ const AuthStackScreen = ({ navigation }) => (
         <AuthStack.Screen 
             name="Registration" 
             component={RegistrationScreen} 
+            options={({ navigation, route }) => ({
+                headerShown: false,
+            })} 
+        />
+        <AuthStack.Screen 
+            name="UserInfo" 
+            component={UserInfo} 
             options={({ navigation, route }) => ({
                 headerShown: false,
             })} 

@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import _ from '../../services/i18n';
 const Button = ({onPress, btnText, active = true}) => {
+
   return (
     <TouchableOpacity
       onPress={onPress}

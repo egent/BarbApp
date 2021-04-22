@@ -3,11 +3,25 @@ import {Text, View, TextInput, StyleSheet, Dimensions} from 'react-native';
 import _ from '../../services/i18n';
 const {width} = Dimensions.get('window');
 
-const Input = ({label, help = '', value, setData, containerStyles = {}}) => {
+const Input = ({
+  label,
+  help = '',
+  value,
+  setData,
+  containerStyles = {},
+  autoCapitalize = false,
+  keyboardType = 'default',
+}) => {
   return (
     <View style={[styles.container, {...containerStyles}]}>
       <Text style={styles.label}>{_.t(label)}</Text>
-      <TextInput style={styles.field} value={value} onChangeText={setData}  />
+      <TextInput
+        style={styles.field}
+        value={value}
+        onChangeText={setData}
+        autoCapitalize={autoCapitalize}
+        keyboardType={keyboardType}
+      />
       {help.length > 0 && <Text style={styles.help}>{_.t(help)}</Text>}
     </View>
   );
@@ -25,19 +39,17 @@ const styles = StyleSheet.create({
   },
   field: {
     borderWidth: 1,
-    borderColor: '#D4D6DF', 
+    borderColor: '#D4D6DF',
     height: 42,
     paddingLeft: 5,
     color: '#7C7F84',
     fontSize: 14,
-
   },
   help: {
     paddingTop: 5,
     color: '#7C7F84',
     fontSize: 12,
   },
-
 });
 
 export default Input;

@@ -15,6 +15,7 @@ import {
     watchRegisterSaga,
     watchCheckCodeSaga,
     watchGetCodeSaga,
+    watchPasswordResetSaga,
 } from './user';
 
 export default function* rootSaga() {
@@ -34,5 +35,6 @@ export default function* rootSaga() {
         watchRegisterSaga(),
         watchCheckCodeSaga(),
         watchGetCodeSaga(),
+        watchPasswordResetSaga(),
     ]);
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Dimensions,
   AppRegistry,
   SafeAreaView,
   Image,
@@ -14,7 +13,6 @@ import Navigator from './src/screens/Navigator';
 
 console.disableYellowBox = true;
 
-const { width, height } = Dimensions.get('window');
 const { store, persistor } = configureStore();
 const imgLoading = require('./src/assets/images/barb-anime2.gif');
 const imgLogo =  require('./src/assets/images/logo.png');
@@ -55,7 +53,6 @@ export default class App extends Component<{}> {
     );
   }
 };
-
 
 const styles = StyleSheet.create({
   container: {

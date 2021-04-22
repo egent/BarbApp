@@ -5,6 +5,7 @@ export default {
 
     // Login screen
     create_account: 'Создать аккаунт',
+    create_new_account: 'Создать новый аккаунт',
     authorization: "Авторизация",
     login_description: "Введите номер телефона и пароль, который вы используете на Barb.ua",
     phone: "Телефон",
@@ -16,6 +17,8 @@ export default {
     password_reset: "Забыли пароль?",
     registration: "Регистрация",
     logout: 'Выход',  
+    send_password: 'Отправить пароль',
+    send_password_phone: 'Пароль отправлен на номер {{phone}}',
 
     // Registration Screen
     registration_master: 'РЕГИСТРАЦИЯ МАСТЕРА',
@@ -41,6 +44,7 @@ export default {
     remember_password: 'Запомнить пароль',
     agree: 'Я принимаю',
     registration_rules: 'правила регистрации',
+    reminder_password: 'Напоминание пароля',
 
     // Check Code Screen
     check_code_title: 'ВВЕДИТЕ КОД ПОДТВЕРЖДЕНИЯ',

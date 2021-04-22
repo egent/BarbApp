@@ -15,6 +15,11 @@ export const types = {
         FAILURE: 'AUTH.FAILURE',
         LOGOUT: 'AUTH.LOGOUT',
     },
+    PASSWORD_RESET: {
+        REQUEST: 'PASSWORD_RESET.REQUEST',
+        SUCCESS: 'PASSWORD_RESET.SUCCESS',
+        FAILURE: 'PASSWORD_RESET.FAILURE',
+    },
     REGISTER: {
         REQUEST: 'REGISTER.REQUEST',
         SUCCESS: 'REGISTER.SUCCESS',
@@ -288,6 +293,21 @@ const getCodeFailure = data => ({
     ...data,
 });
 
+const passwordResetRequest = data => ({
+    type: types.PASSWORD_RESET.REQUEST,
+    ...data,
+});
+
+const passwordResetSuccess = data => ({
+    type: types.PASSWORD_RESET.SUCCESS,
+    ...data,
+});
+
+const passwordResetFailure = data => ({
+    type: types.PASSWORD_RESET.FAILURE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -332,4 +352,7 @@ export {
     getCodeRequest,
     getCodeSuccess,
     getCodeFailure,
+    passwordResetRequest,
+    passwordResetSuccess,
+    passwordResetFailure,
 };

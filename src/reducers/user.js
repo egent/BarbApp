@@ -58,7 +58,7 @@ export default function user(state = initialState, action = {}) {
           ...state,
           loading: false,
           info: action.result,
-          registration: true,
+          showOnBoarding: true,
         };
       case types.REGISTER.FAILURE:
         return {
@@ -262,6 +262,11 @@ export default function user(state = initialState, action = {}) {
         ...state,
         loading: false,
       };
+      case types.PASSWORD_RESET.REQUEST:
+        return {
+          ...state,
+          phone: action.phone,
+        };
     default:
       return state;
   }

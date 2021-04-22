@@ -33,6 +33,9 @@ import {
   checkCodeFailure,
   getCodeSuccess,
   getCodeFailure,
+  userPassword,
+  passwordResetSuccess,
+  passwordResetFailure,
 } from '../actions/user';
 import {
   getClientId,
@@ -54,6 +57,7 @@ import {
   ENDPOINT_REGISTER,
   ENDPOINT_CHECK_CODE,
   ENDPOINT_GET_CODE,
+  ENDPOINT_PASSWORD_RESET,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -337,6 +341,23 @@ function* getCodeSaga(params) {
   }
 }
 
+function* passwordResetSaga(params) {
+  const {phone} = params;
+  const response = yield call(api, ENDPOINT_PASSWORD_RESET, 'POST', {phone});
+
+  if (response.status === 200) {
+    const {code} = response.data.data;
+    yield put(
+      passwordResetSuccess({
+        phone,
+      }),
+    );
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(passwordResetFailure({}));
+  }
+}
+
 function* watchAuthSaga() {
   yield takeLatest(types.AUTH.REQUEST, authSaga);
 }
@@ -393,6 +414,10 @@ function* watchGetCodeSaga() {
   yield takeLatest(types.GET_CODE.REQUEST, getCodeSaga);
 }
 
+function* watchPasswordResetSaga() {
+  yield takeLatest(types.PASSWORD_RESET.REQUEST, passwordResetSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -408,4 +433,5 @@ export {
   watchRegisterSaga,
   watchCheckCodeSaga,
   watchGetCodeSaga,
+  watchPasswordResetSaga,
 };

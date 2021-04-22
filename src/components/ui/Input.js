@@ -9,7 +9,7 @@ const Input = ({
   value,
   setData,
   containerStyles = {},
-  autoCapitalize = false,
+  autoCapitalize = 'none',
   keyboardType = 'default',
 }) => {
   return (
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   field: {
     borderWidth: 1,
     borderColor: '#D4D6DF',
-    height: 42,
+    height: 48,
     paddingLeft: 5,
     color: '#7C7F84',
     fontSize: 14,

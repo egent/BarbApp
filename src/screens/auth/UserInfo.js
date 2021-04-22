@@ -48,8 +48,8 @@ const UserInfo = ({navigation}) => {
      >
       <ScrollView>
         <Text style={styles.title}>{_.t('name_password')}</Text>
-        <Input label="first_name" value={name} setData={setName} autoCapitalize={true} />
-        <Input label="last_name" value={lastName} setData={setLastName} autoCapitalize={true} />
+        <Input label="first_name" value={name} setData={setName} autoCapitalize="sentences" />
+        <Input label="last_name" value={lastName} setData={setLastName} autoCapitalize="sentences" />
         <InputPassword
           label="password"
           value={password}

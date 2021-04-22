@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   field: {
     flex: 6,
-    height: 42,
+    height: 48,
     paddingLeft: 5,
     color: '#7C7F84',
     fontSize: 14,

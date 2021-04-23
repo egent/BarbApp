@@ -60,6 +60,11 @@ export default {
     settings: 'Настройки',
     change: 'Изменить',
     prolong: 'Продлить',
+    welcome: 'Добро пожаловать на Barb.ua!',
+    on_board: 'Заполните свой профиль и добавьте услуги, чтобы анкета появилась на сайте',
+    set_profile: 'Заполнить профиль',
+    set_profile_later: 'Заполнить позже',
+    to: 'до',
 
     // Settings screen
     profile_master: 'Профиль мастера',

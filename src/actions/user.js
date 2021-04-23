@@ -76,6 +76,9 @@ export const types = {
         SUCCESS: 'SAVE_TOKEN.SUCCESS',
         FAILURE: 'SAVE_TOKEN.FAILURE',
     },
+    ON_BOARDING: {
+        OFF: 'ON_BOARDING.OFF',
+    },
 };
 
 const authRequest = data => ({
@@ -308,6 +311,11 @@ const passwordResetFailure = data => ({
     ...data,
 });
 
+const onBoardingOff = data => ({
+    type: types.ON_BOARDING.OFF,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -355,4 +363,5 @@ export {
     passwordResetRequest,
     passwordResetSuccess,
     passwordResetFailure,
+    onBoardingOff
 };

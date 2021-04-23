@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, {Component} from 'react';
 import {
   View,
@@ -7,12 +8,14 @@ import {
   Image,
   ScrollView,
   RefreshControl,
-  Linking,
+  Platform,
 } from 'react-native';
 import {connect} from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import _ from '../../services/i18n';
 import PreLoader from '../../components/PreLoader';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
 import {
   userInfoRequest,
   saveTokenRequest,
@@ -20,14 +23,10 @@ import {
   dialogRequest,
 } from '../../actions/user';
 import MenuItem from '../../components/Home/MenuItem';
-import globalStyle from '../../components/styles';
+import OnBoarding from '../../components/OnBoarding';
 import {ONESIGNAL_APP_ID} from '../../constants/api';
 
-const {width, height} = Dimensions.get('window');
-const margin = width * 0.05;
-const iconMessages = require('../../assets/images/icon_messages.png');
-const iconProfile = require('../../assets/images/icon_profile.png');
-const iconSettings = require('../../assets/images/icon_settings.png');
+const {width} = Dimensions.get('window');
 
 class Home extends Component {
   constructor(props) {
@@ -76,10 +75,10 @@ class Home extends Component {
   };
 
   onOpened = (openResult) => {
-    console.log('Message: ', openResult.notification.payload.body);
-    console.log('Data: ', openResult.notification.payload.additionalData);
-    console.log('isActive: ', openResult.notification.isAppInFocus);
-    console.log('openResult: ', openResult);
+    // console.log('Message: ', openResult.notification.payload.body);
+    // console.log('Data: ', openResult.notification.payload.additionalData);
+    // console.log('isActive: ', openResult.notification.isAppInFocus);
+    // console.log('openResult: ', openResult);
   };
 
   onIds = (device) => {
@@ -87,69 +86,146 @@ class Home extends Component {
   };
 
   render() {
-    const {loading, info, messages_new} = this.props.user;
+    const {
+      loading,
+      info,
+      messages_new,
+      onBoarding,
+      updateProfile,
+    } = this.props.user;
+    const {city, tarif, tarif_date} = info;
 
     if (loading || info === null) {
       return <PreLoader />;
     }
 
+    if (onBoarding) {
+      return <OnBoarding navigation={this.props.navigation} />;
+    }
+
     return (
       <>
         <ScrollView
+          style={styles.container}
           refreshControl={
             <RefreshControl
-              colors={['#FF5E89']}
-              tintColor={'#FF5E89'}
+              colors={['#F50263']}
+              tintColor={'#F50263'}
               refreshing={false}
               onRefresh={() => this.props.userInfoRequest()}
             />
           }>
-          <View style={globalStyle.center}>
-            <View style={globalStyle.avatarContainer}>
-              {info !== null && (
-                <Image source={{uri: info.image}} style={globalStyle.avatar} />
-              )}
+          <View style={styles.header}>
+            <View style={styles.iconContainer}>
+              <Icon name="user-alt" color="#F50263" size={30} />
             </View>
-            <Text style={globalStyle.name}>{info.name}</Text>
-            <Text style={globalStyle.spec}>{info.spec}</Text>
+            <View style={styles.info}>
+              <Text style={styles.fio}>{info?.name}</Text>
+              <Text style={styles.city}>{city?.name}</Text>
+            </View>
+            {Platform.OS !== 'ios' && (
+              <View style={styles.tariffContainer}>
+                <View style={styles.tariff}>
+                  <Text
+                    style={[
+                      styles.tariffTxt,
+                      {color: tarif === 'free' ? '#715D65' : '#F50263'},
+                    ]}>
+                    {tarif}
+                  </Text>
+                </View>
+                {tarif !== 'free' && (
+                  <Text style={styles.tariffDate}>
+                    {_.t('to')}: {moment(tarif_date).format('DD.MM.YYYY')}
+                  </Text>
+                )}
+              </View>
+            )}
           </View>
-      
 
           <MenuItem
-            icon={iconMessages}
+            icon="chat"
             name={_.t('messages')}
             qty={messages_new}
             screenName={'Messages'}
             navigation={this.props.navigation}
           />
 
-
           <MenuItem
-            icon={iconSettings}
+            icon="assignment-ind"
+            name={_.t('profile_master')}
+            symbol="!"
+            screenName={''}
+            navigation={this.props.navigation}
+          />
+
+<MenuItem
+            icon="settings"
             name={_.t('settings')}
-            qty={0}
-            screenName={'Settings'}
+     
+            screenName={''}
             navigation={this.props.navigation}
           />
         </ScrollView>
-        
       </>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  version: {
-    bottom: 10,
-    right: 0,
-    width,
-    textAlign: 'center',
-    position: 'absolute',
-    fontSize: 10,
-    color: 'rgba(0, 0, 0, 0.5)',
+  container: {
+    flex: 1,
+    backgroundColor: '#F50263',
+    padding: 20,
   },
-  txtLink: {
-    color: '#336699',
+  header: {
+    flexDirection: 'row',
+    flex: 1,
+    marginBottom: 30,
+  },
+  iconContainer: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  info: {
+    flex: 6,
+    justifyContent: 'center',
+    paddingLeft: 10,
+  },
+  fio: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  city: {
+    fontSize: 14,
+    color: '#fff',
+    paddingTop: 2,
+  },
+  tariffContainer: {
+    flex: 2.5,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  tariff: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+  },
+  tariffTxt: {
+    textTransform: 'uppercase',
+    fontSize: 12,
+    fontWeight: 'bold',
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+  },
+  tariffDate: {
+    color: '#fff',
+    fontSize: 10,
+    marginTop: 5,
   },
 });
 

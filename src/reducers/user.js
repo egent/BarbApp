@@ -23,6 +23,7 @@ const initialState = {
   sms_code_for_test: '',
   check_code_from_sms: false,
   showOnBoarding: false,
+  updateProfile: true,
 };
 
 export default function user(state = initialState, action = {}) {
@@ -267,6 +268,11 @@ export default function user(state = initialState, action = {}) {
           ...state,
           phone: action.phone,
         };
+        case types.ON_BOARDING.OFF:
+          return {
+            ...state,
+            showOnBoarding: false,
+          };
     default:
       return state;
   }

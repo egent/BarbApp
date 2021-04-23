@@ -8,9 +8,11 @@ const ENDPOINT_GET_CODE =  BACKEND_URL_PREFIX + '/send-code'
 const ENDPOINT_CHECK_CODE =  BACKEND_URL_PREFIX + '/check-code'
 const ENDPOINT_PASSWORD_RESET =  BACKEND_URL_PREFIX + '/reset-password'
 
+const ENDPOINT_USER_INFO = BACKEND_URL_PREFIX + '/profile'; 
+const ENDPOINT_USER_INFO_FULL = BACKEND_URL_PREFIX + '/profile'; 
+
 // todo delete in production
-const ENDPOINT_USER_INFO = BACKEND_URL + '/api-index'; 
-const ENDPOINT_USER_INFO_FULL = BACKEND_URL + '/api-settings'; 
+
 const ENDPOINT_SEND_EMAIL = BACKEND_URL + '/api-send-email-code';
 const ENDPOINT_UPLOAD_PHOTO = BACKEND_URL + '/api-settings/update-photo';
 const ENDPOINT_DIALOGS = BACKEND_URL + '/api-dialogs';

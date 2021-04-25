@@ -49,23 +49,23 @@ export default function user(state = initialState, action = {}) {
         ...state,
         loading: false,
       };
-      case types.REGISTER.REQUEST:
-        return {
-          ...state,
-          loading: true,
-        };
-      case types.REGISTER.SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          info: action.result,
-          showOnBoarding: true,
-        };
-      case types.REGISTER.FAILURE:
-        return {
-          ...state,
-          loading: false,
-        };
+    case types.REGISTER.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.REGISTER.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        info: action.result,
+        showOnBoarding: true,
+      };
+    case types.REGISTER.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     case types.AUTH.LOGOUT:
       return {
         ...state,
@@ -238,7 +238,6 @@ export default function user(state = initialState, action = {}) {
         phone: action.phone,
         city: action.city,
         check_code_from_sms: true,
-        
       };
     case types.GET_CODE.FAILURE:
       return {
@@ -263,16 +262,31 @@ export default function user(state = initialState, action = {}) {
         ...state,
         loading: false,
       };
-      case types.PASSWORD_RESET.REQUEST:
-        return {
-          ...state,
-          phone: action.phone,
-        };
-        case types.ON_BOARDING.OFF:
-          return {
-            ...state,
-            showOnBoarding: false,
-          };
+    case types.PASSWORD_RESET.REQUEST:
+      return {
+        ...state,
+        phone: action.phone,
+      };
+    case types.ON_BOARDING.OFF:
+      return {
+        ...state,
+        showOnBoarding: false,
+      };
+    case types.DIALOG_DELETE.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.DIALOG_DELETE.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.DIALOG_DELETE.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

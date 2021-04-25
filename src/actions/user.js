@@ -66,6 +66,11 @@ export const types = {
         SUCCESS: 'DIALOG.SUCCESS',
         FAILURE: 'DIALOG.FAILURE',
     },
+    DIALOG_DELETE: {
+        REQUEST: 'DIALOG_DELETE.REQUEST',
+        SUCCESS: 'DIALOG_DELETE.SUCCESS',
+        FAILURE: 'DIALOG_DELETE.FAILURE',
+    },
     MESSAGE_SEND: {
         REQUEST: 'MESSAGE_SEND.REQUEST',
         SUCCESS: 'MESSAGE_SEND.SUCCESS',
@@ -203,6 +208,21 @@ const dialogsSuccess = data => ({
 
 const dialogsFailure = data => ({
     type: types.DIALOGS.FAILURE,
+    ...data,
+});
+
+const dialogDeleteRequest = data => ({
+    type: types.DIALOG_DELETE.REQUEST,
+    ...data,
+});
+
+const dialogDeleteSuccess = data => ({
+    type: types.DIALOG_DELETE.SUCCESS,
+    ...data,
+});
+
+const dialogDeleteFailure = data => ({
+    type: types.DIALOG_DELETE.FAILURE,
     ...data,
 });
 
@@ -363,5 +383,8 @@ export {
     passwordResetRequest,
     passwordResetSuccess,
     passwordResetFailure,
-    onBoardingOff
+    onBoardingOff,
+    dialogDeleteRequest,
+    dialogDeleteSuccess,
+    dialogDeleteFailure,
 };

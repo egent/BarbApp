@@ -7,9 +7,9 @@ const ENDPOINT_REGISTER = BACKEND_URL_PREFIX + '/register';
 const ENDPOINT_GET_CODE =  BACKEND_URL_PREFIX + '/send-code'
 const ENDPOINT_CHECK_CODE =  BACKEND_URL_PREFIX + '/check-code'
 const ENDPOINT_PASSWORD_RESET =  BACKEND_URL_PREFIX + '/reset-password'
-
 const ENDPOINT_USER_INFO = BACKEND_URL_PREFIX + '/profile'; 
-const ENDPOINT_USER_INFO_FULL = BACKEND_URL_PREFIX + '/profile'; 
+const ENDPOINT_USER_INFO_FULL = BACKEND_URL_PREFIX + '/profile';
+const ENDPOINT_DELETE_DIALOGS = BACKEND_URL + '/api-dialog/delete';
 
 // todo delete in production
 
@@ -27,6 +27,7 @@ export {
     ENDPOINT_CHECK_CODE,
     ENDPOINT_AUTH,
     ENDPOINT_PASSWORD_RESET,
+    ENDPOINT_DELETE_DIALOGS,
 
     // todo delete in production
     ENDPOINT_USER_INFO,

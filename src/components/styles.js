@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const margin = width * 0.05;
 
 

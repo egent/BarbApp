@@ -1,48 +1,35 @@
-import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  Image,
-  Dimensions,
-  Linking,
-} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+const MenuItem = ({
+  navigation,
+  icon,
+  name,
+  qty,
+  symbol = '',
+  screenName = '',
+  screenParams = {},
+}) => {
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={styles.menuContainer}
+      onPress={() => {
+        navigation.navigate(screenName, screenParams);
+      }}>
+      <View style={styles.iconContainer}>
+        <Icon name={icon} color="#6DB7E8" size={24} />
 
-const {width, height} = Dimensions.get('window');
-
-export default class MenuItem extends Component {
-  render() {
-    const {
-      icon,
-      name,
-      qty,
-      symbol = '',
-      screenName = '',
-      navigation,
-    } = this.props;
-    return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={styles.menuContainer}
-        onPress={() => {
-          navigation.navigate(screenName);
-        }}>
-        <View style={styles.iconContainer}>
-          <Icon name={icon} color="#6DB7E8" size={24} />
-
-          {(qty > 0 || symbol.length > 0)  && (
-            <View style={styles.countContainer}>
-              <Text style={styles.counter}>{qty > 0 ? qty : symbol }</Text>
-            </View>
-          )}
-        </View>
-        <Text style={styles.menuText}>{name}</Text>
-      </TouchableOpacity>
-    );
-  }
-}
+        {(qty > 0 || symbol.length > 0) && (
+          <View style={styles.countContainer}>
+            <Text style={styles.counter}>{qty > 0 ? qty : symbol}</Text>
+          </View>
+        )}
+      </View>
+      <Text style={styles.menuText}>{name}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   menuContainer: {
@@ -83,3 +70,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+
+export default MenuItem;

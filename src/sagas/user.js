@@ -17,6 +17,7 @@ import {
   uploadPhotoSuccess,
   uploadPhotoFailure,
   dialogsSuccess,
+  dialogsRequest,
   dialogsFailure,
   dialogRequest,
   dialogSuccess,
@@ -36,6 +37,8 @@ import {
   userPassword,
   passwordResetSuccess,
   passwordResetFailure,
+  dialogDeleteSuccess,
+  dialogDeleteFailure,
 } from '../actions/user';
 import {
   getClientId,
@@ -58,6 +61,7 @@ import {
   ENDPOINT_CHECK_CODE,
   ENDPOINT_GET_CODE,
   ENDPOINT_PASSWORD_RESET,
+  ENDPOINT_DELETE_DIALOGS,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -358,6 +362,25 @@ function* passwordResetSaga(params) {
   }
 }
 
+function* dialogDeleteSaga(params) {
+  const token = yield select(getAccessToken);
+  const {dialogs} = params;
+  const response = yield call(api, ENDPOINT_DELETE_DIALOGS, 'POST', {dialogs}, token);
+
+  if (response.status === 200) {
+    yield put(
+      dialogDeleteSuccess()
+    );
+    yield put(dialogsRequest());
+  } else if (response.status === 401) {
+    yield put(dialogDeleteFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(dialogDeleteFailure({}));
+  }
+}
+
 function* watchAuthSaga() {
   yield takeLatest(types.AUTH.REQUEST, authSaga);
 }
@@ -418,6 +441,10 @@ function* watchPasswordResetSaga() {
   yield takeLatest(types.PASSWORD_RESET.REQUEST, passwordResetSaga);
 }
 
+function* watchDialogDeleteSaga() {
+  yield takeLatest(types.DIALOG_DELETE.REQUEST, dialogDeleteSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -434,4 +461,5 @@ export {
   watchCheckCodeSaga,
   watchGetCodeSaga,
   watchPasswordResetSaga,
+  watchDialogDeleteSaga,
 };

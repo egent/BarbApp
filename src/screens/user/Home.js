@@ -4,8 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
-  Image,
   ScrollView,
   RefreshControl,
   Platform,
@@ -25,8 +23,6 @@ import {
 import MenuItem from '../../components/Home/MenuItem';
 import OnBoarding from '../../components/OnBoarding';
 import {ONESIGNAL_APP_ID} from '../../constants/api';
-
-const {width} = Dimensions.get('window');
 
 class Home extends Component {
   constructor(props) {
@@ -91,9 +87,7 @@ class Home extends Component {
       info,
       messages_new,
       onBoarding,
-      updateProfile,
     } = this.props.user;
-    const {city, tarif, tarif_date} = info;
 
     if (loading || info === null) {
       return <PreLoader />;
@@ -102,6 +96,8 @@ class Home extends Component {
     if (onBoarding) {
       return <OnBoarding navigation={this.props.navigation} />;
     }
+
+    const {city, tarif, tarif_date} = info;
 
     return (
       <>
@@ -148,10 +144,11 @@ class Home extends Component {
             name={_.t('messages')}
             qty={messages_new}
             screenName={'Messages'}
+            screenParams={{title: _.t('client_messages')}}
             navigation={this.props.navigation}
           />
 
-          <MenuItem
+         <MenuItem
             icon="assignment-ind"
             name={_.t('profile_master')}
             symbol="!"
@@ -159,13 +156,12 @@ class Home extends Component {
             navigation={this.props.navigation}
           />
 
-<MenuItem
+          <MenuItem
             icon="settings"
             name={_.t('settings')}
-     
             screenName={''}
             navigation={this.props.navigation}
-          />
+          /> 
         </ScrollView>
       </>
     );

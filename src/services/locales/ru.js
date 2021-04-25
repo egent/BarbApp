@@ -95,9 +95,15 @@ export default {
 
     // Dialogs screen
     messages: 'Сообщения',
+    client_messages: 'Сообщения клиентов',
+    delete_messages: 'Удалить сообщения ({{qty}})',
+    delete_title_messages: 'Удалить переписку?',
+    delete_subtitle_messages: 'Ее нельзя будет восстановить',
     dialogs: 'Диалоги',
     notifications: 'Уведомления',
     notifications_no: 'Новых уведомлений нет',
+    yes: 'Да', 
+    no: 'Нет',
 
     // Dialog screen
     message: 'Сообщение',

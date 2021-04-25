@@ -784,7 +784,7 @@
 				);
 				INFOPLIST_FILE = barbapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 2.01;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -852,7 +852,7 @@
 				);
 				INFOPLIST_FILE = barbapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.01;
+				MARKETING_VERSION = 2.01;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

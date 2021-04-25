@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import _ from '../../services/i18n';
 import PreLoader from '../../components/PreLoader';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
   userInfoRequest,
@@ -113,7 +113,7 @@ class Home extends Component {
           }>
           <View style={styles.header}>
             <View style={styles.iconContainer}>
-              <Icon name="user-alt" color="#F50263" size={30} />
+              <Icon name="person" color="#F50263" size={45} />
             </View>
             <View style={styles.info}>
               <Text style={styles.fio}>{info?.name}</Text>
@@ -152,16 +152,16 @@ class Home extends Component {
             icon="assignment-ind"
             name={_.t('profile_master')}
             symbol="!"
-            screenName={''}
+            screenName={'Profile'}
             navigation={this.props.navigation}
           />
 
-          <MenuItem
+          {/* <MenuItem
             icon="settings"
             name={_.t('settings')}
-            screenName={''}
+            screenName={'Profile'}
             navigation={this.props.navigation}
-          /> 
+          />  */}
         </ScrollView>
       </>
     );

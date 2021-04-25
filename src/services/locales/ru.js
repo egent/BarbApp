@@ -114,6 +114,16 @@ export default {
     selectButtonText: 'Выбрать',
     searchPlaceHolderText: "Поиск по названию",
     listEmptyTitle: 'Список пуст',
+
+    // Profile
+    specialty: 'Специальность',
+    profile_photo_description_experience: 'Фото профиля, описание, опыт',
+    reception_locations_opening_hours: 'Места приема и график работы',
+    services_prices: 'Услуги и цены',
+    promotions: 'Акции',
+    portfolio: 'Фотографии работ (портфолио)',
+    social_media: 'Соцсети и мессенджеры',
+    tarif: 'Тариф и анкета на сайте',
 };
 
   

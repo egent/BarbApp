@@ -48,11 +48,7 @@ const UserStackScreens = ({navigation}) => (
       name="Profile"
       component={Profile}
       options={({navigation, route}) => ({
-        headerShown: true,
-        headerTitle: _.t('profile_master'),
-        headerLeft: (props) => (
-          <HeaderLeft {...props} navigation={navigation} />
-        ),
+        headerShown: false,
       })}
     />
     <UserStack.Screen

@@ -13,6 +13,9 @@ import Messages from './Messages';
 import MessageDetail from './MessageDetail';
 import ShowImage from './ShowImage';
 import UserAgreement from '../auth/Agreement';
+import SpecsScreen from '../../screens/user/Specs';
+
+import Test from '../../screens/user/~Profile'; // tot delete in production
 
 const {width} = Dimensions.get('window');
 
@@ -64,7 +67,6 @@ const UserStackScreens = ({navigation}) => (
           if (route.params.deletePress === undefined) {
             return null;
           }
-
           return (
             <HeaderRightIcon
               {...props}
@@ -114,6 +116,42 @@ const UserStackScreens = ({navigation}) => (
         headerLeft: (props) => (
           <HeaderLeft {...props} navigation={navigation} />
         ),
+      })}
+    />
+    <UserStack.Screen
+      name="Specs"
+      component={SpecsScreen}
+      options={({navigation, route}) => ({
+        headerShown: true,
+        headerTitle: _.t('specialty'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} icon="close" />
+        ),
+        headerRight: (props) => {
+          try {
+            return (
+            <HeaderRightIcon
+              {...props}
+              icon="done"
+              onPress={route.params.onPress}
+            />
+          );
+          } catch (e) {
+            return null;
+          }      
+        },
+        headerStyle: styles.headerStyle,
+        headerTitleStyle: styles.headerTitleStyle,
+      })}
+    />
+
+<UserStack.Screen
+      name="Test"
+      component={Test}
+      options={({navigation, route}) => ({
+        headerShown: false,
+      
+        
       })}
     />
   </UserStack.Navigator>

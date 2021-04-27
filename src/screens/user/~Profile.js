@@ -226,7 +226,8 @@ class Profile extends Component {
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         style={{flex: 1}}
         // resetScrollToCoords={{ x: 0, y: 0 }}
-        scrollEnabled={true}>
+        scrollEnabled={true}
+        >
         <ScrollView
           showsVerticalScrollIndicator={false}
           refreshControl={

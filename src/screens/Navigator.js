@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Text, SafeAreaView} from 'react-native';
 import {connect} from 'react-redux';
+import Toast from 'react-native-toast-message';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
 import AuthStack from './auth/AuthStack';
 import UserStack from './user/UserStack';
@@ -11,6 +11,7 @@ class Navigator extends Component {
     return (
       <NavigationContainer theme={theme}>
         {logIn ? <UserStack /> : <AuthStack />}
+        <Toast ref={(ref) => Toast.setRef(ref)} />
       </NavigationContainer>
     );
   }

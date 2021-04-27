@@ -24,6 +24,8 @@ const initialState = {
   check_code_from_sms: false,
   showOnBoarding: false,
   updateProfile: true,
+  specs: [],
+  specsUser: '',
 };
 
 export default function user(state = initialState, action = {}) {
@@ -283,6 +285,46 @@ export default function user(state = initialState, action = {}) {
         loading: false,
       };
     case types.DIALOG_DELETE.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.SPECS.REQUEST:
+      return {
+        ...state,
+        loading: true,
+        specs: [],
+        specsUser: [],
+      };
+    case types.SPECS.SUCCESS:
+      const specsUser = [];
+      action.specs.map((item) => {
+        if (item.active) {
+          specsUser.push(item.name);
+        }
+      });
+      return {
+        ...state,
+        loading: false,
+        specs: action.specs,
+        specsUser,
+      };
+    case types.SPECS.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.SPECS_SET.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.SPECS_SET.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.SPECS_SET.FAILURE:
       return {
         ...state,
         loading: false,

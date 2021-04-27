@@ -1,5 +1,7 @@
 import {Alert} from 'react-native';
 import {put, takeLatest, call, select} from 'redux-saga/effects';
+import Toast from 'react-native-toast-message';
+import _ from '../services/i18n';
 import {
   types,
   authRequest,
@@ -39,6 +41,11 @@ import {
   passwordResetFailure,
   dialogDeleteSuccess,
   dialogDeleteFailure,
+  specsRequest,
+  specsSuccess,
+  specsFailure,
+  specsSetSuccess,
+  specsSetFailure,
 } from '../actions/user';
 import {
   getClientId,
@@ -62,6 +69,7 @@ import {
   ENDPOINT_GET_CODE,
   ENDPOINT_PASSWORD_RESET,
   ENDPOINT_DELETE_DIALOGS,
+  ENDPOINT_SPECS,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -381,6 +389,52 @@ function* dialogDeleteSaga(params) {
   }
 }
 
+function* specsSaga() {
+  const token = yield select(getAccessToken);
+
+  const response = yield call(api, ENDPOINT_SPECS, 'GET', {}, token);
+
+  if (response.status === 200) {
+    const {specs} = response.data.data;
+    yield put(
+      specsSuccess({specs})
+    );
+  } else if (response.status === 401) {
+    yield put(specsFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(specsFailure({}));
+  }
+}
+
+function* specsSetSaga(params) {
+  const token = yield select(getAccessToken);
+
+  const response = yield call(api, ENDPOINT_SPECS, 'POST', params.payload, token);
+
+  if (response.status === 200) {
+    const {specs} = response.data.data;
+    yield put( specsSetSuccess({specs}));
+    Toast.show({
+      type: 'success',
+      // text1: title,
+      text2: _.t('updated_success'),
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 5000,
+    });
+    
+    yield put(specsRequest());
+  } else if (response.status === 401) {
+    yield put(specsSetFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(specsSetFailure({}));
+  }
+}
+
 function* watchAuthSaga() {
   yield takeLatest(types.AUTH.REQUEST, authSaga);
 }
@@ -445,6 +499,14 @@ function* watchDialogDeleteSaga() {
   yield takeLatest(types.DIALOG_DELETE.REQUEST, dialogDeleteSaga);
 }
 
+function* watchSpecsSaga() {
+  yield takeLatest(types.SPECS.REQUEST, specsSaga);
+}
+
+function* watchSpecsSetSaga() {
+  yield takeLatest(types.SPECS_SET.REQUEST, specsSetSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -462,4 +524,6 @@ export {
   watchGetCodeSaga,
   watchPasswordResetSaga,
   watchDialogDeleteSaga,
+  watchSpecsSaga,
+  watchSpecsSetSaga,
 };

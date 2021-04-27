@@ -84,6 +84,16 @@ export const types = {
     ON_BOARDING: {
         OFF: 'ON_BOARDING.OFF',
     },
+    SPECS: {
+        REQUEST: 'SPECS.REQUEST',
+        SUCCESS: 'SPECS.SUCCESS',
+        FAILURE: 'SPECS.FAILURE',
+    },
+    SPECS_SET: {
+        REQUEST: 'SPECS_SET.REQUEST',
+        SUCCESS: 'SPECS_SET.SUCCESS',
+        FAILURE: 'SPECS_SET.FAILURE',
+    },
 };
 
 const authRequest = data => ({
@@ -336,6 +346,36 @@ const onBoardingOff = data => ({
     ...data,
 });
 
+const specsRequest = data => ({
+    type: types.SPECS.REQUEST,
+    ...data,
+});
+
+const specsSuccess = data => ({
+    type: types.SPECS.SUCCESS,
+    ...data,
+});
+
+const specsFailure = data => ({
+    type: types.SPECS.FAILURE,
+    ...data,
+});
+
+const specsSetRequest = data => ({
+    type: types.SPECS_SET.REQUEST,
+    ...data,
+});
+
+const specsSetSuccess = data => ({
+    type: types.SPECS_SET.SUCCESS,
+    ...data,
+});
+
+const specsSetFailure = data => ({
+    type: types.SPECS_SET.FAILURE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -387,4 +427,10 @@ export {
     dialogDeleteRequest,
     dialogDeleteSuccess,
     dialogDeleteFailure,
+    specsRequest,
+    specsSuccess,
+    specsFailure,
+    specsSetRequest,
+    specsSetSuccess,
+    specsSetFailure,
 };

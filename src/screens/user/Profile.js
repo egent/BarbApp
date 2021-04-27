@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Text,
   View,
@@ -9,8 +9,10 @@ import {
   Platform,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import _ from '../../services/i18n';
+import {specsRequest} from '../../actions/user';
+import Preloader from '../../components/PreLoader';
 
 import businessCenter from '../../assets/images/menu/business_center.png';
 import iconProfile from '../../assets/images/menu/profile.png';
@@ -25,12 +27,12 @@ const menu = [
   {
     id: 1,
     title: 'specialty',
-    subTitle: 'Бровист. Визажист. Лешмейкер',
+    subTitle: '',
     showIos: true,
     check: true,
     counter: null,
     icon: <Image source={businessCenter} width={24} height={24} />,
-    screenName: '',
+    screenName: 'Specs',
   },
   {
     id: 2,
@@ -97,7 +99,19 @@ const menu = [
 ];
 
 const Profile = ({navigation}) => {
-  const {info} = useSelector((state) => state.user);
+  const {info, loading, specsUser} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(specsRequest());
+  }, []);
+
+  if (loading) {
+    return <Preloader />;
+  }
+
+  menu[0].subTitle = specsUser.join(', ');
+
   return (
     <FlatList
       ListHeaderComponent={
@@ -130,18 +144,27 @@ const Profile = ({navigation}) => {
       }
       keyExtractor={({id}) => `menu-${id}`}
       data={menu}
-      renderItem={({item: {title, icon, subTitle, counter, showIos}}) => {
+      renderItem={({
+        item: {title, icon, subTitle, counter, showIos, screenName},
+      }) => {
         if (Platform.OS === 'ios' && showIos === false) {
           return null;
         }
         return (
-          <TouchableOpacity style={styles.itemContainer} activeOpacity={0.8}>
+          <TouchableOpacity
+            onPress={() => {
+              if (screenName.length > 0) {
+                navigation.navigate(screenName);
+              }
+            }}
+            style={styles.itemContainer}
+            activeOpacity={0.8}>
             <View style={styles.iconListContainer}>{icon}</View>
 
             <View style={styles.titleContainer}>
               <View>
                 <Text style={styles.title}>{_.t(title)}</Text>
-                {subTitle && <Text style={styles.subTitle}>{subTitle}</Text>}
+                {subTitle !== undefined && <Text style={styles.subTitle}>{subTitle}</Text>}
               </View>
               {counter && <Text style={styles.counter}>{counter}</Text>}
             </View>

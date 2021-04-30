@@ -19,6 +19,8 @@ import {
     watchDialogDeleteSaga,
     watchSpecsSaga,
     watchSpecsSetSaga,
+    watchProfileDescriptionsSaga,
+    watchProfileDescriptionUpdateSaga,
 } from './user';
 
 export default function* rootSaga() {
@@ -42,5 +44,7 @@ export default function* rootSaga() {
         watchDialogDeleteSaga(),
         watchSpecsSaga(),
         watchSpecsSetSaga(),
+        watchProfileDescriptionsSaga(),
+        watchProfileDescriptionUpdateSaga(),
     ]);
 }

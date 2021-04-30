@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import ImagePicker from 'react-native-image-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 import * as RNLocalize from 'react-native-localize';
 import {
   userInfoFullRequest,
@@ -324,7 +324,7 @@ class Profile extends Component {
 
                   {showDatepicker && (
                     <>
-                      <DateTimePicker
+                      {/* <DateTimePicker
                         locale={locales[0].languageTag}
                         testID="dateTimePicker"
                         value={birthdayRaw}
@@ -332,7 +332,7 @@ class Profile extends Component {
                         onChange={this.onChangeDate}
                         // display="date"
                         timeZoneOffsetInMinutes={0}
-                      />
+                      /> */}
 
                       {Platform.OS === 'ios' && (
                         <TouchableOpacity

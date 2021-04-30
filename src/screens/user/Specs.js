@@ -20,7 +20,6 @@ const SpecsScreen = ({navigation}) => {
 
   const dispatch = useDispatch();
 
- 
   const saveData = () => {
     const specs = [];
     let mainSpecId = null;
@@ -28,7 +27,7 @@ const SpecsScreen = ({navigation}) => {
 
     specsList.map((s) => {
       if (s.active === true) {
-        specs.push(s.id)
+        specs.push(s.id);
       }
       if (s.active === true && s.main) {
         mainSpecId = s.id;
@@ -41,14 +40,14 @@ const SpecsScreen = ({navigation}) => {
     const payload = {specs};
 
     if (mainSpecId !== null) {
-      Object.assign(payload, {main_spec: mainSpecId})
-    }
-  
-    if (otherDesc.length > 0) {
-      Object.assign(payload, {other_spec: otherDesc})
+      Object.assign(payload, {main_spec: mainSpecId});
     }
 
-    dispatch(specsSetRequest({payload}));
+    if (otherDesc.length > 0) {
+      Object.assign(payload, {other_spec: otherDesc});
+    }
+
+    dispatch(specsSetRequest({payload, navigation}));
   };
 
   const setActive = (id) => {
@@ -68,7 +67,7 @@ const SpecsScreen = ({navigation}) => {
       spec.main = false;
       if (spec.id === id) {
         spec.main = true;
-      } 
+      }
       specs.push(spec);
     });
     setSpecs(specs);
@@ -81,18 +80,25 @@ const SpecsScreen = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-   
     const specs = [];
     specsList.map((spec) => {
       if (spec.id === 0) {
         spec.other_desc = other;
-      } 
+      }
       specs.push(spec);
     });
     setSpecs(specs);
-
   }, [other]);
 
+  const isOtherCheck = () => {
+    let result = false;
+    specsList.map(({id, active}) => {
+      if (id === 0) {
+        result = active;
+      }
+    });
+    return result;
+  };
 
   return (
     <KeyboardAvoidingView
@@ -110,21 +116,32 @@ const SpecsScreen = ({navigation}) => {
           </View>
         }
         ListFooterComponent={
-          <View style={styles.textContainer}>
-            <Text style={styles.title}>{_.t('other')}</Text>
-            <TextInput
-              style={styles.other}
-              multiline={true}
-              underlineColorAndroid="transparent"
-              numberOfLines={5}
-              onChangeText={setOther}
-              value={other}
-              keyboardType="default"
-              returnKeyType="done"
-              blurOnSubmit={true}
-            />
-            <Text style={styles.help}>{_.t('other_input_help')}</Text>
+       
+          <View style={{flexDirection: 'row'}}>
+          <View style={{flex:1}} />
+            <View style={[styles.textContainer, {flex: 8,}]}>
+            {isOtherCheck() ? (
+              <>
+                <TextInput
+                  style={styles.other}
+                  multiline={true}
+                  underlineColorAndroid="transparent"
+                  numberOfLines={5}
+                  onChangeText={setOther}
+                  value={other}
+                  keyboardType="default"
+                  returnKeyType="done"
+                  blurOnSubmit={true}
+                />
+                <Text style={styles.help}>{_.t('other_input_help')}</Text>
+              </>
+            ) : (
+              <View style={{marginTop: 200}} />
+            )}
           </View>
+          </View>
+   
+          
         }
         data={specsList}
         renderItem={({item}) => {
@@ -141,22 +158,22 @@ const SpecsScreen = ({navigation}) => {
                   size={24}
                 />
               </TouchableOpacity>
-              <View style={styles.titleContainer}>
+              <View style={[styles.titleContainer, {borderBottomWidth: id !== 0 ? 1 : 0}]}>
                 <Text style={styles.title}>{name}</Text>
                 {active && (
                   <TouchableOpacity
-                  onPress={() => {
-                    setMain(id);
-                  }}
-                  hitSlop={{top: 25, bottom: 25, left: 25, right: 25}}>
-                  <Icon
-                    name={
-                      main ? 'radio-button-checked' : 'radio-button-unchecked'
-                    }
-                    color={main ? '#6DB7E8' : '#AFAFAF'}
-                    size={24}
-                  />
-                </TouchableOpacity>
+                    onPress={() => {
+                      setMain(id);
+                    }}
+                    hitSlop={{top: 25, bottom: 25, left: 25, right: 25}}>
+                    <Icon
+                      name={
+                        main ? 'radio-button-checked' : 'radio-button-unchecked'
+                      }
+                      color={main ? '#6DB7E8' : '#AFAFAF'}
+                      size={24}
+                    />
+                  </TouchableOpacity>
                 )}
               </View>
             </View>
@@ -187,18 +204,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   titleContainer: {
-    borderBottomWidth: 1,
     borderColor: '#B4B4B4',
     flex: 8,
     paddingVertical: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    height: 44,
   },
   title: {
     color: '#7C7F84',
   },
-  textContainer: {
+  content: {
     margin: 10,
   },
   other: {
@@ -212,6 +229,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: '#B3B9BF',
     fontSize: 12,
+  },
+  itemList: {
+    flexDirection: 'row',
   },
 });
 

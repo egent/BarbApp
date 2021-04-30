@@ -6,13 +6,14 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  _Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from '../../services/i18n';
 
-const {height} = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
-const ModalAlert = ({visible, toggle, title, subTitle = '', onPress}) => {
+const ValidationAlert = ({visible, toggle, title, btnOutHandler}) => {
   return (
     <Modal
       animationType={'fade'}
@@ -21,7 +22,10 @@ const ModalAlert = ({visible, toggle, title, subTitle = '', onPress}) => {
       onRequestClose={() => {
         console.log('Modal has been closed.');
       }}>
-      <TouchableOpacity onPress={toggle} style={styles.container}>
+      <TouchableOpacity
+        onPress={toggle}
+        style={styles.container}
+        activeOpacity={1}>
         <View style={styles.modal}>
           <TouchableOpacity
             style={styles.closeIcon}
@@ -29,16 +33,21 @@ const ModalAlert = ({visible, toggle, title, subTitle = '', onPress}) => {
             hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}>
             <Icon name="close" color="#B4B4B4" size={20} />
           </TouchableOpacity>
-         <Text style={styles.title}>{_.t(title)}</Text>
-         {subTitle.length > 0 && (<Text style={styles.subtitle}>{_.t(subTitle)}</Text>)}
-         <View style={styles.btnContainer}>
-            <TouchableOpacity onPress={toggle} style={styles.btn}>
-               <Text style={styles.btnText}>{_.t('no')}</Text>
+          <Text style={styles.title}>{_.t(title)}</Text>
+          <View style={styles.btnContainer}>
+            <TouchableOpacity
+              onPress={toggle}
+              style={styles.btnReturn}
+              activeOpacity={0.8}>
+              <Text style={styles.returnText}>{_.t('return_to_form')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={onPress} style={styles.btn}>
-               <Text style={styles.btnText}>{_.t('yes')}</Text>
+            <TouchableOpacity
+              onPress={btnOutHandler}
+              activeOpacity={0.8}
+              hitSlop={{top: 20, bottom: 20, left: 20, right: 20}}>
+              <Text style={styles.goOutText}>{_.t('go_out')}</Text>
             </TouchableOpacity>
-         </View>
+          </View>
         </View>
       </TouchableOpacity>
     </Modal>
@@ -64,29 +73,27 @@ const styles = StyleSheet.create({
     right: 5,
   },
   title: {
-     fontSize: 14,
-     fontWeight: 'bold',
-  }, 
-  subtitle: {
-     fontSize: 14,
-     marginTop: 5,
+    fontSize: 18,
   },
   btnContainer: {
-   flexDirection: 'row',
-   width: 200,
+    marginTop: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  btn: {
-     flex: 1,
-     justifyContent: 'center',
-     alignItems: 'center',
-     marginTop: 20,
-     paddingVertical: 20, 
+  btnReturn: {
+    backgroundColor: '#F50263',
+    paddingVertical: 10,
+    width: width - 60,
   },
-  btnText: {
-   textTransform: 'uppercase',
-   fontSize: 16,
-   color: '#6DB7E8',
+  returnText: {
+    textAlign: 'center',
+    color: '#fff',
+  },
+  goOutText: {
+    marginTop: 30,
+    fontSize: 14,
+    color: '#6DB7E8',
   },
 });
 
-export default ModalAlert;
+export default ValidationAlert;

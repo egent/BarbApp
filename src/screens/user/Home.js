@@ -87,6 +87,7 @@ class Home extends Component {
       info,
       messages_new,
       onBoarding,
+      profileDescription: {description}
     } = this.props.user;
 
     if (loading || info === null) {
@@ -147,11 +148,11 @@ class Home extends Component {
             screenParams={{title: _.t('client_messages')}}
             navigation={this.props.navigation}
           />
-
+          
          <MenuItem
             icon="assignment-ind"
             name={_.t('profile_master')}
-            symbol="!"
+            symbol={(description && description.length > 0) ? "" : "!" }
             screenName={'Profile'}
             navigation={this.props.navigation}
           />

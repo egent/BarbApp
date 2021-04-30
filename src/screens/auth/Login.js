@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Platform,
+  Pressable
 } from 'react-native';
 import analytics from '@react-native-firebase/analytics';
 import {TextInputMask} from 'react-native-masked-text';
@@ -72,7 +73,11 @@ class Login extends Component {
     }
 
     return (
-      <KeyboardAvoidingView style={[styles.container]}>
+      <KeyboardAvoidingView style={[styles.container]} 
+       behavior="position"
+      enabled
+      keyboardVerticalOffset={-100}
+      >
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{_.t('authorization')}</Text>
           <Text style={styles.subtitleContainer}>
@@ -114,15 +119,18 @@ class Login extends Component {
             active={password.length > 0 ? true : false}
           />
 
-          <View style={styles.linksContainer}>
+          <TouchableOpacity hitSlop={{top: 10, bottom: 10, left: 50, right: 50}} style={styles.linksContainer}
+          activeOpacity={0.8}
+             onPress={() => {
+                this.props.navigation.navigate('ResetPassword');
+              }}
+          >
             <Text
               style={[styles.link, {textAlign: 'center'}]}
-              onPress={() => {
-                this.props.navigation.navigate('ResetPassword');
-              }}>
+             >
               {_.t('password_reset')}
             </Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.emptyBox} />
       </KeyboardAvoidingView>
@@ -132,7 +140,7 @@ class Login extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 0.5,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

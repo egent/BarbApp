@@ -94,6 +94,16 @@ export const types = {
         SUCCESS: 'SPECS_SET.SUCCESS',
         FAILURE: 'SPECS_SET.FAILURE',
     },
+    PROFILE_DESCRIPTIONS: {
+        REQUEST: 'PROFILE_DESCRIPTIONS.REQUEST',
+        SUCCESS: 'PROFILE_DESCRIPTIONS.SUCCESS',
+        FAILURE: 'PROFILE_DESCRIPTIONS.FAILURE',
+    },
+    PROFILE_DESCRIPTION_UPDATE: {
+        REQUEST: 'PROFILE_DESCRIPTION_UPDATE.REQUEST',
+        SUCCESS: 'PROFILE_DESCRIPTION_UPDATE.SUCCESS',
+        FAILURE: 'PROFILE_DESCRIPTION_UPDATE.FAILURE',
+    },
 };
 
 const authRequest = data => ({
@@ -376,6 +386,36 @@ const specsSetFailure = data => ({
     ...data,
 });
 
+const profileDescriptionsRequest = data => ({
+    type: types.PROFILE_DESCRIPTIONS.REQUEST,
+    ...data,
+});
+
+const profileDescriptionsSuccess = data => ({
+    type: types.PROFILE_DESCRIPTIONS.SUCCESS,
+    ...data,
+});
+
+const profileDescriptionsFailure = data => ({
+    type: types.PROFILE_DESCRIPTIONS.FAILURE,
+    ...data,
+});
+
+const profileDescriptionUpdateRequest = data => ({
+    type: types.PROFILE_DESCRIPTION_UPDATE.REQUEST,
+    ...data,
+});
+
+const profileDescriptionUpdateSuccess = data => ({
+    type: types.PROFILE_DESCRIPTION_UPDATE.SUCCESS,
+    ...data,
+});
+
+const profileDescriptionUpdateFailure = data => ({
+    type: types.PROFILE_DESCRIPTION_UPDATE.FAILURE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -433,4 +473,10 @@ export {
     specsSetRequest,
     specsSetSuccess,
     specsSetFailure,
+    profileDescriptionsRequest,
+    profileDescriptionsSuccess,
+    profileDescriptionsFailure,
+    profileDescriptionUpdateRequest,
+    profileDescriptionUpdateSuccess,
+    profileDescriptionUpdateFailure,
 };

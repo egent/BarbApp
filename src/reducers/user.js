@@ -25,7 +25,8 @@ const initialState = {
   showOnBoarding: false,
   updateProfile: true,
   specs: [],
-  specsUser: '',
+  specsUser: [],
+  profileDescription: {},
 };
 
 export default function user(state = initialState, action = {}) {
@@ -325,6 +326,39 @@ export default function user(state = initialState, action = {}) {
         loading: false,
       };
     case types.SPECS_SET.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PROFILE_DESCRIPTIONS.REQUEST:
+      return {
+        ...state,
+        loading: true,
+        profileDescription: {},
+      };
+    case types.PROFILE_DESCRIPTIONS.SUCCESS:
+      return {
+        ...state,
+        profileDescription: action.data,
+        loading: false,
+      };
+    case types.PROFILE_DESCRIPTIONS.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PROFILE_DESCRIPTION_UPDATE.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.PROFILE_DESCRIPTION_UPDATE.SUCCESS:
+      return {
+        ...state,
+
+        loading: false,
+      };
+    case types.PROFILE_DESCRIPTION_UPDATE.FAILURE:
       return {
         ...state,
         loading: false,

@@ -46,6 +46,11 @@ import {
   specsFailure,
   specsSetSuccess,
   specsSetFailure,
+  profileDescriptionsRequest,
+  profileDescriptionsSuccess,
+  profileDescriptionsFailure,
+  profileDescriptionUpdateSuccess,
+  profileDescriptionUpdateFailure,
 } from '../actions/user';
 import {
   getClientId,
@@ -70,6 +75,7 @@ import {
   ENDPOINT_PASSWORD_RESET,
   ENDPOINT_DELETE_DIALOGS,
   ENDPOINT_SPECS,
+  ENDPOINT_PROFILE_DESCRIPTIONS,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -186,6 +192,7 @@ function* uploadPhotoSaga(params) {
 
   if (response.status === 200) {
     yield put(uploadPhotoSuccess());
+    yield put(profileDescriptionsRequest());
   } else if (response.status === 401) {
     yield put(authLogout());
   } else {
@@ -409,9 +416,10 @@ function* specsSaga() {
 }
 
 function* specsSetSaga(params) {
+  const {navigation, payload} = params;
   const token = yield select(getAccessToken);
 
-  const response = yield call(api, ENDPOINT_SPECS, 'POST', params.payload, token);
+  const response = yield call(api, ENDPOINT_SPECS, 'POST', payload, token);
 
   if (response.status === 200) {
     const {specs} = response.data.data;
@@ -422,16 +430,56 @@ function* specsSetSaga(params) {
       text2: _.t('updated_success'),
       position: 'bottom',
       autoHide: true,
-      visibilityTime: 5000,
+      visibilityTime: 2000,
     });
     
     yield put(specsRequest());
+    navigation.goBack();
+
   } else if (response.status === 401) {
     yield put(specsSetFailure({}));
     yield put(authLogout());
   } else {
     Alert.alert('', response.data.message);
     yield put(specsSetFailure({}));
+  }
+}
+
+function* profileDescriptionsSaga() {
+  const token = yield select(getAccessToken);
+
+  const response = yield call(api, ENDPOINT_PROFILE_DESCRIPTIONS, 'GET', {}, token);
+
+  if (response.status === 200) {
+    yield put(
+      profileDescriptionsSuccess({data: response.data.data}),
+    );
+  } else if (response.status === 401) {
+    yield put(profileDescriptionsFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(profileDescriptionsFailure({}));
+  }
+}
+
+function* profileDescriptionUpdateSaga(params) {
+  const {navigation, payload} = params;
+  const token = yield select(getAccessToken);
+
+  const response = yield call(api, ENDPOINT_PROFILE_DESCRIPTIONS, 'POST', payload, token);
+
+console.log('response4', response)
+
+  if (response.status === 200) {
+    yield put(profileDescriptionUpdateSuccess());
+    yield put(profileDescriptionsRequest());
+  } else if (response.status === 401) {
+    yield put(profileDescriptionUpdateFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(profileDescriptionUpdateFailure({}));
   }
 }
 
@@ -507,6 +555,14 @@ function* watchSpecsSetSaga() {
   yield takeLatest(types.SPECS_SET.REQUEST, specsSetSaga);
 }
 
+function* watchProfileDescriptionsSaga() {
+  yield takeLatest(types.PROFILE_DESCRIPTIONS.REQUEST, profileDescriptionsSaga);
+}
+
+function* watchProfileDescriptionUpdateSaga() {
+  yield takeLatest(types.PROFILE_DESCRIPTION_UPDATE.REQUEST, profileDescriptionUpdateSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -526,4 +582,6 @@ export {
   watchDialogDeleteSaga,
   watchSpecsSaga,
   watchSpecsSetSaga,
+  watchProfileDescriptionsSaga,
+  watchProfileDescriptionUpdateSaga
 };

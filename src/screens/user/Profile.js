@@ -11,7 +11,7 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
 import _ from '../../services/i18n';
-import {specsRequest} from '../../actions/user';
+import {specsRequest, profileDescriptionsRequest} from '../../actions/user';
 import Preloader from '../../components/PreLoader';
 
 import businessCenter from '../../assets/images/menu/business_center.png';
@@ -41,7 +41,7 @@ const menu = [
     check: true,
     counter: null,
     icon: <Image source={iconProfile} width={24} height={24} />,
-    screenName: '',
+    screenName: 'ProfileDescription',
   },
   {
     id: 3,
@@ -99,18 +99,25 @@ const menu = [
 ];
 
 const Profile = ({navigation}) => {
-  const {info, loading, specsUser} = useSelector((state) => state.user);
+  const {info, loading, specsUser, profileDescription: {description}} = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(specsRequest());
+    dispatch(profileDescriptionsRequest());
   }, []);
 
   if (loading) {
     return <Preloader />;
   }
 
-  menu[0].subTitle = specsUser.join(', ');
+  if (specsUser.length > 0) {
+    menu[0].subTitle = specsUser.join(', ');
+  }
+
+  if (description?.length === 0) {
+    menu[1].alertPoint = true;
+  }
 
   return (
     <FlatList
@@ -145,11 +152,12 @@ const Profile = ({navigation}) => {
       keyExtractor={({id}) => `menu-${id}`}
       data={menu}
       renderItem={({
-        item: {title, icon, subTitle, counter, showIos, screenName},
+        item: {title, icon, subTitle, counter, showIos, screenName, alertPoint},
       }) => {
         if (Platform.OS === 'ios' && showIos === false) {
           return null;
         }
+        const isSubTitle = subTitle !== undefined  && subTitle.length > 0;
         return (
           <TouchableOpacity
             onPress={() => {
@@ -159,12 +167,22 @@ const Profile = ({navigation}) => {
             }}
             style={styles.itemContainer}
             activeOpacity={0.8}>
-            <View style={styles.iconListContainer}>{icon}</View>
-
-            <View style={styles.titleContainer}>
+            <View style={[styles.iconListContainer, { justifyContent: isSubTitle ? 'flex-start' : 'center'}]}>
               <View>
+                {icon}
+                {alertPoint && (
+                  <View style={styles.point}>
+                    <Text style={styles.pointText}>!</Text>
+                  </View> 
+                )}
+              </View>
+            </View>
+            <View style={styles.titleContainer}>
+              <View  style={{justifyContent: 'center'}}>
                 <Text style={styles.title}>{_.t(title)}</Text>
-                {subTitle !== undefined && <Text style={styles.subTitle}>{subTitle}</Text>}
+
+
+                {isSubTitle && <Text style={styles.subTitle}>{subTitle}</Text>}
               </View>
               {counter && <Text style={styles.counter}>{counter}</Text>}
             </View>
@@ -215,21 +233,20 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
     marginHorizontal: 20,
+
   },
   iconListContainer: {
-    flex: 1,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    flex: 0.6,
+    height: 60,
+    alignItems: 'flex-start', 
   },
   titleContainer: {
     flex: 6,
     borderBottomWidth: 1,
     borderColor: '#B4B4B4',
-    paddingBottom: 15,
-    marginBottom: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   title: {
     fontSize: 14,
@@ -238,10 +255,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#B1B7BC',
     paddingTop: 5,
+    paddingBottom: 5,
   },
   counter: {
     fontSize: 22,
     color: '#A9B0B4',
+  },
+  point: {
+    backgroundColor: '#F50263',
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    position: 'absolute',
+    top: -3,
+    right: -3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  pointText: {
+    color: '#fff',
+    fontSize: 12,
+    textAlign: 'center',
   },
 });
 

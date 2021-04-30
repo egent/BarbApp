@@ -12,7 +12,7 @@ const HeaderLeft = ({navigation, icon = 'chevron-left'}) => {
       onPress={() => {
         navigation.goBack();
       }}>
-      <Icon name={icon} color="#000" size={24} />
+      <Icon name={icon} color="#000" size={21} />
     </TouchableOpacity>
   );
 };

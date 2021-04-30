@@ -132,6 +132,25 @@ export default {
     other_input_help: 'Как называется Ваша специализация',
     updated_success: 'Обновление прошло успешно',
     erorr: 'Ошибка',
+
+    // Profile Description
+    your_photo: 'Ваша портретная фотография',
+    about_textarea: 'О себе (обязательно)',
+    male: 'Мужчина',
+    female: 'Женщина',
+    sex: 'Пол',
+    date_birth: 'Дата рождения',
+    work_experience: 'Опыт работы',
+    choose_date: "Указать дату",
+    select: "Выбрать",
+    select_date: "Выберите дату",
+    delete_birth_day: "Удалить дату рождения?",
+    delete_experience_title: "Удалить опыт работы?",
+    fill_fields: 'Заполните обязательные поля',
+    return_to_form: 'Вернуться к заполнению',
+    go_out: 'Выйти',
+    'work_start': 'Начало работы',
+    'work_start_picker': 'Месяц и год старта карьеры',
 };
 
   

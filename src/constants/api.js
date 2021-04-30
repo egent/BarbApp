@@ -11,6 +11,8 @@ const ENDPOINT_USER_INFO = BACKEND_URL_PREFIX + '/profile';
 const ENDPOINT_USER_INFO_FULL = BACKEND_URL_PREFIX + '/profile';
 const ENDPOINT_DELETE_DIALOGS = BACKEND_URL + '/api-dialog/delete';
 const ENDPOINT_SPECS = BACKEND_URL_PREFIX + '/profile/specs';
+const ENDPOINT_PROFILE_DESCRIPTIONS = BACKEND_URL_PREFIX +'/profile/descriptions';
+
 
 // todo delete in production
 
@@ -30,6 +32,7 @@ export {
     ENDPOINT_PASSWORD_RESET,
     ENDPOINT_DELETE_DIALOGS,
     ENDPOINT_SPECS,
+    ENDPOINT_PROFILE_DESCRIPTIONS,
 
     // todo delete in production
     ENDPOINT_USER_INFO,

@@ -14,6 +14,7 @@ import MessageDetail from './MessageDetail';
 import ShowImage from './ShowImage';
 import UserAgreement from '../auth/Agreement';
 import SpecsScreen from '../../screens/user/Specs';
+import ProfileDescription from '../../screens/user/ProfileDescription';
 
 import Test from '../../screens/user/~Profile'; // tot delete in production
 
@@ -130,28 +131,51 @@ const UserStackScreens = ({navigation}) => (
         headerRight: (props) => {
           try {
             return (
-            <HeaderRightIcon
-              {...props}
-              icon="done"
-              onPress={route.params.onPress}
-            />
-          );
+              <HeaderRightIcon
+                {...props}
+                icon="done"
+                onPress={route.params.onPress}
+              />
+            );
           } catch (e) {
             return null;
-          }      
+          }
         },
         headerStyle: styles.headerStyle,
         headerTitleStyle: styles.headerTitleStyle,
       })}
     />
-
-<UserStack.Screen
+    <UserStack.Screen
+      name="ProfileDescription"
+      component={ProfileDescription}
+      options={({navigation, route}) => ({
+        headerShown: true,
+        headerTitle: _.t('profile_photo_description_experience'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} icon="close" />
+        ),
+        headerRight: (props) => {
+          try {
+            return (
+              <HeaderRightIcon
+                {...props}
+                icon="done"
+                onPress={route.params.onPress}
+              />
+            );
+          } catch (e) {
+            return null;
+          }
+        },
+        headerStyle: styles.headerStyle,
+        headerTitleStyle: styles.headerTitleStyle,
+      })}
+    />
+    <UserStack.Screen
       name="Test"
       component={Test}
       options={({navigation, route}) => ({
         headerShown: false,
-      
-        
       })}
     />
   </UserStack.Navigator>
@@ -167,7 +191,7 @@ const styles = StyleSheet.create({
   headerTitleStyle: {
     textAlign: 'left',
     width: width - 100,
-    fontSize: 16,
+    fontSize: 15,
     textTransform: 'uppercase',
     fontWeight: '400',
   },

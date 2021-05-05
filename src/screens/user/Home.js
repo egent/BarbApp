@@ -7,7 +7,7 @@ import {
   ScrollView,
   RefreshControl,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
 import {connect} from 'react-redux';
 import OneSignal from 'react-native-onesignal';
@@ -20,6 +20,7 @@ import {
   saveTokenRequest,
   dialogsRequest,
   dialogRequest,
+  authLogout,
 } from '../../actions/user';
 import MenuItem from '../../components/Home/MenuItem';
 import OnBoarding from '../../components/OnBoarding';
@@ -88,7 +89,7 @@ class Home extends Component {
       info,
       messages_new,
       onBoarding,
-      profileDescription: {description}
+      profileDescription: {description},
     } = this.props.user;
 
     if (loading || info === null) {
@@ -149,11 +150,11 @@ class Home extends Component {
             screenParams={{title: _.t('client_messages')}}
             navigation={this.props.navigation}
           />
-          
-         <MenuItem
+
+          <MenuItem
             icon="assignment-ind"
             name={_.t('profile_master')}
-            symbol={(description && description.length > 0) ? "" : "!" }
+            symbol={description && description.length > 0 ? '' : '!'}
             screenName={'Profile'}
             navigation={this.props.navigation}
           />
@@ -164,14 +165,10 @@ class Home extends Component {
             screenName={'Profile'}
             navigation={this.props.navigation}
           />  */}
-
-
-          <TouchableOpacity>
-            <Text>{_.t('logout')}</Text>
-          </TouchableOpacity>
-
-
         </ScrollView>
+        <TouchableOpacity onPress={()=>{this.props.authLogout();}} style={styles.logout}>
+          <Text style={styles.logoutText}>{_.t('logout')}</Text>
+        </TouchableOpacity>
       </>
     );
   }
@@ -232,6 +229,19 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginTop: 5,
   },
+  logout: {
+    position: 'relative',
+    bottom: 0,
+    left: 0,
+    paddingVertical: 20,
+    backgroundColor: '#F50263',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoutText: {
+    fontSize: 16,
+    color: '#fff',
+  },
 });
 
 const mapStateToProps = (state) => ({
@@ -243,4 +253,5 @@ export default connect(mapStateToProps, {
   saveTokenRequest,
   dialogsRequest,
   dialogRequest,
+  authLogout,
 })(Home);

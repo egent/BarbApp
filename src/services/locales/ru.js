@@ -16,7 +16,7 @@ export default {
     password: "Пароль",
     password_reset: "Забыли пароль?",
     registration: "Регистрация",
-    logout: 'Выход',  
+    logout: 'Выйти',  
     send_password: 'Отправить пароль',
     send_password_phone: 'Пароль отправлен на номер {{phone}}',
 

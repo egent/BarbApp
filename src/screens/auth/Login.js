@@ -11,7 +11,6 @@ import {
   Pressable
 } from 'react-native';
 import analytics from '@react-native-firebase/analytics';
-import {TextInputMask} from 'react-native-masked-text';
 import {connect} from 'react-redux';
 import PreLoader from '../../components/PreLoader';
 import Input from '../../components/ui/Input';
@@ -96,7 +95,15 @@ class Login extends Component {
             value={phone}
             setData={this.setPhone}
             autoCapitalize="sentences"
+            keyboardType="phone-pad"
+          mask={{
+            mask: '+389999999999',
+            validator: (value, settings) =>
+              value.length === settings.mask.length,
+          }}
           />
+
+          
           <InputPassword
             label="password"
             value={password}

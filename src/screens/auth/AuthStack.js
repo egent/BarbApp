@@ -65,7 +65,10 @@ const AuthStackScreen = ({navigation}) => (
       name="ResetPassword"
       component={ResetPasswordScreen}
       options={({navigation, route}) => ({
-        headerShown: false,
+        headerTitle: _.t('reminder_password'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} />
+        ),
       })}
     />
     <AuthStack.Screen

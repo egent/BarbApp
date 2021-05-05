@@ -10,6 +10,7 @@ import {
   Dimensions,
   Animated,
   Platform,
+  Keyboard
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -20,7 +21,7 @@ import PropTypes from 'prop-types';
 import _ from '../../services/i18n';
 
 const {height} = Dimensions.get('window');
-const INIT_HEIGHT = height * 0.6;
+const INIT_HEIGHT = height * 0.7;
 
 class Select2 extends Component {
   static defaultProps = {
@@ -122,7 +123,10 @@ class Select2 extends Component {
     return (
       <TouchableOpacity
         key={idx}
-        onPress={() => this.onItemSelected(item, isSelectSingle)}
+        onPress={() => {
+          this.onItemSelected(item, isSelectSingle);
+          Keyboard.dismiss();
+        }}
         activeOpacity={0.7}
         style={styles.itemWrapper}>
         <Text style={[styles.itemText, this.defaultFont]}>{item.name}</Text>
@@ -211,6 +215,7 @@ class Select2 extends Component {
             />
           ) : null}
           <FlatList
+            keyboardShouldPersistTaps="always"
             style={styles.listOption}
             data={this.dataRender || []}
             keyExtractor={this.keyExtractor}

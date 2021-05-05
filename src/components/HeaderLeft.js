@@ -8,7 +8,7 @@ const HeaderLeft = ({navigation, icon = 'chevron-left'}) => {
       style={{
         paddingLeft: 10,
       }}
-      hitSlop={{top: 10, bottom: 10, left: 10, right: 40}}
+      hitSlop={{top: 25, bottom: 25, left: 25, right: 25}}
       onPress={() => {
         navigation.goBack();
       }}>

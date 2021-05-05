@@ -2,10 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {
   Text,
   KeyboardAvoidingView,
-  ScrollView,
+  View,
   StyleSheet,
   Dimensions,
 } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 import _ from '../../services/i18n';
 import SelectInput from '../../components/ui/SelectInput';
 import Input from '../../components/ui/Input';
@@ -31,7 +32,7 @@ const Registration = ({navigation}) => {
     return <PreLoader />;
   }
 
-  let active = city !== null > 0 && phone.length > 4 ? true : false;
+  let active = city !== null && phone.length > 4 ? true : false;
 
   return (
     <KeyboardAvoidingView
@@ -39,7 +40,7 @@ const Registration = ({navigation}) => {
       behavior="position"
       enabled
       keyboardVerticalOffset={-100}>
-      <ScrollView>
+      <View>
         <Text style={styles.title}>{_.t('registration_master')}</Text>
         <SelectInput
           label="city"
@@ -53,18 +54,23 @@ const Registration = ({navigation}) => {
           value={phone}
           setData={setPhone}
           keyboardType="phone-pad"
+          mask={{
+            mask: '+389999999999',
+            validator: (value, settings) =>
+              value.length === settings.mask.length,
+          }}
         />
         <Button
           onPress={() => {
-            if(active) {
-              dispatch(getCodeRequest({phone, city}))
+            if (active) {
+              dispatch(getCodeRequest({phone, city}));
               navigation.navigate('CheckSms');
             }
           }}
           btnText="continue"
           active={active}
         />
-      </ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 };

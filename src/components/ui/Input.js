@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View, TextInput, StyleSheet, Dimensions} from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
 import _ from '../../services/i18n';
 const {width} = Dimensions.get('window');
 
@@ -11,17 +12,38 @@ const Input = ({
   containerStyles = {},
   autoCapitalize = 'none',
   keyboardType = 'default',
+  mask = false,
 }) => {
   return (
     <View style={[styles.container, {...containerStyles}]}>
       <Text style={styles.label}>{_.t(label)}</Text>
-      <TextInput
-        style={styles.field}
-        value={value}
-        onChangeText={setData}
-        autoCapitalize={autoCapitalize}
-        keyboardType={keyboardType}
-      />
+      {mask === false ? (
+        <TextInput
+          style={styles.field}
+          value={value}
+          onChangeText={setData}
+          autoCapitalize={autoCapitalize}
+          keyboardType={keyboardType}
+        />
+      ) : (
+        <TextInputMask
+          style={styles.field}
+          returnKeyType="done"
+          returnKeyLabel={_.t('close')}
+          type={'custom'}
+          onChangeText={setData}
+          value={value}
+          options={{
+            mask: '+389999999999',
+            validator: (value, settings) =>
+              value.length === settings.mask.length,
+          }}
+          underlineColorAndroid={'transparent'}
+          autoCapitalize={autoCapitalize}
+          keyboardType={keyboardType}
+          autofocus={true}
+        /> 
+      )}
       {help.length > 0 && <Text style={styles.help}>{_.t(help)}</Text>}
     </View>
   );

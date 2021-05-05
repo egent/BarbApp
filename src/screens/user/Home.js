@@ -7,6 +7,7 @@ import {
   ScrollView,
   RefreshControl,
   Platform,
+  TouchableOpacity
 } from 'react-native';
 import {connect} from 'react-redux';
 import OneSignal from 'react-native-onesignal';
@@ -163,6 +164,13 @@ class Home extends Component {
             screenName={'Profile'}
             navigation={this.props.navigation}
           />  */}
+
+
+          <TouchableOpacity>
+            <Text>{_.t('logout')}</Text>
+          </TouchableOpacity>
+
+
         </ScrollView>
       </>
     );

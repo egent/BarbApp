@@ -77,6 +77,11 @@ const SpecsScreen = ({navigation}) => {
     navigation.setParams({
       onPress: saveData,
     });
+    specsList.map((spec) => {
+      if (spec.id === 0 && spec.other_spec !== null) {
+        setOther(spec.other_spec);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -221,7 +226,7 @@ const styles = StyleSheet.create({
   other: {
     borderColor: '#D4D6DF',
     borderWidth: 1,
-    height: 120,
+    height: 60,
     marginVertical: 10,
     padding: 5,
   },

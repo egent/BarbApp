@@ -57,7 +57,7 @@ const ProfileDescription = ({navigation}) => {
   } = useSelector((state) => state.user);
   const [fileLoading, setFileLoading] = useState(false);
   const [avatar, setAvatar] = useState(image);
-  // const [userDescription, setUserDescription] = useState(description);
+  const [userDescription, setUsrDescription] = useState(description);
   // const [userGender, setUserGender] = useState(gender);
   // const [userBirthday, setUserBirthday] = useState(birthday);
   // const [userSkill, setUserSkill] = useState(skill);
@@ -78,7 +78,8 @@ const ProfileDescription = ({navigation}) => {
     const userData = form;
     userData.description = data;
     setForm(userData);
-    setKey(Math.random());
+    setUsrDescription(data);
+    // setKey(Math.random());
   };
 
   const setUserGender = (data) => {
@@ -199,10 +200,11 @@ const ProfileDescription = ({navigation}) => {
             underlineColorAndroid="transparent"
             numberOfLines={5}
             onChangeText={setUserDescription}
-            value={form.description}
-            keyboardType="default"
-            returnKeyType="done"
-            blurOnSubmit={true}
+            value={userDescription}
+  
+            // keyboardType="default"
+            // returnKeyType="done"
+            // blurOnSubmit={true}
           />
         </View>
         <View style={styles.content}>

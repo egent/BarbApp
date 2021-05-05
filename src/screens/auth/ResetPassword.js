@@ -28,7 +28,7 @@ const ResetPasswordScreen = ({navigation}) => {
       enabled
       keyboardVerticalOffset={-100}>
       <ScrollView>
-        <Text style={styles.title}>{_.t('reminder_password')}</Text>
+        {/* <Text style={styles.title}>{_.t('reminder_password')}</Text> */}
         <Input
           label="phone_number"
           value={phone}
@@ -56,13 +56,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width,
+    marginTop: 50,
   },
-  title: {
-    fontSize: 16,
-    marginVertical: 25,
-    textAlign: 'center',
-    textTransform: 'uppercase',
-  },
+  // title: {
+  //   fontSize: 16,
+  //   marginVertical: 25,
+  //   textAlign: 'center',
+  //   textTransform: 'uppercase',
+  // },
 });
 
 export default ResetPasswordScreen;

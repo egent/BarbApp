@@ -469,11 +469,21 @@ function* profileDescriptionUpdateSaga(params) {
 
   const response = yield call(api, ENDPOINT_PROFILE_DESCRIPTIONS, 'POST', payload, token);
 
-console.log('response4', response)
 
   if (response.status === 200) {
     yield put(profileDescriptionUpdateSuccess());
     yield put(profileDescriptionsRequest());
+    
+    Toast.show({
+      type: 'success',
+      text2: _.t('updated_success'),
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+
+    navigation.goBack();
+
   } else if (response.status === 401) {
     yield put(profileDescriptionUpdateFailure({}));
     yield put(authLogout());

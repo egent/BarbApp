@@ -201,10 +201,6 @@ const ProfileDescription = ({navigation}) => {
             numberOfLines={5}
             onChangeText={setUserDescription}
             value={userDescription}
-  
-            // keyboardType="default"
-            // returnKeyType="done"
-            // blurOnSubmit={true}
           />
         </View>
         <View style={styles.content}>
@@ -311,6 +307,7 @@ const styles = StyleSheet.create({
     color: '#566378',
     fontSize: 14,
     lineHeight: 17,
+    textAlignVertical: 'top',
   },
   content: {
     marginHorizontal: 10,

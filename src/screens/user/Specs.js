@@ -8,6 +8,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
 } from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from '../../services/i18n';
@@ -106,11 +107,7 @@ const SpecsScreen = ({navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="position"
-      // enabled={false}
-      keyboardVerticalOffset={200}>
+    <KeyboardAwareScrollView>
       <FlatList
         style={{marginHorizontal: 10}}
         showsVerticalScrollIndicator={false}
@@ -121,32 +118,29 @@ const SpecsScreen = ({navigation}) => {
           </View>
         }
         ListFooterComponent={
-       
           <View style={{flexDirection: 'row'}}>
-          <View style={{flex:1}} />
-            <View style={[styles.textContainer, {flex: 8,}]}>
-            {isOtherCheck() ? (
-              <>
-                <TextInput
-                  style={styles.other}
-                  multiline={true}
-                  underlineColorAndroid="transparent"
-                  numberOfLines={5}
-                  onChangeText={setOther}
-                  value={other}
-                  keyboardType="default"
-                  returnKeyType="done"
-                  blurOnSubmit={true}
-                />
-                <Text style={styles.help}>{_.t('other_input_help')}</Text>
-              </>
-            ) : (
-              <View style={{marginTop: 200}} />
-            )}
+            <View style={{flex: 1}} />
+            <View style={[styles.textContainer, {flex: 8}]}>
+              {isOtherCheck() ? (
+                <>
+                  <TextInput
+                    style={styles.other}
+                    multiline={true}
+                    underlineColorAndroid="transparent"
+                    numberOfLines={5}
+                    onChangeText={setOther}
+                    value={other}
+                    keyboardType="default"
+                    returnKeyType="done"
+                    blurOnSubmit={true}
+                  />
+                  <Text style={styles.help}>{_.t('other_input_help')}</Text>
+                </>
+              ) : (
+                <View style={{marginTop: 200}} />
+              )}
+            </View>
           </View>
-          </View>
-   
-          
         }
         data={specsList}
         renderItem={({item}) => {
@@ -163,7 +157,11 @@ const SpecsScreen = ({navigation}) => {
                   size={24}
                 />
               </TouchableOpacity>
-              <View style={[styles.titleContainer, {borderBottomWidth: id !== 0 ? 1 : 0}]}>
+              <View
+                style={[
+                  styles.titleContainer,
+                  {borderBottomWidth: id !== 0 ? 1 : 0},
+                ]}>
                 <Text style={styles.title}>{name}</Text>
                 {active && (
                   <TouchableOpacity
@@ -186,7 +184,7 @@ const SpecsScreen = ({navigation}) => {
         }}
         keyExtractor={({id}) => `spec-${id}`}
       />
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -229,6 +227,9 @@ const styles = StyleSheet.create({
     height: 60,
     marginVertical: 10,
     padding: 5,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    textAlignVertical: 'top',
   },
   help: {
     marginBottom: 10,

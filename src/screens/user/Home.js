@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
+
 import {connect} from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import _ from '../../services/i18n';
@@ -166,7 +167,7 @@ class Home extends Component {
             navigation={this.props.navigation}
           />  */}
         </ScrollView>
-        <TouchableOpacity onPress={()=>{this.props.authLogout();}} style={styles.logout}>
+        <TouchableOpacity activeOpacity={0.8} onPress={()=>{this.props.authLogout();}} style={styles.logout}>
           <Text style={styles.logoutText}>{_.t('logout')}</Text>
         </TouchableOpacity>
       </>

@@ -3,10 +3,12 @@ import {
   Text,
   TouchableOpacity,
   KeyboardAvoidingView,
+  View,
   ScrollView,
   StyleSheet,
   Dimensions,
 } from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Input from '../../components/ui/Input';
@@ -40,14 +42,11 @@ const UserInfo = ({navigation}) => {
   };
 
   return (
-    <KeyboardAvoidingView 
-    behavior="padding" 
-    enabled   
-    keyboardVerticalOffset={100}
-      style={styles.container}
-     >
-      <ScrollView>
-        <Text style={styles.title}>{_.t('name_password')}</Text>
+    <KeyboardAwareScrollView >
+   
+      <ScrollView >
+      <View style={styles.container}>
+      <Text style={styles.title}>{_.t('name_password')}</Text>
         <Input label="first_name" value={name} setData={setName} autoCapitalize="sentences" />
         <Input label="last_name" value={lastName} setData={setLastName} autoCapitalize="sentences" />
         <InputPassword
@@ -116,8 +115,9 @@ const UserInfo = ({navigation}) => {
           btnText="continue"
           active={active}
         />
+      </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
   );
 };
 
@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    width,
+    marginHorizontal: 10,
+    width: width - 20,
   },
   title: {
     fontSize: 16,

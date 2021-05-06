@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    width,
+    marginHorizontal: 10,
+    width: width - 20,
   },
   title: {
     fontSize: 16,

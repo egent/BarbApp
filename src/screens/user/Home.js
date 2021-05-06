@@ -8,8 +8,8 @@ import {
   RefreshControl,
   Platform,
   TouchableOpacity,
+  Image,
 } from 'react-native';
-
 import {connect} from 'react-redux';
 import OneSignal from 'react-native-onesignal';
 import _ from '../../services/i18n';
@@ -90,7 +90,7 @@ class Home extends Component {
       info,
       messages_new,
       onBoarding,
-      profileDescription: {description},
+      profileDescription: {description, image},
     } = this.props.user;
 
     if (loading || info === null) {
@@ -117,7 +117,11 @@ class Home extends Component {
           }>
           <View style={styles.header}>
             <View style={styles.iconContainer}>
-              <Icon name="person" color="#F50263" size={45} />
+              {image === undefined || image === null ? (
+                <Icon name="person" color="#F50263" size={45} />
+              ) : (
+                <Image source={{uri: image}} style={styles.avatar} />
+              )}
             </View>
             <View style={styles.info}>
               <Text style={styles.fio}>{info?.name}</Text>
@@ -167,7 +171,12 @@ class Home extends Component {
             navigation={this.props.navigation}
           />  */}
         </ScrollView>
-        <TouchableOpacity activeOpacity={0.8} onPress={()=>{this.props.authLogout();}} style={styles.logout}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            this.props.authLogout();
+          }}
+          style={styles.logout}>
           <Text style={styles.logoutText}>{_.t('logout')}</Text>
         </TouchableOpacity>
       </>
@@ -242,6 +251,11 @@ const styles = StyleSheet.create({
   logoutText: {
     fontSize: 16,
     color: '#fff',
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
 });
 

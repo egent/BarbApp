@@ -99,7 +99,12 @@ const menu = [
 ];
 
 const Profile = ({navigation}) => {
-  const {info, loading, specsUser, profileDescription: {description}} = useSelector((state) => state.user);
+  const {
+    info,
+    loading,
+    specsUser,
+    profileDescription: {description, image},
+  } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -113,10 +118,15 @@ const Profile = ({navigation}) => {
 
   if (specsUser.length > 0) {
     menu[0].subTitle = specsUser.join(', ');
+    menu[0].alertPoint = false;
+  } else {
+    menu[0].alertPoint = true;
   }
 
-  if (description?.length === 0) {
+  if (description !== undefined && description.length === 0) {
     menu[1].alertPoint = true;
+  } else {
+    menu[1].alertPoint = false;
   }
 
   return (
@@ -139,7 +149,11 @@ const Profile = ({navigation}) => {
 
           <View style={styles.content}>
             <View style={styles.iconContainer}>
-              <MaterialIcons name="person" color="#F50263" size={45} />
+              {image === null ? (
+                <MaterialIcons name="person" color="#F50263" size={45} />
+              ) : (
+                <Image source={{uri: image}} style={styles.avatar} />
+              )}
             </View>
             <View style={styles.info}>
               <Text style={styles.fio}>{info?.name}</Text>
@@ -157,30 +171,33 @@ const Profile = ({navigation}) => {
         if (Platform.OS === 'ios' && showIos === false) {
           return null;
         }
-        const isSubTitle = subTitle !== undefined  && subTitle.length > 0;
+        const isSubTitle = subTitle !== undefined && subTitle.length > 0;
         return (
           <TouchableOpacity
             onPress={() => {
-              if (screenName.length > 0) {
+              if (screenName !== undefined && screenName.length > 0) {
                 navigation.navigate(screenName);
               }
             }}
             style={styles.itemContainer}
             activeOpacity={0.8}>
-            <View style={[styles.iconListContainer, { justifyContent: isSubTitle ? 'flex-start' : 'center'}]}>
+            <View
+              style={[
+                styles.iconListContainer,
+                {justifyContent: isSubTitle ? 'flex-start' : 'center'},
+              ]}>
               <View>
                 {icon}
                 {alertPoint && (
                   <View style={styles.point}>
                     <Text style={styles.pointText}>!</Text>
-                  </View> 
+                  </View>
                 )}
               </View>
             </View>
             <View style={styles.titleContainer}>
-              <View  style={{justifyContent: 'center'}}>
+              <View style={{justifyContent: 'center'}}>
                 <Text style={styles.title}>{_.t(title)}</Text>
-
 
                 {isSubTitle && <Text style={styles.subTitle}>{subTitle}</Text>}
               </View>
@@ -206,6 +223,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
   },
   box: {
     flex: 1,
@@ -233,12 +255,11 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
     marginHorizontal: 20,
-
   },
   iconListContainer: {
     flex: 0.6,
     height: 60,
-    alignItems: 'flex-start', 
+    alignItems: 'flex-start',
   },
   titleContainer: {
     flex: 6,

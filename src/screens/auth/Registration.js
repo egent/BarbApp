@@ -63,8 +63,7 @@ const Registration = ({navigation}) => {
         <Button
           onPress={() => {
             if (active) {
-              dispatch(getCodeRequest({phone, city}));
-              navigation.navigate('CheckSms');
+              dispatch(getCodeRequest({phone, city, navigation}));
             }
           }}
           btnText="continue"

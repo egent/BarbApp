@@ -341,21 +341,43 @@ function* checkCodeSaga(params) {
 }
 
 function* getCodeSaga(params) {
-  const {phone, city} = params;
+  const {phone, city, navigation} = params;
   const response = yield call(api, ENDPOINT_GET_CODE, 'POST', {city_id: city.id, phone});
 
   if (response.status === 200) {
-    const {code} = response.data.data;
+    
+    try {
+      const {code} = response.data.data;
 
-    yield put(
-      getCodeSuccess({
-        code,
-        phone,
-        city
-      }),
-    );
+      yield put(
+        getCodeSuccess({
+          code,
+          phone,
+          city
+        }),
+      );
+      navigation.navigate('CheckSms');
+
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: _.t('error'),
+        text2: error.message,
+        position: 'bottom',
+        autoHide: true,
+        visibilityTime: 2000,
+      });
+      yield put(getCodeFailure({}));
+    }
   } else {
-    Alert.alert('', response.data.message);
+    Toast.show({
+      type: 'error',
+      text1: _.t('error'),
+      text2: response.data.message,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
     yield put(getCodeFailure({}));
   }
 }

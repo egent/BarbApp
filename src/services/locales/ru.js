@@ -2,6 +2,7 @@ export default {
 
     // Error messages
     timeout_error: 'Ошибка сетевого подключения.',
+    error: 'Ошибка',
 
     // Login screen
     create_account: 'Создать аккаунт',
@@ -132,6 +133,7 @@ export default {
     other_input_help: 'Как называется Ваша специализация',
     updated_success: 'Обновление прошло успешно',
     erorr: 'Ошибка',
+    choose_main_spec: 'Выберите основную специальность',
 
     // Profile Description
     your_photo: 'Ваша портретная фотография',

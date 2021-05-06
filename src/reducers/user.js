@@ -75,6 +75,8 @@ export default function user(state = initialState, action = {}) {
         logIn: false,
         access_token: '',
         refresh_token: '',
+        specsUser: [],
+        profileDescription: {},
       };
     case types.INFO.REQUEST:
       return {

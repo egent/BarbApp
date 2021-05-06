@@ -103,7 +103,6 @@ class Login extends Component {
           }}
           />
 
-          
           <InputPassword
             label="password"
             value={password}
@@ -113,7 +112,7 @@ class Login extends Component {
           <Button
             onPress={() => {
             
-                if (password.length > 0) {
+                if (password && password.length > 0) {
                   this.props.authRequest({
                     navigation: this.props.navigation,
                     phone,
@@ -123,7 +122,7 @@ class Login extends Component {
          
             }}
             btnText="enter"
-            active={password.length > 0 ? true : false}
+            active={password && password.length ? true : false}
           />
 
           <TouchableOpacity hitSlop={{top: 10, bottom: 10, left: 50, right: 50}} style={styles.linksContainer}

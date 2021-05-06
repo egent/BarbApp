@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
 } from 'react-native';
+import Toast from 'react-native-toast-message';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -47,7 +48,18 @@ const SpecsScreen = ({navigation}) => {
       Object.assign(payload, {other_spec: otherDesc});
     }
 
-    dispatch(specsSetRequest({payload, navigation}));
+    if (mainSpecId !== null) {
+      dispatch(specsSetRequest({payload, navigation}));
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: _.t('error'),
+        text2: _.t('choose_main_spec'),
+        position: 'bottom',
+        autoHide: true,
+        visibilityTime: 2000,
+      });
+    }
   };
 
   const setActive = (id) => {

@@ -85,6 +85,7 @@ class Messages extends Component {
   };
 
   deleteDialogConfirm = () => {
+    this.setState({deleteAlertVisible: false});
     this.props.dialogDeleteRequest({dialogs: this.state.deleted});
     this.clearDeleted();
   };

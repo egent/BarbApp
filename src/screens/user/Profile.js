@@ -121,6 +121,7 @@ const Profile = ({navigation}) => {
     menu[0].alertPoint = false;
   } else {
     menu[0].alertPoint = true;
+    menu[0].subTitle  = '';
   }
 
   if (description !== undefined && description.length === 0) {

@@ -34,9 +34,9 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const {phone, password, check_code_from_sms} = this.props.user;
+    const {phone, password} = this.props.user;
     this.setState({
-      phone: phone.length > 0 ? phone : '+380',
+      phone: phone !== undefined && phone.length > 0 ? phone : '+380',
       password,
     });
     analytics().logEvent('LoginScreen', {});

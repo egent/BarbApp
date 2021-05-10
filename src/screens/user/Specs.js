@@ -118,8 +118,9 @@ const SpecsScreen = ({navigation}) => {
   };
 
   return (
-    <KeyboardAwareScrollView>
+    <KeyboardAwareScrollView  keyboardShouldPersistTaps='always'>
       <FlatList
+        keyboardShouldPersistTaps='always'
         style={{marginHorizontal: 10}}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={

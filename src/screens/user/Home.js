@@ -44,17 +44,18 @@ class Home extends Component {
 
   componentWillMount() {
     this.getData();
-    this._unsubscribe = this.props.navigation.addListener(
-      'focus',
-      this.getData,
-    );
+    // todo delete in production
+    // this._unsubscribe = this.props.navigation.addListener(
+    //   'focus',
+    //   this.getData,
+    // );
   }
 
   componentWillUnmount() {
     OneSignal.removeEventListener('received', this.onReceived);
     OneSignal.removeEventListener('opened', this.onOpened);
     OneSignal.removeEventListener('ids', this.onIds);
-    this._unsubscribe();
+    // this._unsubscribe(); // todo delete in production
   }
 
   getData = () => {

@@ -345,9 +345,9 @@ function* getCodeSaga(params) {
   const response = yield call(api, ENDPOINT_GET_CODE, 'POST', {city_id: city.id, phone});
 
   if (response.status === 200) {
-    
+   const {code, message} = response.data.data;
+
     try {
-      const {code} = response.data.data;
 
       yield put(
         getCodeSuccess({
@@ -362,7 +362,7 @@ function* getCodeSaga(params) {
       Toast.show({
         type: 'error',
         text1: _.t('error'),
-        text2: error.message,
+        text2: message,
         position: 'bottom',
         autoHide: true,
         visibilityTime: 2000,

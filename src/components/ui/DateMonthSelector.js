@@ -1,21 +1,22 @@
 import moment from 'moment';
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import MonthPicker from 'react-native-month-year-picker';
+
 import * as RNLocalize from 'react-native-localize';
 import ModalAlert from '../../components/modal/Alert';
 import _ from '../../services/i18n';
 
 const locales = RNLocalize.getLocales();
 
-const DateSelector = ({
+const DateMonthSelector = ({
   title,
   value,
   setDate,
   formatYearsAgo = false,
   removeDateTitle,
-  headerTextIOS = 'select_date',
+  setDateTitle,
 }) => {
   const [isDatePickerVisible, setVisibleDatePicker] = useState(false);
   const [deleteAlertVisible, setDeleteAlertVisible] = useState(false);
@@ -27,14 +28,21 @@ const DateSelector = ({
     setDeleteAlertVisible(!deleteAlertVisible);
   };
 
-  const onChangeDate = (date) => {
-    const dateFormat = !formatYearsAgo
-      ? moment(date).format('DD.MM.YYYY')
-      : moment(date, 'DD.MM.YYYY').fromNow();
+
+  const onChangeDate = useCallback(
+    (event, newDate) => {
+          const dateFormat = !formatYearsAgo
+      ? moment(newDate).format('DD.MM.YYYY')
+      : moment(newDate, 'DD.MM.YYYY').fromNow();
     setFormatDate(dateFormat);
-    setDate(moment(date).format('DD.MM.YYYY'));
-    setVisibleDatePicker(false);
-  };
+    setDate(moment(newDate).format('DD.MM.YYYY'));
+
+      setVisibleDatePicker(false);
+
+
+    },
+    [formatDate, setVisibleDatePicker],
+  );
 
   const removeDateResponse = () => {
     setDeleteAlertVisible(true);
@@ -54,7 +62,7 @@ const DateSelector = ({
         <View>
           <Text style={styles.title}>{_.t(title)}</Text>
           <Text style={styles.value}>
-            {value !== null ? formatDate : _.t('choose_date')}
+            {value !== null ? formatDate : _.t(setDateTitle)}
           </Text>
         </View>
         {value !== null && (
@@ -67,19 +75,19 @@ const DateSelector = ({
           </TouchableOpacity>
         )}
       </TouchableOpacity>
-      <DateTimePickerModal
-        locale={locales[0].languageTag}
-        isVisible={isDatePickerVisible}
-        mode="date"
-        onConfirm={onChangeDate}
-        onCancel={() => setVisibleDatePicker(false)}
-        isDarkModeEnabled={false}
-        headerTextIOS={_.t(headerTextIOS)}
-        cancelTextIOS={_.t('cancel')}
-        confirmTextIOS={_.t('select')}
-        isDarkModeEnabled={false}
-        display="spinner"
-      />
+
+      {isDatePickerVisible && (
+        <MonthPicker
+          onChange={onChangeDate}
+          value={new Date()}
+          enableAutoDarkMode={false}
+          outputFormat='DD.MM.YYYY'
+          okButton={_.t('selectButtonText')}
+          cancelButton={_.t('cancelButtonText')}
+          locale={locales[0].languageTag}
+        />
+      )}
+
       <ModalAlert
         visible={deleteAlertVisible}
         toggle={toggleDeleteAlert}
@@ -114,4 +122,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DateSelector;
+export default DateMonthSelector;

@@ -1,20 +1,21 @@
+import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
-  ScrollView,
   StyleSheet,
   Image,
   TouchableOpacity,
   TextInput,
-  KeyboardAvoidingView,
   Dimensions,
 } from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import ImagePicker from 'react-native-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Preloader from '../../components/PreLoader';
 import DateSelector from '../../components/ui/DateSelector';
+import DateMonthSelector from '../../components/ui/DateMonthSelector';
 import ValidationAlert from '../../components/modal/ValidationAlert';
 import _ from '../../services/i18n';
 import {
@@ -160,17 +161,14 @@ const ProfileDescription = ({navigation}) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior="position"
-      enabled
-      keyboardVerticalOffset={-100}>
+    <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
       <ValidationAlert
         title="fill_fields"
         visible={visibleValidationModal}
         toggle={toggleValidationModal}
         btnOutHandler={sendData}
       />
-      <ScrollView style={{height, paddingBottom: 200}} key={key}>
+      <View style={{height, paddingBottom: 200}} key={key}>
         <View style={styles.headerContainer}>
           <View style={styles.box} />
           <TouchableOpacity
@@ -234,17 +232,18 @@ const ProfileDescription = ({navigation}) => {
           value={form.birthday}
           setDate={setUserBirthday}
         />
-        <DateSelector
+
+        <DateMonthSelector
           title="work_experience"
-          headerTextIOS="work_start_picker"
           removeDateTitle="delete_experience_title"
           value={form.skill}
           setDate={setUserSkill}
           formatYearsAgo={true}
+          setDateTitle="set_experience_date"
         />
-        <View style={{marginBottom: 150}} />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        <View style={{marginVertical: 250}} />
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -1,14 +1,9 @@
 import {types} from '../actions/user';
 
-const initialState = {
-  grant_type: 'password',
-  client_id: 2,
-  client_secret: 'bwtAjwvRw6lnQdfOKkMHmcJ7JAxF0QwOP6wqaln1',
+const defaultState = {
   loading: false,
   logIn: false,
   city: null,
-  phone: '+380',
-  password: '',
   access_token: '',
   refresh_token: '',
   messages_new: 0,
@@ -27,6 +22,15 @@ const initialState = {
   specs: [],
   specsUser: [],
   profileDescription: {},
+};
+
+const initialState = {
+  grant_type: 'password',
+  client_id: 2,
+  client_secret: 'bwtAjwvRw6lnQdfOKkMHmcJ7JAxF0QwOP6wqaln1',
+  phone: '+380',
+  password: '',
+  ...defaultState
 };
 
 export default function user(state = initialState, action = {}) {
@@ -71,12 +75,7 @@ export default function user(state = initialState, action = {}) {
       };
     case types.AUTH.LOGOUT:
       return {
-        ...state,
-        logIn: false,
-        access_token: '',
-        refresh_token: '',
-        specsUser: [],
-        profileDescription: {},
+        ...initialState,
       };
     case types.INFO.REQUEST:
       return {

@@ -2,9 +2,7 @@ import React, {useState} from 'react';
 import {
   Text,
   TouchableOpacity,
-  KeyboardAvoidingView,
   View,
-  ScrollView,
   StyleSheet,
   Dimensions,
 } from 'react-native';
@@ -35,20 +33,34 @@ const UserInfo = ({navigation}) => {
   }
 
   const dispatch = useDispatch();
-  
+
   let active = false;
-  if (name.length > 0 && lastName.length > 0 && password.length > 0 && email.length > 0 && agree === true) {
-    active = true
-  };
+  if (
+    name.length > 0 &&
+    lastName.length > 0 &&
+    password.length > 0 &&
+    email.length > 0 &&
+    agree === true
+  ) {
+    active = true;
+  }
 
   return (
-    <KeyboardAwareScrollView >
-   
-      <ScrollView >
+    <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
       <View style={styles.container}>
-      <Text style={styles.title}>{_.t('name_password')}</Text>
-        <Input label="first_name" value={name} setData={setName} autoCapitalize="sentences" />
-        <Input label="last_name" value={lastName} setData={setLastName} autoCapitalize="sentences" />
+        <Text style={styles.title}>{_.t('name_password')}</Text>
+        <Input
+          label="first_name"
+          value={name}
+          setData={setName}
+          autoCapitalize="sentences"
+        />
+        <Input
+          label="last_name"
+          value={lastName}
+          setData={setLastName}
+          autoCapitalize="sentences"
+        />
         <InputPassword
           label="password"
           value={password}
@@ -97,27 +109,28 @@ const UserInfo = ({navigation}) => {
 
         <Button
           onPress={() => {
-            if(active) {
-              dispatch(registerRequest({
-                navigation,
-                payload: {
-                  phone,
-                  name,
-                  last_name: lastName,
-                  city_id: city.id, 
-                  email,
-                  password,
-                  type: 'master',
-                }
-              }))
+            if (active) {
+              dispatch(
+                registerRequest({
+                  navigation,
+                  payload: {
+                    phone,
+                    name,
+                    last_name: lastName,
+                    city_id: city.id,
+                    email,
+                    password,
+                    type: 'master',
+                  },
+                }),
+              );
             }
           }}
           btnText="continue"
           active={active}
         />
       </View>
-      </ScrollView>
-      </KeyboardAwareScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 

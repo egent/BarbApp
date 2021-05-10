@@ -144,6 +144,10 @@ export default {
     date_birth: 'Дата рождения',
     work_experience: 'Опыт работы',
     choose_date: "Указать дату",
+    choose_experience: "Указать опыт",
+    choose_experience_android: "Указать начало карьеры",
+
+
     select: "Выбрать",
     select_date: "Выберите дату",
     delete_birth_day: "Удалить дату рождения?",
@@ -151,8 +155,9 @@ export default {
     fill_fields: 'Заполните обязательные поля',
     return_to_form: 'Вернуться к заполнению',
     go_out: 'Выйти',
-    'work_start': 'Начало работы',
-    'work_start_picker': 'Месяц и год старта карьеры',
+    work_start: 'Начало работы',
+    work_start_picker: 'Месяц и год старта карьеры',
+    set_experience_date: 'Указать начало карьеры',
 };
 
   

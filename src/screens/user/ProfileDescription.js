@@ -150,6 +150,8 @@ const ProfileDescription = ({navigation}) => {
           }),
         );
 
+        // console.log(response)
+
         setAvatar(response.uri);
       }
       setFileLoading(false);

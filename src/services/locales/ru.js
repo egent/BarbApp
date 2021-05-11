@@ -109,6 +109,7 @@ export default {
     // Dialog screen
     message: 'Сообщение',
     you: 'Вы',
+    message_deleted: 'Сообщения удалены',
 
     // Select Two
     cancelButtonText: 'Отмена',

@@ -28,21 +28,34 @@ const DateMonthSelector = ({
     setDeleteAlertVisible(!deleteAlertVisible);
   };
 
+  const showModal = useCallback((value) => setVisibleDatePicker(value), []);
 
   const onChangeDate = useCallback(
     (event, newDate) => {
-          const dateFormat = !formatYearsAgo
-      ? moment(newDate).format('DD.MM.YYYY')
-      : moment(newDate, 'DD.MM.YYYY').fromNow();
-    setFormatDate(dateFormat);
-    setDate(moment(newDate).format('DD.MM.YYYY'));
+      showModal(false);
 
-      setVisibleDatePicker(false);
-
-
+      if (event === 'dateSetAction') {
+      const dateFormat = !formatYearsAgo
+        ? moment(newDate).format('DD.MM.YYYY')
+        : moment(newDate, 'DD.MM.YYYY').fromNow();
+      setFormatDate(dateFormat);
+      setDate(moment(newDate).format('DD.MM.YYYY'));
+      }
     },
-    [formatDate, setVisibleDatePicker],
+    [formatDate, showModal],
   );
+  
+  // const onChangeDate = (event, newDate) => {
+  //   showModal(false);
+
+  //   if (event === 'dateSetAction') {
+  //   const dateFormat = !formatYearsAgo
+  //     ? moment(newDate).format('DD.MM.YYYY')
+  //     : moment(newDate, 'DD.MM.YYYY').fromNow();
+  //   setFormatDate(dateFormat);
+  //   setDate(moment(newDate).format('DD.MM.YYYY'));
+  //   }
+  // };
 
   const removeDateResponse = () => {
     setDeleteAlertVisible(true);
@@ -55,9 +68,7 @@ const DateMonthSelector = ({
   return (
     <>
       <TouchableOpacity
-        onPress={() => {
-          setVisibleDatePicker(true);
-        }}
+        onPress={() => showModal(true)}
         style={styles.container}>
         <View>
           <Text style={styles.title}>{_.t(title)}</Text>
@@ -76,6 +87,8 @@ const DateMonthSelector = ({
         )}
       </TouchableOpacity>
 
+{console.log('==', isDatePickerVisible)}
+
       {isDatePickerVisible && (
         <MonthPicker
           onChange={onChangeDate}
@@ -84,7 +97,7 @@ const DateMonthSelector = ({
           outputFormat='DD.MM.YYYY'
           okButton={_.t('selectButtonText')}
           cancelButton={_.t('cancelButtonText')}
-          locale={locales[0].languageTag}
+          locale={locales[0].languageCode}
         />
       )}
 

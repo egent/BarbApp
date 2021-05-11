@@ -38,8 +38,7 @@ const ResetPasswordScreen = ({navigation}) => {
         <Button
           onPress={() => {
             if(active) {
-              dispatch(passwordResetRequest({phone}))
-              navigation.navigate('ResetPasswordConfirm');
+              dispatch(passwordResetRequest({phone, navigation}))
             }
           }}
           btnText="send_password"

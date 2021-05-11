@@ -90,7 +90,6 @@ function* authSaga(params) {
     client_id,
     client_secret,
   });
-
   if (response.status === 200) {    
     yield put(
       authSuccess({
@@ -102,7 +101,7 @@ function* authSaga(params) {
     );
 
   } else {
-    Alert.alert('', response.data.message);
+    Alert.alert('', response.data.error);
     yield put(authFailure({}));
   }
 }
@@ -383,26 +382,27 @@ function* getCodeSaga(params) {
 }
 
 function* passwordResetSaga(params) {
-  const {phone} = params;
+  const {phone, navigation} = params;
   const response = yield call(api, ENDPOINT_PASSWORD_RESET, 'POST', {phone});
 
-  if (response.status === 200) {
-    // const {code} = response.data.data;
+  const {status_code} = response.data;
+
+  if (status_code === 200) {
     yield put(
       passwordResetSuccess({
         phone,
       }),
     );
+    navigation.navigate('ResetPasswordConfirm');
   } else {
     Toast.show({
       type: 'error',
       text1: _.t('error'),
-      text2: response.data.message,
+      text2: response.data.error,
       position: 'bottom',
       autoHide: true,
       visibilityTime: 2000,
     });
-
     yield put(passwordResetFailure({}));
   }
 }
@@ -417,11 +417,25 @@ function* dialogDeleteSaga(params) {
       dialogDeleteSuccess()
     );
     yield put(dialogsRequest());
+    Toast.show({
+      type: 'success',
+      text2: _.t('message_deleted'),
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
   } else if (response.status === 401) {
     yield put(dialogDeleteFailure({}));
     yield put(authLogout());
   } else {
-    Alert.alert('', response.data.message);
+    Toast.show({
+      type: 'error',
+      text1: _.t('error'),
+      text2: response.data.message,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
     yield put(dialogDeleteFailure({}));
   }
 }

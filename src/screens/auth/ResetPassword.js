@@ -5,9 +5,9 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
-  KeyboardAvoidingView,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import _ from '../../services/i18n';
@@ -22,12 +22,11 @@ const ResetPasswordScreen = ({navigation}) => {
   const active = phone.length > 4 ? true : false;
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="position"
-      enabled
-      keyboardVerticalOffset={-100}>
-      <ScrollView>
+    <KeyboardAwareScrollView
+     
+      keyboardShouldPersistTaps="always"
+    >
+      <View  style={styles.container}>
         {/* <Text style={styles.title}>{_.t('reminder_password')}</Text> */}
         <Input
           label="phone_number"
@@ -35,6 +34,7 @@ const ResetPasswordScreen = ({navigation}) => {
           setData={setPhone}
           keyboardType="phone-pad"
         />
+        <View style={styles.btn}>
         <Button
           onPress={() => {
             if(active) {
@@ -45,8 +45,10 @@ const ResetPasswordScreen = ({navigation}) => {
           btnText="send_password"
           active={active}
         />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </View>
+  
+      </View>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -58,7 +60,11 @@ const styles = StyleSheet.create({
     width,
     marginTop: 50,
   },
-  // title: {
+  btn: {
+    marginVertical: 10,
+    width: width - 20,
+  }
+  //, title: {
   //   fontSize: 16,
   //   marginVertical: 25,
   //   textAlign: 'center',

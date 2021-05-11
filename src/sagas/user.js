@@ -387,14 +387,22 @@ function* passwordResetSaga(params) {
   const response = yield call(api, ENDPOINT_PASSWORD_RESET, 'POST', {phone});
 
   if (response.status === 200) {
-    const {code} = response.data.data;
+    // const {code} = response.data.data;
     yield put(
       passwordResetSuccess({
         phone,
       }),
     );
   } else {
-    Alert.alert('', response.data.message);
+    Toast.show({
+      type: 'error',
+      text1: _.t('error'),
+      text2: response.data.message,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+
     yield put(passwordResetFailure({}));
   }
 }

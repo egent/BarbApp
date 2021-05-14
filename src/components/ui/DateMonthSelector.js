@@ -1,6 +1,13 @@
 import moment from 'moment';
 import React, {useState, useCallback} from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Modal,
+  Platform,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MonthPicker from 'react-native-month-year-picker';
 
@@ -35,16 +42,16 @@ const DateMonthSelector = ({
       showModal(false);
 
       if (event === 'dateSetAction') {
-      const dateFormat = !formatYearsAgo
-        ? moment(newDate).format('DD.MM.YYYY')
-        : moment(newDate, 'DD.MM.YYYY').fromNow();
-      setFormatDate(dateFormat);
-      setDate(moment(newDate).format('DD.MM.YYYY'));
+        const dateFormat = !formatYearsAgo
+          ? moment(newDate).format('DD.MM.YYYY')
+          : moment(newDate, 'DD.MM.YYYY').fromNow();
+        setFormatDate(dateFormat);
+        setDate(moment(newDate).format('DD.MM.YYYY'));
       }
     },
     [formatDate, showModal],
   );
-  
+
   // const onChangeDate = (event, newDate) => {
   //   showModal(false);
 
@@ -63,6 +70,22 @@ const DateMonthSelector = ({
 
   const removeDate = () => {
     setDate(null);
+  };
+
+  const datePicker = () => {
+    if (!isDatePickerVisible) return null;
+    return (
+      <MonthPicker
+        onChange={onChangeDate}
+        value={new Date()}
+        enableAutoDarkMode={false}
+        outputFormat="DD.MM.YYYY"
+        okButton={_.t('selectButtonText')}
+        cancelButton={_.t('cancelButtonText')}
+        locale={locales[0].languageCode}
+        mode="short" 
+      />
+    );
   };
 
   return (
@@ -87,18 +110,25 @@ const DateMonthSelector = ({
         )}
       </TouchableOpacity>
 
-{console.log('==', isDatePickerVisible)}
+      {Platform.OS === 'android' ? (
+    datePicker()
+      ) : (
+        <Modal
+          animationType={'fade'}
+          transparent
+          visible={isDatePickerVisible}
+          onRequestClose={() => {
+            console.log('Modal has been closed.');
+          }}>
+          <View style={{flex: 1}}>
+            <TouchableOpacity
+              onPress={() => showModal(false)}
+              style={{flex: 1}}
+            />
 
-      {isDatePickerVisible && (
-        <MonthPicker
-          onChange={onChangeDate}
-          value={new Date()}
-          enableAutoDarkMode={false}
-          outputFormat='DD.MM.YYYY'
-          okButton={_.t('selectButtonText')}
-          cancelButton={_.t('cancelButtonText')}
-          locale={locales[0].languageCode}
-        />
+            <View style={{flex: 1}}>{datePicker()}</View>
+          </View>
+        </Modal>
       )}
 
       <ModalAlert

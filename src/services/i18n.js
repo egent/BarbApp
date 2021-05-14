@@ -9,9 +9,31 @@ import uk from "./locales/uk";
 const locales = RNLocalize.getLocales();
 
 if (Array.isArray(locales)) {
-  I18n.defaultLocale = "ru-RU";  
-  I18n.locale = locales[0].languageTag;
+  I18n.defaultLocale = "ru";  
+  I18n.locale = locales[0].languageCode;
 }
+
+
+// янв
+// фев
+// мар
+// апр
+// мая
+// июн
+// июл
+// авг
+// сен
+// окт
+// ноя
+// дек
+
+// I18n.translations = {
+//   ru: {
+//     date: {
+//       abbr_month_names: [null, "янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"],
+//     }
+//   }
+// };
 
 I18n.fallbacks = true;
 I18n.translations = {

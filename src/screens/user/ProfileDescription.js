@@ -15,7 +15,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Preloader from '../../components/PreLoader';
 import DateSelector from '../../components/ui/DateSelector';
-import DateMonthSelector from '../../components/ui/DateMonthSelector';
+// import DateMonthSelector from '../../components/ui/DateMonthSelector';
 import ValidationAlert from '../../components/modal/ValidationAlert';
 import _ from '../../services/i18n';
 import {
@@ -144,9 +144,15 @@ const ProfileDescription = ({navigation}) => {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
+
+        // console.log(response);
+
+        const {data, isVertical, originalRotation} = response;
         dispatch(
           uploadPhotoRequest({
-            image: 'data:image/jpeg;base64,' + response.data,
+            image: 'data:image/jpeg;base64,' + data,
+            isVertical, 
+            originalRotation
           }),
         );
 
@@ -163,6 +169,7 @@ const ProfileDescription = ({navigation}) => {
   }
 
   return (
+    <>
     <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
       <ValidationAlert
         title="fill_fields"
@@ -235,17 +242,27 @@ const ProfileDescription = ({navigation}) => {
           setDate={setUserBirthday}
         />
 
-        <DateMonthSelector
+        <DateSelector
+          title="work_experience"
+          removeDateTitle="delete_experience_title"
+          value={form.skill}
+          setDate={setUserSkill}
+          formatYearsAgo={true}
+        />
+
+      {/* <DateMonthSelector
           title="work_experience"
           removeDateTitle="delete_experience_title"
           value={form.skill}
           setDate={setUserSkill}
           formatYearsAgo={true}
           setDateTitle="set_experience_date"
-        />
-        <View style={{marginVertical: 250}} />
+        /> */}
+      
       </View>
     </KeyboardAwareScrollView>
+   
+    </>
   );
 };
 

@@ -20,6 +20,7 @@
 		3E8F42E50FFB727BA4FC0C4B /* libPods-barbapp-barbappTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB4CF8F73CA48EBAA2CB3F7 /* libPods-barbapp-barbappTests.a */; };
 		4B195C7A24A8C06E00ED7E79 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B195C7924A8C06E00ED7E79 /* Launch Screen.storyboard */; };
 		4B82B3E5262DC65100C3D586 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4B82B3E4262DC65100C3D586 /* GoogleService-Info.plist */; };
+		4BD38ABF264D317600AD781D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4BD38AC1264D317600AD781D /* Localizable.strings */; };
 		57B1A8191E70C1947A34301C /* libPods-barbapp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A70016D556E3FF85D02B31C8 /* libPods-barbapp-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,8 @@
 		4B195C7924A8C06E00ED7E79 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		4B82B3E4262DC65100C3D586 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "barbapp/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4B9BC7A124A6592600A9CC15 /* Barb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Barb.entitlements; path = barbapp/Barb.entitlements; sourceTree = "<group>"; };
+		4BD38AC0264D317600AD781D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4BD38AC6264D318600AD781D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		634C91E962D6114094EB6DC8 /* libPods-barbapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-barbapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A7104A1183EFA5FF9982B27 /* libPods-barbapp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-barbapp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9630D340534C88BEEDA8395F /* Pods-barbapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-barbapp.release.xcconfig"; path = "Target Support Files/Pods-barbapp/Pods-barbapp.release.xcconfig"; sourceTree = "<group>"; };
@@ -136,6 +139,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				4B195C7924A8C06E00ED7E79 /* Launch Screen.storyboard */,
+				4BD38AC1264D317600AD781D /* Localizable.strings */,
 			);
 			name = barbapp;
 			sourceTree = "<group>";
@@ -321,6 +325,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -348,6 +353,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B195C7A24A8C06E00ED7E79 /* Launch Screen.storyboard in Resources */,
+				4BD38ABF264D317600AD781D /* Localizable.strings in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				4B82B3E5262DC65100C3D586 /* GoogleService-Info.plist in Resources */,
 			);
@@ -683,6 +689,18 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		4BD38AC1264D317600AD781D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4BD38AC0264D317600AD781D /* ru */,
+				4BD38AC6264D318600AD781D /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -736,7 +754,7 @@
 				CODE_SIGN_ENTITLEMENTS = barbapp/Barb.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = X3A5V4WS24;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -809,7 +827,7 @@
 				CODE_SIGN_ENTITLEMENTS = barbapp/Barb.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = X3A5V4WS24;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

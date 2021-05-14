@@ -24,6 +24,7 @@ import "moment/locale/ru";
 import "moment/locale/uk";
 moment.locale(locales[0].languageCode)
 
+
 // moment.updateLocale('en', {
 //   relativeTime : {
       // future: "in %s",

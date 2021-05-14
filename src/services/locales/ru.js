@@ -1,5 +1,9 @@
 export default {
 
+    date: {
+        abbr_month_names: [null, "янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"],
+    },
+
     // Error messages
     timeout_error: 'Ошибка сетевого подключения.',
     error: 'Ошибка',
@@ -20,7 +24,6 @@ export default {
     logout: 'Выйти',  
     send_password: 'Отправить пароль',
     send_password_phone: 'Пароль отправлен на номер {{phone}}',
-
     // Registration Screen
     registration_master: 'РЕГИСТРАЦИЯ МАСТЕРА',
     registration: 'Регистрация',

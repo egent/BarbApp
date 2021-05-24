@@ -150,8 +150,6 @@ export default {
     choose_date: "Указать дату",
     choose_experience: "Указать опыт",
     choose_experience_android: "Указать начало карьеры",
-
-
     select: "Выбрать",
     select_date: "Выберите дату",
     delete_birth_day: "Удалить дату рождения?",
@@ -162,6 +160,15 @@ export default {
     work_start: 'Начало работы',
     work_start_picker: 'Месяц и год старта карьеры',
     set_experience_date: 'Указать начало карьеры',
+
+    // places
+    'master_locations': 'Места приема',
+    'in_office': 'В салоне',
+    'in_house': 'На дому', 
+    'in_client_location': 'Выезд к клиенту',
+    'add_office_location': 'Добавить салон',
+    'add_master_location': 'Добавить адрес',
+    'add_client_location': 'Указать районы выезда',
 };
 
   

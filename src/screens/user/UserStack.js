@@ -15,6 +15,7 @@ import ShowImage from './ShowImage';
 import UserAgreement from '../auth/Agreement';
 import SpecsScreen from '../../screens/user/Specs';
 import ProfileDescription from '../../screens/user/ProfileDescription';
+import PointsList from '../../screens/user/points/PointsList';
 
 import Test from '../../screens/user/~Profile'; // tot delete in production
 
@@ -169,6 +170,19 @@ const UserStackScreens = ({navigation}) => (
         },
         headerStyle: styles.headerStyle,
         headerTitleStyle: styles.headerTitleStyle,
+      })}
+    />
+    <UserStack.Screen
+      name="PointsList"
+      component={PointsList}
+      options={({navigation, route}) => ({
+        headerShown: true,
+        headerTitle: _.t('master_locations'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} />
+        ),
+        headerStyle: styles.headerStyle,
+        headerTitleStyle: [styles.headerTitleStyle, {color: '#86888B'}],
       })}
     />
     <UserStack.Screen

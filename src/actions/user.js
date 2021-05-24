@@ -104,6 +104,11 @@ export const types = {
         SUCCESS: 'PROFILE_DESCRIPTION_UPDATE.SUCCESS',
         FAILURE: 'PROFILE_DESCRIPTION_UPDATE.FAILURE',
     },
+    GET_WORKPLACES: {
+        REQUEST: 'GET_WORKPLACES.REQUEST',
+        SUCCESS: 'GET_WORKPLACES.SUCCESS',
+        FAILURE: 'GET_WORKPLACES.FAILURE',
+    }
 };
 
 const authRequest = data => ({
@@ -416,6 +421,21 @@ const profileDescriptionUpdateFailure = data => ({
     ...data,
 });
 
+const getWorkplacesRequest = data => ({
+    type: types.GET_WORKPLACES.REQUEST,
+    ...data,
+});
+
+const getWorkplacesSuccess = data => ({
+    type: types.GET_WORKPLACES.SUCCESS,
+    ...data,
+});
+
+const getWorkplacesFailure = data => ({
+    type: types.GET_WORKPLACES.FAILURE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -479,4 +499,7 @@ export {
     profileDescriptionUpdateRequest,
     profileDescriptionUpdateSuccess,
     profileDescriptionUpdateFailure,
+    getWorkplacesRequest,
+    getWorkplacesSuccess,
+    getWorkplacesFailure,
 };

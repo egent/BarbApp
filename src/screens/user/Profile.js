@@ -11,7 +11,11 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
 import _ from '../../services/i18n';
-import {specsRequest, profileDescriptionsRequest} from '../../actions/user';
+import {
+  specsRequest,
+  profileDescriptionsRequest,
+  getWorkplacesRequest,
+} from '../../actions/user';
 import Preloader from '../../components/PreLoader';
 
 import businessCenter from '../../assets/images/menu/business_center.png';
@@ -50,7 +54,7 @@ const menu = [
     check: true,
     counter: null,
     icon: <Image source={iconMarker} width={24} height={24} />,
-    screenName: '',
+    screenName: 'PointsList',
   },
   {
     id: 4,
@@ -103,6 +107,7 @@ const Profile = ({navigation}) => {
     info,
     loading,
     specsUser,
+    workspaces,
     profileDescription: {description, image},
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -110,6 +115,7 @@ const Profile = ({navigation}) => {
   useEffect(() => {
     dispatch(specsRequest());
     dispatch(profileDescriptionsRequest());
+    dispatch(getWorkplacesRequest());
   }, []);
 
   if (loading) {
@@ -121,13 +127,22 @@ const Profile = ({navigation}) => {
     menu[0].alertPoint = false;
   } else {
     menu[0].alertPoint = true;
-    menu[0].subTitle  = '';
+    menu[0].subTitle = '';
   }
 
   if (description !== undefined && description.length === 0) {
     menu[1].alertPoint = true;
   } else {
     menu[1].alertPoint = false;
+  }
+
+  menu[2].alertPoint = true;
+  if (
+    workspaces[1].data.length > 0 ||
+    workspaces[2].data.length > 0 ||
+    workspaces[3].data.length > 0
+  ) {
+    menu[2].alertPoint = false;
   }
 
   return (

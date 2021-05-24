@@ -51,6 +51,8 @@ import {
   profileDescriptionsFailure,
   profileDescriptionUpdateSuccess,
   profileDescriptionUpdateFailure,
+  getWorkplacesSuccess,
+  getWorkplacesFailure,
 } from '../actions/user';
 import {
   getClientId,
@@ -76,6 +78,7 @@ import {
   ENDPOINT_DELETE_DIALOGS,
   ENDPOINT_SPECS,
   ENDPOINT_PROFILE_DESCRIPTIONS,
+  ENDPOINT_GET_WORKPLACES,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -537,6 +540,23 @@ function* profileDescriptionUpdateSaga(params) {
   }
 }
 
+function* getWorkspacesSaga() {
+  const token = yield select(getAccessToken);
+  const response = yield call(api, ENDPOINT_GET_WORKPLACES, 'GET', {}, token);
+
+  if (response.status === 200) {
+    yield put(
+      getWorkplacesSuccess({data: response.data}),
+    );
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(getWorkplacesFailure({}));
+  }
+}
+
+
 function* watchAuthSaga() {
   yield takeLatest(types.AUTH.REQUEST, authSaga);
 }
@@ -617,6 +637,10 @@ function* watchProfileDescriptionUpdateSaga() {
   yield takeLatest(types.PROFILE_DESCRIPTION_UPDATE.REQUEST, profileDescriptionUpdateSaga);
 }
 
+function* watchGetWorkspacesSaga() {
+  yield takeLatest(types.GET_WORKPLACES.REQUEST, getWorkspacesSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -637,5 +661,6 @@ export {
   watchSpecsSaga,
   watchSpecsSetSaga,
   watchProfileDescriptionsSaga,
-  watchProfileDescriptionUpdateSaga
+  watchProfileDescriptionUpdateSaga,
+  watchGetWorkspacesSaga,
 };

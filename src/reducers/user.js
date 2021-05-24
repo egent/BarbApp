@@ -22,6 +22,7 @@ const defaultState = {
   specs: [],
   specsUser: [],
   profileDescription: {},
+  workspaces: {},
 };
 
 const initialState = {
@@ -356,7 +357,6 @@ export default function user(state = initialState, action = {}) {
     case types.PROFILE_DESCRIPTION_UPDATE.SUCCESS:
       return {
         ...state,
-
         loading: false,
       };
     case types.PROFILE_DESCRIPTION_UPDATE.FAILURE:
@@ -364,6 +364,12 @@ export default function user(state = initialState, action = {}) {
         ...state,
         loading: false,
       };
+      case types.GET_WORKPLACES.SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          workspaces: action.data.addresses,
+        };
     default:
       return state;
   }

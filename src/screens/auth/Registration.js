@@ -47,6 +47,7 @@ const Registration = ({navigation}) => {
           value={city?.name}
           data={cities}
           saveData={setCity}
+          colorArrow="#85C3EC"
         />
         <Input
           label="phone_number"

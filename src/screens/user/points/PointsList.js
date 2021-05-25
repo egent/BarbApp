@@ -14,7 +14,7 @@ const menu = [
     title: 'in_office',
     subTitle: 'add_office_location',
     icon: <Image source={bedIcon} width={24} height={24} />,
-    screenName: '',
+    screenName: 'WorkspaceAdd',
   },
   {
     id: 2,

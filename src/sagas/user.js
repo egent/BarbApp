@@ -53,6 +53,10 @@ import {
   profileDescriptionUpdateFailure,
   getWorkplacesSuccess,
   getWorkplacesFailure,
+  beautyRoomsSuccess,
+  beautyRoomsFailure,
+  cityInfoSuccess,
+  cityInfoFailure,
 } from '../actions/user';
 import {
   getClientId,
@@ -79,6 +83,8 @@ import {
   ENDPOINT_SPECS,
   ENDPOINT_PROFILE_DESCRIPTIONS,
   ENDPOINT_GET_WORKPLACES,
+  ENDPOINT_GET_BEAUTY_ROOMS,
+  ENDPOINT_GET_CITY_INFO,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -556,6 +562,38 @@ function* getWorkspacesSaga() {
   }
 }
 
+function* beautyRoomsSaga() {
+  const token = yield select(getAccessToken);
+  const response = yield call(api, ENDPOINT_GET_BEAUTY_ROOMS, 'POST', {}, token);
+  
+  console.log('response', response); // todo delete in production
+
+  if (response.status === 200) {
+    yield put(
+      beautyRoomsSuccess({data: response.data}),
+    );
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(beautyRoomsFailure({}));
+  }
+}
+
+function* cityInfoSaga() {
+  const token = yield select(getAccessToken);
+  const response = yield call(api, ENDPOINT_GET_CITY_INFO, 'GET', {}, token);
+  if (response.status === 200) {
+    yield put(
+      cityInfoSuccess({data: response.data}),
+    );
+  } else if (response.status === 401) {
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(cityInfoFailure({}));
+  }
+}
 
 function* watchAuthSaga() {
   yield takeLatest(types.AUTH.REQUEST, authSaga);
@@ -641,6 +679,14 @@ function* watchGetWorkspacesSaga() {
   yield takeLatest(types.GET_WORKPLACES.REQUEST, getWorkspacesSaga);
 }
 
+function* watchBeautyRoomsSaga() {
+  yield takeLatest(types.BEAUTY_ROOMS.REQUEST, beautyRoomsSaga);
+}
+
+function* watchCityInfoSaga() {
+  yield takeLatest(types.CITY_INFO.REQUEST, cityInfoSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -663,4 +709,6 @@ export {
   watchProfileDescriptionsSaga,
   watchProfileDescriptionUpdateSaga,
   watchGetWorkspacesSaga,
+  watchBeautyRoomsSaga,
+  watchCityInfoSaga,
 };

@@ -22,6 +22,8 @@ import {
     watchProfileDescriptionsSaga,
     watchProfileDescriptionUpdateSaga,
     watchGetWorkspacesSaga,
+    watchBeautyRoomsSaga,
+    watchCityInfoSaga,
 } from './user';
 
 export default function* rootSaga() {
@@ -48,5 +50,7 @@ export default function* rootSaga() {
         watchProfileDescriptionsSaga(),
         watchProfileDescriptionUpdateSaga(),
         watchGetWorkspacesSaga(),
+        watchBeautyRoomsSaga(),
+        watchCityInfoSaga(),
     ]);
 }

@@ -31,7 +31,20 @@ const initialState = {
   client_secret: 'bwtAjwvRw6lnQdfOKkMHmcJ7JAxF0QwOP6wqaln1',
   phone: '+380',
   password: '',
-  ...defaultState
+  ...defaultState,
+  city_info: null,
+  // add workspace 
+  beauty_name: '',
+  beauty_data: null,
+  district_select: null,
+  sub_district: null,
+  metro: null,
+  sub_district_select: null,
+  metro_select_string: '',
+  metro_select_array: null,
+  workspace_address: '',
+  workspace_address_comment: '',
+  workspace_phones: [],
 };
 
 export default function user(state = initialState, action = {}) {
@@ -364,12 +377,49 @@ export default function user(state = initialState, action = {}) {
         ...state,
         loading: false,
       };
-      case types.GET_WORKPLACES.SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          workspaces: action.data.addresses,
-        };
+    case types.GET_WORKPLACES.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        workspaces: action.data.addresses,
+      };
+    case types.FORM.SET:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case types.BEAUTY_ROOMS.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.BEAUTY_ROOMS.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        beauty_data: action.data,
+      };
+    case types.BEAUTY_ROOMS.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.CITY_INFO.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.CITY_INFO.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        city_info: action.data,
+      };
+    case types.CITY_INFO.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

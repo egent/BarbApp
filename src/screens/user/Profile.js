@@ -15,6 +15,7 @@ import {
   specsRequest,
   profileDescriptionsRequest,
   getWorkplacesRequest,
+  cityInfoRequest,
 } from '../../actions/user';
 import Preloader from '../../components/PreLoader';
 
@@ -116,6 +117,7 @@ const Profile = ({navigation}) => {
     dispatch(specsRequest());
     dispatch(profileDescriptionsRequest());
     dispatch(getWorkplacesRequest());
+    dispatch(cityInfoRequest());
   }, []);
 
   if (loading) {
@@ -138,9 +140,11 @@ const Profile = ({navigation}) => {
 
   menu[2].alertPoint = true;
   if (
-    workspaces[1].data.length > 0 ||
-    workspaces[2].data.length > 0 ||
-    workspaces[3].data.length > 0
+    workspaces !== undefined &&
+    workspaces.length > 0 &&
+    (workspaces[1].data.length > 0 ||
+      workspaces[2].data.length > 0 ||
+      workspaces[3].data.length > 0)
   ) {
     menu[2].alertPoint = false;
   }

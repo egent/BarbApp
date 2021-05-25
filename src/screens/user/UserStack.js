@@ -16,6 +16,7 @@ import UserAgreement from '../auth/Agreement';
 import SpecsScreen from '../../screens/user/Specs';
 import ProfileDescription from '../../screens/user/ProfileDescription';
 import PointsList from '../../screens/user/points/PointsList';
+import WorkspaceAdd from '../../screens/user/points/WorkspaceAdd';
 
 import Test from '../../screens/user/~Profile'; // tot delete in production
 
@@ -183,6 +184,32 @@ const UserStackScreens = ({navigation}) => (
         ),
         headerStyle: styles.headerStyle,
         headerTitleStyle: [styles.headerTitleStyle, {color: '#86888B'}],
+      })}
+    />
+    <UserStack.Screen
+      name="WorkspaceAdd"
+      component={WorkspaceAdd}
+      options={({navigation, route}) => ({
+        headerShown: true,
+        headerTitle: _.t('workspace_settings'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} icon="close" />
+        ),
+        headerRight: (props) => {
+          try {
+            return (
+              <HeaderRightIcon
+                {...props}
+                icon="done"
+                onPress={route.params.onPress}
+              />
+            );
+          } catch (e) {
+            return null;
+          }
+        },
+        headerStyle: styles.headerStyle,
+        headerTitleStyle: styles.headerTitleStyle,
       })}
     />
     <UserStack.Screen

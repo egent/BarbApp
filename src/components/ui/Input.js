@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, TextInput, StyleSheet, Dimensions} from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
+import {TextInputMask} from 'react-native-masked-text';
 import _ from '../../services/i18n';
 const {width} = Dimensions.get('window');
 
@@ -13,10 +13,17 @@ const Input = ({
   autoCapitalize = 'none',
   keyboardType = 'default',
   mask = false,
+  required = false,
+  showLabel = true,
 }) => {
   return (
     <View style={[styles.container, {...containerStyles}]}>
-      <Text style={styles.label}>{_.t(label)}</Text>
+      {showLabel && (
+        <Text style={styles.label}>
+          {_.t(label)}
+          {required && <Text> ({_.t('required')})</Text>}
+        </Text>
+      )}
       {mask === false ? (
         <TextInput
           style={styles.field}
@@ -42,7 +49,7 @@ const Input = ({
           autoCapitalize={autoCapitalize}
           keyboardType={keyboardType}
           autofocus={true}
-        /> 
+        />
       )}
       {help.length > 0 && <Text style={styles.help}>{_.t(help)}</Text>}
     </View>

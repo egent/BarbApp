@@ -169,6 +169,18 @@ export default {
     'add_office_location': 'Добавить салон',
     'add_master_location': 'Добавить адрес',
     'add_client_location': 'Указать районы выезда',
+    'workspace_settings': 'Настройки салона',
+    'beauty_room_name': 'Название салона',
+    'required': 'обязательно',
+    'district': 'Район города',
+    'sub_district': 'Микрорайон',
+    'metro': 'Метро',
+    'workspace_address': 'Адрес - улица, дом',
+    'workspace_address_comment': 'Комментарий к адресу',
+    'add_phone': 'Комментарий к адресу',
+    'workspace_phone': 'Телефон для записи',
+    'phone_add': 'Добавить телефон',
+
 };
 
   

@@ -12,8 +12,9 @@ const ENDPOINT_USER_INFO_FULL = BACKEND_URL_PREFIX + '/profile';
 const ENDPOINT_DELETE_DIALOGS = BACKEND_URL + '/api-dialog/delete';
 const ENDPOINT_SPECS = BACKEND_URL_PREFIX + '/profile/specs';
 const ENDPOINT_PROFILE_DESCRIPTIONS = BACKEND_URL_PREFIX +'/profile/descriptions';
-const ENDPOINT_GET_WORKPLACES = BACKEND_URL_PREFIX +'/workplaces';
-
+const ENDPOINT_GET_WORKPLACES = BACKEND_URL_PREFIX + '/workplaces';
+const ENDPOINT_GET_BEAUTY_ROOMS = BACKEND_URL_PREFIX + '/workplaces/new/get-salons';
+const ENDPOINT_GET_CITY_INFO = BACKEND_URL_PREFIX + '/workplaces/new/get-city-info';
 
 // todo delete in production
 
@@ -43,5 +44,6 @@ export {
     ENDPOINT_DIALOGS,
     ENDPOINT_DIALOG,
     ENDPOINT_SAVE_PUSH_TOKEN,
-
+    ENDPOINT_GET_BEAUTY_ROOMS,
+    ENDPOINT_GET_CITY_INFO,
 };

@@ -108,7 +108,20 @@ export const types = {
         REQUEST: 'GET_WORKPLACES.REQUEST',
         SUCCESS: 'GET_WORKPLACES.SUCCESS',
         FAILURE: 'GET_WORKPLACES.FAILURE',
-    }
+    },
+    FORM: {
+        SET: 'FORM.SET',
+    },
+    BEAUTY_ROOMS: {
+        REQUEST: 'BEAUTY_ROOMS.REQUEST',
+        SUCCESS: 'BEAUTY_ROOMS.SUCCESS',
+        FAILURE: 'BEAUTY_ROOMS.FAILURE',
+    },
+    CITY_INFO: {
+        REQUEST: 'CITY_INFO.REQUEST',
+        SUCCESS: 'CITY_INFO.SUCCESS',
+        FAILURE: 'CITY_INFO.FAILURE',
+    },
 };
 
 const authRequest = data => ({
@@ -436,6 +449,41 @@ const getWorkplacesFailure = data => ({
     ...data,
 });
 
+const setForm = data => ({
+    type: types.FORM.SET,
+    ...data,
+});
+
+const beautyRoomsRequest = data => ({
+    type: types.BEAUTY_ROOMS.REQUEST,
+    ...data,
+});
+
+const beautyRoomsSuccess = data => ({
+    type: types.BEAUTY_ROOMS.SUCCESS,
+    ...data,
+});
+
+const beautyRoomsFailure = data => ({
+    type: types.BEAUTY_ROOMS.FAILURE,
+    ...data,
+});
+
+const cityInfoRequest = data => ({
+    type: types.CITY_INFO.REQUEST,
+    ...data,
+});
+
+const cityInfoSuccess = data => ({
+    type: types.CITY_INFO.SUCCESS,
+    ...data,
+});
+
+const cityInfoFailure = data => ({
+    type: types.CITY_INFO.FAILURE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -502,4 +550,11 @@ export {
     getWorkplacesRequest,
     getWorkplacesSuccess,
     getWorkplacesFailure,
+    setForm,
+    beautyRoomsRequest,
+    beautyRoomsSuccess,
+    beautyRoomsFailure,
+    cityInfoRequest,
+    cityInfoSuccess,
+    cityInfoFailure,
 };

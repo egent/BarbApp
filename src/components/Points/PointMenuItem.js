@@ -9,7 +9,7 @@ const PointMenuItem = ({id, title, subTitle, icon, screenName, navigation}) => {
         {icon}
         <Text style={styles.title}>{_.t(title)}</Text>
       </View>
-      <TouchableOpacity onPress={()=>{}}>
+      <TouchableOpacity onPress={()=>{navigation.navigate('WorkspaceAdd')}}>
         <Text style={styles.subTitle}>{_.t(subTitle)}</Text>
       </TouchableOpacity>
     </View>

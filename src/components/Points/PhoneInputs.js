@@ -6,23 +6,31 @@ import _ from '../../services/i18n';
 import {setForm} from '../../actions/user';
 
 const PhoneInputs = () => {
-  const {workspace_phones} = useSelector((state) => state.user);
+  const {workspace_phones, phone} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [data, setData] = useState([...workspace_phones]);
 
   const addPhoneInput = () => {
-    setData((data) => [...data, data.length]);
+    setData((data) => [...data, '']);
   };
 
   const setPhone = (phone, index) => {
-    const phones = [...workspace_phones];
+    let phones = [...workspace_phones];
     phones[index] = phone;
+
+    phones = phones.filter((p) => p.length > 0);
     dispatch(setForm({payload: {workspace_phones: phones}}));
+    setData([...phones]);
   };
 
   return (
     <>
       {data.map((v, i) => {
+        let wPhone = v;
+        if (i === 0 && wPhone.length === 0) {
+          setPhone(phone, 0);
+        }
+
         return (
           <Input
             label="workspace_phone"
@@ -32,6 +40,12 @@ const PhoneInputs = () => {
             }}
             required={true}
             showLabel={i === 0 ? true : false}
+            keyboardType="phone-pad"
+            mask={{
+            mask: '+389999999999',
+            validator: (value, settings) =>
+              value.length === settings.mask.length,
+          }}
           />
         );
       })}

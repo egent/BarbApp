@@ -1,0 +1,151 @@
+import React, {useState} from 'react';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDispatch, useSelector} from 'react-redux';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import * as RNLocalize from 'react-native-localize';
+import {setForm} from '../../../actions/user';
+import _ from '../../../services/i18n';
+
+const locales = RNLocalize.getLocales();
+
+const ScheduleDays = () => {
+  const dispatch = useDispatch();
+  const {scheduleDays} = useSelector((state) => state.user);
+  const [isTimePickerVisible, setVisibleTimePicker] = useState(false);
+
+  const setWorkDay = (d) => {
+    const days = [...scheduleDays];
+    days.map((item) => {
+      if (d.id === item.id) {
+        item.workday = d.workday === 'on' ? 'off' : 'on';
+      }
+    });
+    dispatch(setForm({payload: {scheduleDays: days}}));
+  };
+
+  const setTime = (time) => {
+    console.log('time', time);
+  };
+
+  const openSelectTimeModal = (day, time) => {
+
+    // todo ... 
+    // todo set title
+
+    setVisibleTimePicker(true);
+  }
+
+  return (
+    <>
+    <View style={styles.container}>
+      <Text style={styles.title}>{_.t('work_time')}</Text>
+      {scheduleDays.map((day) => {
+        return (
+          <View style={styles.item}>
+            <View style={styles.name}>
+              <Text
+                style={[
+                  styles.day,
+                  {color: day.workday === 'on' ? '#000' : '#C6C6C6'},
+                ]}>
+                {_.t(day.title)}
+              </Text>
+            </View>
+
+            <View style={styles.time}>
+              {day.workday === 'on' ? (
+                <>
+                  <TouchableOpacity onPress={() => {
+                    openSelectTimeModal(day, 'from')
+                  }}>
+                    <Text style={styles.timeTxt}>{day.time_from}</Text>
+                  </TouchableOpacity>
+                  <Text> - </Text>
+                  <TouchableOpacity>
+                    <Text style={styles.timeTxt}>{day.time_to}</Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <Text style={[styles.dayOff]}>{_.t('day_off')}</Text>
+              )}
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                setWorkDay(day);
+              }}
+              style={styles.icon}>
+              <Icon
+                size={32}
+                color={day.workday === 'on' ? '#6DB7E8' : '#BEC3C7'}
+                name={
+                  day.workday === 'on'
+                    ? 'toggle-switch-outline'
+                    : 'toggle-switch-off-outline'
+                }
+              />
+            </TouchableOpacity>
+          </View>
+        );
+      })}
+    </View>
+    <DateTimePickerModal
+        locale={locales[0].languageTag}
+        isVisible={isTimePickerVisible}
+        mode="time"
+        onConfirm={setTime}
+        onCancel={() => setVisibleTimePicker(false)}
+        isDarkModeEnabled={false}
+        // headerTextIOS={_.t(headerTextIOS)}
+        cancelTextIOS={_.t('cancel')}
+        confirmTextIOS={_.t('select')}
+        isDarkModeEnabled={false}
+        display="spinner"
+      />
+    </>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 14,
+    color: '#B6B8BC',
+    marginBottom: 20,
+  },
+  item: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  name: {
+    flex: 3,
+    justifyContent: 'center',
+  },
+  day: {
+    fontSize: 14,
+  },
+  time: {
+    flex: 3,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    flex: 1,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  timeTxt: {
+    color: '#6DB7E8',
+    alignItems: 'center',
+  },
+  dayOff: {
+    fontSize: 14,
+    color: '#B6B8BC',
+  },
+});
+
+export default ScheduleDays;

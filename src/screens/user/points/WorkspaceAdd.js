@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Input from '../../../components/ui/Input';
 import SelectInput from '../../../components/ui/SelectInput';
 import PhoneInputs from '../../../components/Points/PhoneInputs';
+import Schedule from '../../../components/Points/Schedule/Schedule';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {setForm, beautyRoomsRequest} from '../../../actions/user';
 
@@ -106,7 +107,7 @@ const WorkspaceAdd = ({navigation}) => {
       showsVerticalScrollIndicator={false}
       style={styles.container}
       keyboardShouldPersistTaps="always">
-      <View>
+      {/* <View>
         <Input
           label="beauty_room_name"
           value={beauty_name}
@@ -153,7 +154,11 @@ const WorkspaceAdd = ({navigation}) => {
         setData={setWorkspaceAddressComment}
       />
 
-      <PhoneInputs />
+      <PhoneInputs /> */}
+
+      <Schedule />
+
+      <View style={{marginVertical: 50}} />
 
     </KeyboardAwareScrollView>
   );

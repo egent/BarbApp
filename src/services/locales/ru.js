@@ -180,7 +180,20 @@ export default {
     'add_phone': 'Комментарий к адресу',
     'workspace_phone': 'Телефон для записи',
     'phone_add': 'Добавить телефон',
-
+    'schedule': 'График работы',
+    'schedule_day': 'По дням недели',
+    'schedule_odd': 'Четные/нечетные', 
+    'schedule_no': 'Нет графика',
+    'schedule_default': 'Работаю по записи без четкого графика работы',
+    'monday': 'Понедельник',
+    'tuesday': 'Вторник',
+    'wednesday': 'Среда',
+    'thursday': 'Четверг',
+    'friday': 'Пятница',
+    'saturday': 'Суббота',
+    'sunday': 'Воскресенье',
+    'work_time': 'Время работы',
+    'day_off': 'выходной',
 };
 
   

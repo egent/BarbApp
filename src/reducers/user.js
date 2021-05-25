@@ -1,5 +1,57 @@
 import {types} from '../actions/user';
 
+const days = [
+  {
+    id: 1,
+    title: 'monday',
+    'workday': 'on',
+    'time_from': '09:00',
+    'time_to': '20:00',
+  },
+  {
+    id: 2,
+    title: 'tuesday',
+    'workday': 'on',
+    'time_from': '09:00',
+    'time_to': '20:00',
+  },
+  {
+    id: 3,
+    title: 'wednesday',
+    'workday': 'on',
+    'time_from': '09:00',
+    'time_to': '20:00',
+  },
+  {
+    id: 4,
+    title: 'thursday',
+    'workday': 'on',
+    'time_from': '09:00',
+    'time_to': '20:00',
+  },
+  {
+    id: 5,
+    title: 'friday',
+    'workday': 'on',
+    'time_from': '09:00',
+    'time_to': '20:00',
+  },
+  {
+    id: 6,
+    title: 'saturday',
+    'workday': 'off',
+    'time_from': '09:00',
+    'time_to': '20:00',
+  },
+  {
+    id: 7,
+    title: 'sunday',
+    'workday': 'off',
+    'time_from': '09:00',
+    'time_to': '20:00',
+  },
+];
+
 const defaultState = {
   loading: false,
   logIn: false,
@@ -45,6 +97,9 @@ const initialState = {
   workspace_address: '',
   workspace_address_comment: '',
   workspace_phones: [],
+  scheduleDays: days,
+  scheduleMenuActive: 3,
+
 };
 
 export default function user(state = initialState, action = {}) {

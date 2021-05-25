@@ -30,7 +30,6 @@ const PhoneInputs = () => {
         if (i === 0 && wPhone.length === 0) {
           setPhone(phone, 0);
         }
-
         return (
           <Input
             label="workspace_phone"
@@ -49,7 +48,6 @@ const PhoneInputs = () => {
           />
         );
       })}
-
       <TouchableOpacity onPress={addPhoneInput}>
         <Text style={styles.addPhone}>{_.t('phone_add')}</Text>
       </TouchableOpacity>

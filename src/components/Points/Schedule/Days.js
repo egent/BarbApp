@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,11 +9,14 @@ import {setForm} from '../../../actions/user';
 import _ from '../../../services/i18n';
 
 const locales = RNLocalize.getLocales();
+const DEFAULT_MINUTES = new Date().setMinutes(0);
 
 const ScheduleDays = () => {
   const dispatch = useDispatch();
   const {scheduleDays} = useSelector((state) => state.user);
   const [isTimePickerVisible, setVisibleTimePicker] = useState(false);
+  const [timePickerTitle, setTimePickerTitle] = useState('');
+  const [timeParams, setTimeParams] = useState(null);
 
   const setWorkDay = (d) => {
     const days = [...scheduleDays];
@@ -25,14 +29,28 @@ const ScheduleDays = () => {
   };
 
   const setTime = (time) => {
-    console.log('time', time);
+    if (timeParams !== null) {
+      const selectedTime = moment(time).format('HH:mm');
+      const days = [...scheduleDays];
+      days.map((item) => {
+        if (timeParams.day.id === item.id) {
+          if (timeParams.type === 'from') {
+            item.time_from = selectedTime;
+          } else {
+            item.time_to = selectedTime;
+          }
+        }
+      });
+      dispatch(setForm({payload: {scheduleDays: days}}));
+      setVisibleTimePicker(false);
+    }
   };
 
-  const openSelectTimeModal = (day, time) => {
-
-    // todo ... 
-    // todo set title
-
+  const openSelectTimeModal = (day, type) => {
+    setTimeParams({
+      day, type
+    });
+    setTimePickerTitle(`${_.t(day.title)} - ${_.t(type)}`)
     setVisibleTimePicker(true);
   }
 
@@ -62,7 +80,9 @@ const ScheduleDays = () => {
                     <Text style={styles.timeTxt}>{day.time_from}</Text>
                   </TouchableOpacity>
                   <Text> - </Text>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={() => {
+                    openSelectTimeModal(day, 'to')
+                  }}>
                     <Text style={styles.timeTxt}>{day.time_to}</Text>
                   </TouchableOpacity>
                 </>
@@ -97,11 +117,12 @@ const ScheduleDays = () => {
         onConfirm={setTime}
         onCancel={() => setVisibleTimePicker(false)}
         isDarkModeEnabled={false}
-        // headerTextIOS={_.t(headerTextIOS)}
+        headerTextIOS={timePickerTitle}
         cancelTextIOS={_.t('cancel')}
         confirmTextIOS={_.t('select')}
         isDarkModeEnabled={false}
         display="spinner"
+        date={DEFAULT_MINUTES}
       />
     </>
   );

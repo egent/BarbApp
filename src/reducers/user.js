@@ -99,7 +99,7 @@ const initialState = {
   workspace_phones: [],
   scheduleDays: days,
   scheduleMenuActive: 3,
-
+  schedule_odd: false
 };
 
 export default function user(state = initialState, action = {}) {

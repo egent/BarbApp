@@ -17,6 +17,7 @@ import SpecsScreen from '../../screens/user/Specs';
 import ProfileDescription from '../../screens/user/ProfileDescription';
 import PointsList from '../../screens/user/points/PointsList';
 import WorkspaceAdd from '../../screens/user/points/WorkspaceAdd';
+import ScheduleBreak from '../../screens/user/points/ScheduleBreaks';
 
 import Test from '../../screens/user/~Profile'; // tot delete in production
 
@@ -212,6 +213,34 @@ const UserStackScreens = ({navigation}) => (
         headerTitleStyle: styles.headerTitleStyle,
       })}
     />
+
+<UserStack.Screen
+      name="ScheduleBreak"
+      component={ScheduleBreak}
+      options={({navigation, route}) => ({
+        headerShown: true,
+        headerTitle: _.t('breaks'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} icon="close" />
+        ),
+        headerRight: (props) => {
+          try {
+            return (
+              <HeaderRightIcon
+                {...props}
+                icon="done"
+                onPress={() => {navigation.goBack()}}
+              />
+            );
+          } catch (e) {
+            return null;
+          }
+        },
+        headerStyle: styles.headerStyle,
+        headerTitleStyle: styles.headerTitleStyle,
+      })}
+    />
+
     <UserStack.Screen
       name="Test"
       component={Test}
@@ -227,7 +256,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderTopColor: '#7B7B7B',
     height: 60,
-    marginBottom: 0,
   },
   headerTitleStyle: {
     textAlign: 'left',

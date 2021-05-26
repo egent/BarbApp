@@ -1,12 +1,14 @@
-import React, {useEffect} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Input from '../../../components/ui/Input';
 import SelectInput from '../../../components/ui/SelectInput';
 import PhoneInputs from '../../../components/Points/PhoneInputs';
 import Schedule from '../../../components/Points/Schedule/Schedule';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import ValidationAlert from '../../../components/modal/ValidationAlert';
 import {setForm, beautyRoomsRequest} from '../../../actions/user';
+import _ from '../../../services/i18n';
 
 const WorkspaceAdd = ({navigation}) => {
   const dispatch = useDispatch();
@@ -23,9 +25,14 @@ const WorkspaceAdd = ({navigation}) => {
     workspace_address_comment,
     workspace_phones, // todo ??
   } = useSelector((state) => state.user);
+  const [visibleValidationModal, setVisibleValidationModal] = useState(false);
 
   const saveData = () => {
-    console.log('save data');
+    if (beauty_name.length > 0 && workspace_address.length > 0) {
+      // todo save data
+    } else {
+      setVisibleValidationModal(true);
+    }
   };
 
   useEffect(() => {
@@ -37,7 +44,12 @@ const WorkspaceAdd = ({navigation}) => {
   const setBeautyName = (name) => {
     dispatch(setForm({payload: {beauty_name: name}}));
 
-    dispatch(beautyRoomsRequest()); // todo ...
+    dispatch(beautyRoomsRequest()); // todo autocomplete view ...
+  };
+
+
+  const toggleValidationModal = () => {
+    setVisibleValidationModal(!visibleValidationModal);
   };
 
   const setDistricts = (district) => {
@@ -99,7 +111,7 @@ const WorkspaceAdd = ({navigation}) => {
   };
 
   const setWorkspaceAddressComment = (comment) => {
-    dispatch(setForm({payload: {workspace_address_comment: comment}}))
+    dispatch(setForm({payload: {workspace_address_comment: comment}}));
   };
 
   return (
@@ -107,7 +119,7 @@ const WorkspaceAdd = ({navigation}) => {
       showsVerticalScrollIndicator={false}
       style={styles.container}
       keyboardShouldPersistTaps="always">
-      {/* <View>
+      <View>
         <Input
           label="beauty_room_name"
           value={beauty_name}
@@ -124,22 +136,26 @@ const WorkspaceAdd = ({navigation}) => {
         popupTitle="district"
       />
 
-      <SelectInput
-        label="sub_district"
-        data={sub_district}
-        saveData={setSubDistricts}
-        value={sub_district_select?.name}
-        popupTitle="sub_district"
-      />
+      {sub_district !== null && (
+        <SelectInput
+          label="sub_district"
+          data={sub_district}
+          saveData={setSubDistricts}
+          value={sub_district_select?.name}
+          popupTitle="sub_district"
+        />
+      )}
 
-      <SelectInput
-        label="metro"
-        data={metro}
-        saveData={setMetro}
-        value={metro_select_string}
-        isSelectSingle={false}
-        popupTitle="metro"
-      />
+      {metro !== null && (
+        <SelectInput
+          label="metro"
+          data={metro}
+          saveData={setMetro}
+          value={metro_select_string}
+          isSelectSingle={false}
+          popupTitle="metro"
+        />
+      )}
 
       <Input
         label="workspace_address"
@@ -154,12 +170,26 @@ const WorkspaceAdd = ({navigation}) => {
         setData={setWorkspaceAddressComment}
       />
 
-      <PhoneInputs /> */}
+      <PhoneInputs />
 
       <Schedule />
 
+      <Text style={styles.titleBreak}>{_.t('breaks')}</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('ScheduleBreak')}>
+        <Text style={styles.addBreak}>{_.t('break_add')}</Text>
+      </TouchableOpacity>
+
       <View style={{marginVertical: 50}} />
 
+      <ValidationAlert
+        title="fill_fields"
+        visible={visibleValidationModal}
+        toggle={toggleValidationModal}
+        btnOutHandler={() => {
+          setVisibleValidationModal(false);
+          navigation.goBack();
+        }}
+      />
     </KeyboardAwareScrollView>
   );
 };
@@ -167,6 +197,15 @@ const WorkspaceAdd = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     margin: 10,
+  },
+  titleBreak: {
+    color: '#B6B8BC',
+    fontSize: 14,
+  },
+  addBreak: {
+    color: '#6DB7E8',
+    fontSize: 14,
+    marginVertical: 5,
   },
 });
 

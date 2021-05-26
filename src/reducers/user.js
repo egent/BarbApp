@@ -52,6 +52,22 @@ const days = [
   },
 ];
 
+const workspace_breaks = [
+  {
+    start: '12:00',
+    end: '13:00',
+    days: {
+      1: 'off',
+      2: 'off',
+      3: 'off',
+      4: 'off',
+      5: 'off',
+      6: 'off',
+      7: 'off',
+    }
+  }
+];
+
 const defaultState = {
   loading: false,
   logIn: false,
@@ -99,7 +115,8 @@ const initialState = {
   workspace_phones: [],
   scheduleDays: days,
   scheduleMenuActive: 3,
-  schedule_odd: false
+  schedule_odd: false,
+  workspace_breaks,
 };
 
 export default function user(state = initialState, action = {}) {

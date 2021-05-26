@@ -32,6 +32,7 @@ const Schedule = () => {
         {menu.map((m) => {
           return (
             <TouchableOpacity
+              key={`schedule-menu-${m.id}`}
               activeOpacity={0.8}
               onPress={() =>
                 dispatch(setForm({payload: {scheduleMenuActive: m.id}}))
@@ -69,7 +70,7 @@ const Schedule = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 20,
+    marginTop: 10,
   },
   title: {
     fontSize: 14,

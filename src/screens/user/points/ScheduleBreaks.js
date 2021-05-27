@@ -60,10 +60,11 @@ const ScheduleBreaks = ({navigation}) => {
     const {type} = timeParams;
     if (timeParams !== null) {
       const selectedTime = moment(time).format('HH:mm');
-      const breaks = [...workspace_breaks];
+      const breaks = JSON.parse(JSON.stringify(workspace_breaks));
 
       if (type === 'from') {
         breaks[0].start = selectedTime;
+        breaks[0].end = moment(time).add(1, 'hours').format('HH:mm');
       } else {
         breaks[0].end = selectedTime;
       }
@@ -74,7 +75,7 @@ const ScheduleBreaks = ({navigation}) => {
   };
 
   const setDay = (id, active) => {
-    const breaks = [...workspace_breaks];
+    const breaks = JSON.parse(JSON.stringify(workspace_breaks));
     console.log('breaks', breaks[0].days[id])
     breaks[0].days[id] = active ? 'off' : 'on';
     dispatch(setForm({payload: {workspace_breaks: breaks}}));

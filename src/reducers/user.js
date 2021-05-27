@@ -4,51 +4,51 @@ const days = [
   {
     id: 1,
     title: 'monday',
-    'workday': 'on',
-    'time_from': '09:00',
-    'time_to': '20:00',
+    workday: 'on',
+    time_from: '09:00',
+    time_to: '20:00',
   },
   {
     id: 2,
     title: 'tuesday',
-    'workday': 'on',
-    'time_from': '09:00',
-    'time_to': '20:00',
+    workday: 'on',
+    time_from: '09:00',
+    time_to: '20:00',
   },
   {
     id: 3,
     title: 'wednesday',
-    'workday': 'on',
-    'time_from': '09:00',
-    'time_to': '20:00',
+    workday: 'on',
+    time_from: '09:00',
+    time_to: '20:00',
   },
   {
     id: 4,
     title: 'thursday',
-    'workday': 'on',
-    'time_from': '09:00',
-    'time_to': '20:00',
+    workday: 'on',
+    time_from: '09:00',
+    time_to: '20:00',
   },
   {
     id: 5,
     title: 'friday',
-    'workday': 'on',
-    'time_from': '09:00',
-    'time_to': '20:00',
+    workday: 'on',
+    time_from: '09:00',
+    time_to: '20:00',
   },
   {
     id: 6,
     title: 'saturday',
-    'workday': 'off',
-    'time_from': '09:00',
-    'time_to': '20:00',
+    workday: 'off',
+    time_from: '09:00',
+    time_to: '20:00',
   },
   {
     id: 7,
     title: 'sunday',
-    'workday': 'off',
-    'time_from': '09:00',
-    'time_to': '20:00',
+    workday: 'off',
+    time_from: '09:00',
+    time_to: '20:00',
   },
 ];
 
@@ -64,12 +64,13 @@ const workspace_breaks = [
       5: 'off',
       6: 'off',
       7: 'off',
-    }
-  }
+    },
+  },
 ];
 
 const defaultState = {
   loading: false,
+  autoCompleteLoading: false,
   logIn: false,
   city: null,
   access_token: '',
@@ -113,10 +114,10 @@ const initialState = {
   workspace_address: '',
   workspace_address_comment: '',
   workspace_phones: [],
-  scheduleDays: days,
+  scheduleDays: JSON.parse(JSON.stringify(days)),
   scheduleMenuActive: 3,
   schedule_odd: false,
-  workspace_breaks,
+  workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
   // add workspace end
 };
 
@@ -464,18 +465,18 @@ export default function user(state = initialState, action = {}) {
     case types.BEAUTY_ROOMS.REQUEST:
       return {
         ...state,
-        loading: true,
+        autoCompleteLoading: true,
       };
     case types.BEAUTY_ROOMS.SUCCESS:
       return {
         ...state,
-        loading: false,
+        autoCompleteLoading: false,
         beauty_data: action.data,
       };
     case types.BEAUTY_ROOMS.FAILURE:
       return {
         ...state,
-        loading: false,
+        autoCompleteLoading: false,
       };
     case types.CITY_INFO.REQUEST:
       return {
@@ -493,29 +494,43 @@ export default function user(state = initialState, action = {}) {
         ...state,
         loading: false,
       };
-      case types.WORKPLACE_ADD.REQUEST:
-        return {
-          ...state,
-          loading: true,
-        };
-      case types.WORKPLACE_ADD.SUCCESS:
+    case types.WORKPLACE_ADD.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.WORKPLACE_ADD.SUCCESS:
+      // todo clear form data
 
-        // todo clear form data
-
-        return {
-          ...state,
-          loading: false,
-        };
-      case types.WORKPLACE_ADD.FAILURE:
-        return {
-          ...state,
-          loading: false,
-        };
-        case types.BREAKS.DELETE:
-          return {
-            ...state,
-            workspace_breaks: [...workspace_breaks],
-          };       
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.WORKPLACE_ADD.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.BREAKS.DELETE:
+      return {
+        ...state,
+        workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
+      };
+    case types.WORKPLACE_DELETE.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.WORKPLACE_DELETE.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.WORKPLACE_DELETE.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

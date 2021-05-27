@@ -130,6 +130,11 @@ export const types = {
     BREAKS: {
         DELETE: 'BREAKS.DELETE',
     },
+    WORKPLACE_DELETE: {
+        REQUEST: 'WORKPLACE_DELETE.REQUEST',
+        SUCCESS: 'WORKPLACE_DELETE.SUCCESS',
+        FAILURE: 'WORKPLACE_DELETE.FAILURE',
+    },
 };
 
 const authRequest = data => ({
@@ -512,6 +517,21 @@ const breaksDelete = data => ({
     ...data,
 });
 
+const workplaceDeleteRequest = data => ({
+    type: types.WORKPLACE_DELETE.REQUEST,
+    ...data,
+});
+
+const workplaceDeleteSuccess = data => ({
+    type: types.WORKPLACE_DELETE.SUCCESS,
+    ...data,
+});
+
+const workplaceDeleteFailure = data => ({
+    type: types.WORKPLACE_DELETE.FAILURE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -589,4 +609,7 @@ export {
     workplaceAddSuccess,
     workplaceAddFailure,
     breaksDelete,
+    workplaceDeleteRequest,
+    workplaceDeleteSuccess,
+    workplaceDeleteFailure,
 };

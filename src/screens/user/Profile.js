@@ -139,14 +139,17 @@ const Profile = ({navigation}) => {
   }
 
   menu[2].alertPoint = true;
-  if (
-    workspaces !== undefined &&
-    (workspaces[1].data.length > 0 ||
-      workspaces[2].data.length > 0 ||
-      workspaces[3].data.length > 0)
-  ) {
-    menu[2].alertPoint = false;
-  }
+
+  try {
+    if (
+      workspaces !== undefined &&
+      (workspaces[1].data.length > 0 ||
+        workspaces[2].data.length > 0 ||
+        workspaces[3].data.length > 0)
+    ) {
+      menu[2].alertPoint = false;
+    }
+  } catch (error) {}
 
   return (
     <FlatList

@@ -51,6 +51,7 @@ import {
   profileDescriptionsFailure,
   profileDescriptionUpdateSuccess,
   profileDescriptionUpdateFailure,
+  getWorkplacesRequest,
   getWorkplacesSuccess,
   getWorkplacesFailure,
   beautyRoomsSuccess,
@@ -59,6 +60,8 @@ import {
   cityInfoFailure,
   workplaceAddSuccess,
   workplaceAddFailure,
+  workplaceDeleteSuccess,
+  workplaceDeleteFailure,
 } from '../actions/user';
 import {
   getClientId,
@@ -88,6 +91,7 @@ import {
   ENDPOINT_GET_BEAUTY_ROOMS,
   ENDPOINT_GET_CITY_INFO,
   ENDPOINT_WORKPLACE_ADD,
+  ENDPOINT_WORKPLACE_DELETE,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -604,12 +608,9 @@ function* workspaceAddSaga(params) {
 
   const response = yield call(api, ENDPOINT_WORKPLACE_ADD, 'POST', payload, token);
 
-  console.log('response', response);
-  // ;;'''''';;;;;;;;;dddyyyub
-
   if (response.status === 200) {
+    yield put(getWorkplacesRequest()); 
     yield put(workplaceAddSuccess());
-    // yield put(profileDescriptionsRequest()); // todo update list
     
     Toast.show({
       type: 'success',
@@ -627,6 +628,37 @@ function* workspaceAddSaga(params) {
   } else {
     Alert.alert('', response.data.message);
     yield put(workplaceAddFailure({}));
+  }
+}
+
+function* workspaceDeleteSaga(params) {
+  const {address_id, navigation} = params;
+  const token = yield select(getAccessToken);
+
+  const response = yield call(api, ENDPOINT_WORKPLACE_DELETE, 'POST', {address_id}, token);
+
+  if (response.status === 200) {
+    yield put(getWorkplacesRequest()); 
+    yield put(workplaceDeleteSuccess());
+    
+    Toast.show({
+      type: 'success',
+      text2: _.t('updated_success'),
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+
+    if (navigation !== undefined) {
+      navigation.goBack();
+    }
+
+  } else if (response.status === 401) {
+    yield put(workplaceDeleteFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(workplaceDeleteFailure({}));
   }
 }
 
@@ -726,6 +758,10 @@ function* watchWorkspaceAddSaga() {
   yield takeLatest(types.WORKPLACE_ADD.REQUEST, workspaceAddSaga);
 }
 
+function* watchWorkspaceDeleteSaga() {
+  yield takeLatest(types.WORKPLACE_DELETE.REQUEST, workspaceDeleteSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -751,4 +787,5 @@ export {
   watchBeautyRoomsSaga,
   watchCityInfoSaga,
   watchWorkspaceAddSaga,
+  watchWorkspaceDeleteSaga,
 };

@@ -37,13 +37,17 @@ const WorkspaceAdd = ({navigation}) => {
 
   const saveData = () => {
     if (beauty_name.length > 0 && workspace_address.length > 0) {
-      const payload = {
+      let payload = {
         salon_name: beauty_name,
         street: workspace_address,
         workplace: '2',
         id: '-1',
         city_id: info.city.id,
       };
+
+      if (workspace_phones.length > 0) {
+        payload = {...payload, phones: workspace_phones}
+      }
 
       // todo add new field
 

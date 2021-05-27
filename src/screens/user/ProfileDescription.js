@@ -15,16 +15,14 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Preloader from '../../components/PreLoader';
 import DateSelector from '../../components/ui/DateSelector';
-// import DateMonthSelector from '../../components/ui/DateMonthSelector';
 import ValidationAlert from '../../components/modal/ValidationAlert';
 import _ from '../../services/i18n';
 import {
   uploadPhotoRequest,
   profileDescriptionUpdateRequest,
 } from '../../actions/user';
-import user from '../../reducers/user';
 
-const {width, height} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 
 const sexList = [
   {

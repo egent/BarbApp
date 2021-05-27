@@ -141,7 +141,6 @@ const Profile = ({navigation}) => {
   menu[2].alertPoint = true;
   if (
     workspaces !== undefined &&
-    workspaces.length > 0 &&
     (workspaces[1].data.length > 0 ||
       workspaces[2].data.length > 0 ||
       workspaces[3].data.length > 0)

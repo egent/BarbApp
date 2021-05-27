@@ -203,7 +203,12 @@ export default {
     'break_add': 'Добавить перерыв',
     'break_long': 'Длительность перерыва',
     'break_days_active': 'Действует по дням недели',
+    'monday_short': 'Пн',
+    'tuesday_short': 'Вт',
+    'wednesday_short': 'Ср',
+    'thursday_short': 'Чт',
+    'friday_short': 'Пт',
+    'saturday_short': 'Сб',
+    'sunday_short': 'Вс',
+    'dinner': 'Обед',
 };
-
-  
-  

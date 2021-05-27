@@ -101,7 +101,7 @@ const initialState = {
   password: '',
   ...defaultState,
   city_info: null,
-  // add workspace 
+  // add workspace begin
   beauty_name: '',
   beauty_data: null,
   district_select: null,
@@ -117,6 +117,7 @@ const initialState = {
   scheduleMenuActive: 3,
   schedule_odd: false,
   workspace_breaks,
+  // add workspace end
 };
 
 export default function user(state = initialState, action = {}) {
@@ -492,6 +493,29 @@ export default function user(state = initialState, action = {}) {
         ...state,
         loading: false,
       };
+      case types.WORKPLACE_ADD.REQUEST:
+        return {
+          ...state,
+          loading: true,
+        };
+      case types.WORKPLACE_ADD.SUCCESS:
+
+        // todo clear form data
+
+        return {
+          ...state,
+          loading: false,
+        };
+      case types.WORKPLACE_ADD.FAILURE:
+        return {
+          ...state,
+          loading: false,
+        };
+        case types.BREAKS.DELETE:
+          return {
+            ...state,
+            workspace_breaks: [...workspace_breaks],
+          };       
     default:
       return state;
   }

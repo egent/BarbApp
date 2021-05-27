@@ -122,6 +122,14 @@ export const types = {
         SUCCESS: 'CITY_INFO.SUCCESS',
         FAILURE: 'CITY_INFO.FAILURE',
     },
+    WORKPLACE_ADD: {
+        REQUEST: 'WORKPLACE_ADD.REQUEST',
+        SUCCESS: 'WORKPLACE_ADD.SUCCESS',
+        FAILURE: 'WORKPLACE_ADD.FAILURE',
+    },
+    BREAKS: {
+        DELETE: 'BREAKS.DELETE',
+    },
 };
 
 const authRequest = data => ({
@@ -484,6 +492,26 @@ const cityInfoFailure = data => ({
     ...data,
 });
 
+const workplaceAddRequest = data => ({
+    type: types.WORKPLACE_ADD.REQUEST,
+    ...data,
+});
+
+const workplaceAddSuccess = data => ({
+    type: types.WORKPLACE_ADD.SUCCESS,
+    ...data,
+});
+
+const workplaceAddFailure = data => ({
+    type: types.WORKPLACE_ADD.FAILURE,
+    ...data,
+});
+
+const breaksDelete = data => ({
+    type: types.BREAKS.DELETE,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -557,4 +585,8 @@ export {
     cityInfoRequest,
     cityInfoSuccess,
     cityInfoFailure,
+    workplaceAddRequest,
+    workplaceAddSuccess,
+    workplaceAddFailure,
+    breaksDelete,
 };

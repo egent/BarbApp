@@ -7,12 +7,20 @@ import SelectInput from '../../../components/ui/SelectInput';
 import PhoneInputs from '../../../components/Points/PhoneInputs';
 import Schedule from '../../../components/Points/Schedule/Schedule';
 import ValidationAlert from '../../../components/modal/ValidationAlert';
-import {setForm, beautyRoomsRequest} from '../../../actions/user';
+import Preloader from '../../../components/PreLoader';
+import WorkspaceBreaks from '../../../components/Points/WorkspaceBreaks';
+import {
+  setForm,
+  beautyRoomsRequest,
+  workplaceAddRequest,
+} from '../../../actions/user';
 import _ from '../../../services/i18n';
 
 const WorkspaceAdd = ({navigation}) => {
   const dispatch = useDispatch();
   const {
+    loading,
+  info,
     beauty_name,
     beauty_data,
     city_info,
@@ -29,7 +37,20 @@ const WorkspaceAdd = ({navigation}) => {
 
   const saveData = () => {
     if (beauty_name.length > 0 && workspace_address.length > 0) {
-      // todo save data
+      const payload = {
+        salon_name: beauty_name,
+        street: workspace_address,
+        workplace: '2',
+        id: '-1',
+        city_id: info.city.id,
+      };
+
+      // todo add new field
+
+      dispatch(workplaceAddRequest({
+        navigation,
+        payload
+      }));
     } else {
       setVisibleValidationModal(true);
     }
@@ -46,7 +67,6 @@ const WorkspaceAdd = ({navigation}) => {
 
     dispatch(beautyRoomsRequest()); // todo autocomplete view ...
   };
-
 
   const toggleValidationModal = () => {
     setVisibleValidationModal(!visibleValidationModal);
@@ -114,6 +134,10 @@ const WorkspaceAdd = ({navigation}) => {
     dispatch(setForm({payload: {workspace_address_comment: comment}}));
   };
 
+  if (loading) {
+    return <Preloader />;
+  }
+
   return (
     <KeyboardAwareScrollView
       showsVerticalScrollIndicator={false}
@@ -175,9 +199,12 @@ const WorkspaceAdd = ({navigation}) => {
       <Schedule />
 
       <Text style={styles.titleBreak}>{_.t('breaks')}</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('ScheduleBreak')}>
-        <Text style={styles.addBreak}>{_.t('break_add')}</Text>
-      </TouchableOpacity>
+      <View>
+        <WorkspaceBreaks />
+        <TouchableOpacity onPress={() => navigation.navigate('ScheduleBreak')}>
+          <Text style={styles.addBreak}>{_.t('break_add')}</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={{marginVertical: 50}} />
 

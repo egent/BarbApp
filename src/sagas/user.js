@@ -57,6 +57,8 @@ import {
   beautyRoomsFailure,
   cityInfoSuccess,
   cityInfoFailure,
+  workplaceAddSuccess,
+  workplaceAddFailure,
 } from '../actions/user';
 import {
   getClientId,
@@ -85,6 +87,7 @@ import {
   ENDPOINT_GET_WORKPLACES,
   ENDPOINT_GET_BEAUTY_ROOMS,
   ENDPOINT_GET_CITY_INFO,
+  ENDPOINT_WORKPLACE_ADD,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -595,6 +598,38 @@ function* cityInfoSaga() {
   }
 }
 
+function* workspaceAddSaga(params) {
+  const {navigation, payload} = params;
+  const token = yield select(getAccessToken);
+
+  const response = yield call(api, ENDPOINT_WORKPLACE_ADD, 'POST', payload, token);
+
+  console.log('response', response);
+  // ;;'''''';;;;;;;;;dddyyyub
+
+  if (response.status === 200) {
+    yield put(workplaceAddSuccess());
+    // yield put(profileDescriptionsRequest()); // todo update list
+    
+    Toast.show({
+      type: 'success',
+      text2: _.t('updated_success'),
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+
+    navigation.goBack();
+
+  } else if (response.status === 401) {
+    yield put(workplaceAddFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(workplaceAddFailure({}));
+  }
+}
+
 function* watchAuthSaga() {
   yield takeLatest(types.AUTH.REQUEST, authSaga);
 }
@@ -687,6 +722,10 @@ function* watchCityInfoSaga() {
   yield takeLatest(types.CITY_INFO.REQUEST, cityInfoSaga);
 }
 
+function* watchWorkspaceAddSaga() {
+  yield takeLatest(types.WORKPLACE_ADD.REQUEST, workspaceAddSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -711,4 +750,5 @@ export {
   watchGetWorkspacesSaga,
   watchBeautyRoomsSaga,
   watchCityInfoSaga,
+  watchWorkspaceAddSaga,
 };

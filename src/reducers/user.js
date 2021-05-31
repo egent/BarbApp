@@ -106,6 +106,7 @@ const initialState = {
   // add workspace begin
   workspace_type: null,
   beauty_room: '-1', // user beauty room selected
+  address_id: '-1', 
   beauty_name: '',
   beauty_data: null,
   district_select: null,

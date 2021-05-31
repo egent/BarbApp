@@ -218,4 +218,5 @@ export default {
     'dinner': 'Обед',
     'breaks_example_comment': 'Например, "обед"',
     'breaks_comment': 'Коментарий (видите только Вы)',
+    'delete_workplace': 'Удалить место приема?',
 };

@@ -685,6 +685,7 @@ function* beautyRoomSendSaga({navigation}) {
     schedule_odd,
     workspace_breaks,
     district_select_in_client,
+    address_id,
   } = yield select(getUserState);
 
   let checkForm = false;
@@ -705,7 +706,7 @@ function* beautyRoomSendSaga({navigation}) {
       salon_name: beauty_name,
       street: workspace_address,
       workplace: workspace_type,
-      id: beauty_room,
+      id: address_id,
       city_id: info.city.id,
     };
 
@@ -772,12 +773,13 @@ function* beautyRoomSendSaga({navigation}) {
       payload = {...payload, breaks: workspace_breaks[0]}
     }
 
-    console.log('payload', payload); // todo delete in production
+    // todo check new or updates
 
     yield put(workplaceAddRequest({
       navigation,
       payload
     }));
+
   } else {
     yield put(beautyRoomError());
   }

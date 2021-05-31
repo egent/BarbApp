@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {FlatList, Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import PointMenuItem from '../../../components/Points/PointMenuItem';
-import {workplaceDeleteRequest} from '../../../actions/user'
+import {workplaceDeleteRequest} from '../../../actions/user';
 import Preloader from '../../../components/PreLoader';
-
+import ModalAlert from '../../../components/modal/Alert';
 import carIcon from '../../../assets/images/car.png';
 import houseIcon from '../../../assets/images/house.png';
 import bedIcon from '../../../assets/images/bed.png';
@@ -39,14 +39,21 @@ const menu = [
 const PointsList = ({navigation}) => {
   const {workspaces, loading} = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(getWorkplacesRequest());
-  // });
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [addressId, setAddressId] = useState(null);
 
   const deleteAddress = (address_id) => {
-    // alert
-    dispatch(workplaceDeleteRequest({address_id}))
+    setAlertVisible(true);
+    setAddressId(address_id);
+  };
+
+  const toggleAlert = () => {
+    setAlertVisible(!alertVisible);
+  }
+
+  const _deleteAddress = () => {
+    dispatch(workplaceDeleteRequest({address_id: addressId}));
+    setAlertVisible(false);
   };
 
   if (loading) {
@@ -54,18 +61,26 @@ const PointsList = ({navigation}) => {
   }
 
   return (
-    <FlatList
-      data={menu}
-      keyExtractor={({id}) => `points-menu-${id}`}
-      renderItem={({item}) => (
-        <PointMenuItem
-          {...item}
-          workspaces={workspaces}
-          navigation={navigation}
-          remove={deleteAddress}
-        />
-      )}
-    />
+    <>
+      <FlatList
+        data={menu}
+        keyExtractor={({id}) => `points-menu-${id}`}
+        renderItem={({item}) => (
+          <PointMenuItem
+            {...item}
+            workspaces={workspaces}
+            navigation={navigation}
+            remove={deleteAddress}
+          />
+        )}
+      />
+      <ModalAlert
+        visible={alertVisible}
+        toggle={toggleAlert}
+        title='delete_workplace'
+        onPress={_deleteAddress}
+      />
+    </>
   );
 };
 

@@ -41,7 +41,7 @@ const PointMenuItem = ({
         );
       })}
       {
-        (type_id !== 3 || (type_id === 3 && places.length < 2)) && (
+        (type_id !== 3 || (type_id === 3 && places.length < 1)) && (
           <TouchableOpacity
             onPress={() => {
               navigation.navigate('WorkspaceAdd', {type_id});

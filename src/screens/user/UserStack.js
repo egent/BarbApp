@@ -4,6 +4,7 @@ import React from 'react';
 import HeaderLeft from '../../components/HeaderLeft';
 import HeaderRight from '../../components/HeaderRight';
 import HeaderRightIcon from '../../components/HeaderRightIcon';
+import HeaderRightIconRedux from '../../components/HeaderRightIconRedux';
 import HeaderTitleChat from '../../components/HeaderTitleChat';
 import _ from '../../services/i18n';
 import HomeScreen from './Home';
@@ -19,7 +20,9 @@ import PointsList from '../../screens/user/points/PointsList';
 import WorkspaceAdd from '../../screens/user/points/WorkspaceAdd';
 import ScheduleBreak from '../../screens/user/points/ScheduleBreaks';
 
-import Test from '../../screens/user/~Profile'; // tot delete in production
+import {beautyRoomSend} from '../../actions/user';
+
+import Test from '../../screens/user/~Profile'; // todo delete in production
 
 const {width} = Dimensions.get('window');
 
@@ -197,17 +200,14 @@ const UserStackScreens = ({navigation}) => (
           <HeaderLeft {...props} navigation={navigation} icon="close" />
         ),
         headerRight: (props) => {
-          try {
             return (
-              <HeaderRightIcon
+              <HeaderRightIconRedux
                 {...props}
                 icon="done"
-                onPress={route.params.onPress}
+                onPress={beautyRoomSend}
+                navigation={navigation}
               />
             );
-          } catch (e) {
-            return null;
-          }
         },
         headerStyle: styles.headerStyle,
         headerTitleStyle: styles.headerTitleStyle,

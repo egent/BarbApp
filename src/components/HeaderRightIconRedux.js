@@ -1,20 +1,19 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch} from 'react-redux';
 
-const HeaderRightIcon = ({onPress, icon}) => {
-
-  console.log(onPress)
-  console.log(onPress)
+const HeaderRightIconRedux = ({onPress, icon, navigation}) => {
+  const dispatch = useDispatch();
 
   return (
     <TouchableOpacity
       style={{paddingRight: 10}}
-      onPress={onPress}
+      onPress={()=>{dispatch(onPress({navigation}))}}
       hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}>
       <Icon name={icon} color="#000" size={21} />
     </TouchableOpacity>
   );
 };
 
-export default HeaderRightIcon;
+export default HeaderRightIconRedux;

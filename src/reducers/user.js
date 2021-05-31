@@ -119,6 +119,7 @@ const initialState = {
   schedule_odd: false,
   workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
   // add workspace end
+  showValidationAlert: false,
 };
 
 export default function user(state = initialState, action = {}) {
@@ -531,6 +532,16 @@ export default function user(state = initialState, action = {}) {
         ...state,
         loading: false,
       };
+    case types.BEAUTY_ROOM.ERROR:
+      return {
+        ...state,
+        showValidationAlert: true,
+      };
+      case types.VALIDATION_ALERT.SET:
+        return {
+          ...state,
+          showValidationAlert: action.show,
+        };
     default:
       return state;
   }

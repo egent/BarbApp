@@ -62,12 +62,16 @@ import {
   workplaceAddFailure,
   workplaceDeleteSuccess,
   workplaceDeleteFailure,
+  beautyRoomSend,
+  beautyRoomError,
+  setValidationAlert,
 } from '../actions/user';
 import {
   getClientId,
   getClientSecret,
   getGrantType,
   getAccessToken,
+  getUserState,
 } from './selectors';
 import {api} from '../services/api';
 import {
@@ -662,6 +666,41 @@ function* workspaceDeleteSaga(params) {
   }
 }
 
+function* beautyRoomSendSaga() {
+  const {beauty_name, workspace_address} = yield select(getUserState);
+
+  console.log('beauty_name...', beauty_name);
+
+  if (beauty_name.length > 0 && workspace_address.length > 0) {
+    // let payload = {
+    //   salon_name: beauty_name,
+    //   street: workspace_address,
+    //   workplace: '2',
+    //   id: '-1',
+    //   city_id: info.city.id,
+    // };
+
+    // if (workspace_phones.length > 0) {
+    //   payload = {...payload, phones: workspace_phones}
+    // }
+
+    // console.log('payload', beauty_name)
+
+    // todo add new field
+
+    // dispatch(workplaceAddRequest({
+    //   navigation,
+    //   payload
+    // }));
+  } else {
+    yield put(beautyRoomError());
+
+  }
+
+  // beautyRoomSend,
+  // beautyRoomError,
+}
+
 function* watchAuthSaga() {
   yield takeLatest(types.AUTH.REQUEST, authSaga);
 }
@@ -762,6 +801,10 @@ function* watchWorkspaceDeleteSaga() {
   yield takeLatest(types.WORKPLACE_DELETE.REQUEST, workspaceDeleteSaga);
 }
 
+function* watchBeautyRoomSendSaga() {
+  yield takeLatest(types.BEAUTY_ROOM.SEND, beautyRoomSendSaga)
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -788,4 +831,5 @@ export {
   watchCityInfoSaga,
   watchWorkspaceAddSaga,
   watchWorkspaceDeleteSaga,
+  watchBeautyRoomSendSaga,
 };

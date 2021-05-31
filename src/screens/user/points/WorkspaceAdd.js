@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -6,13 +6,13 @@ import Input from '../../../components/ui/Input';
 import SelectInput from '../../../components/ui/SelectInput';
 import PhoneInputs from '../../../components/Points/PhoneInputs';
 import Schedule from '../../../components/Points/Schedule/Schedule';
-import ValidationAlert from '../../../components/modal/ValidationAlert';
+import ValidationAlertRedux from '../../../components/modal/ValidationAlertRedux';
 import Preloader from '../../../components/PreLoader';
 import WorkspaceBreaks from '../../../components/Points/WorkspaceBreaks';
 import {
   setForm,
   beautyRoomsRequest,
-  workplaceAddRequest,
+  // workplaceAddRequest,
 } from '../../../actions/user';
 import _ from '../../../services/i18n';
 
@@ -20,7 +20,7 @@ const WorkspaceAdd = ({navigation}) => {
   const dispatch = useDispatch();
   const {
     loading,
-  info,
+    info,
     beauty_name,
     beauty_data,
     city_info,
@@ -33,47 +33,40 @@ const WorkspaceAdd = ({navigation}) => {
     workspace_address_comment,
     workspace_phones, // todo ??
   } = useSelector((state) => state.user);
-  const [visibleValidationModal, setVisibleValidationModal] = useState(false);
 
-  const saveData = () => {
-    if (beauty_name.length > 0 && workspace_address.length > 0) {
-      let payload = {
-        salon_name: beauty_name,
-        street: workspace_address,
-        workplace: '2',
-        id: '-1',
-        city_id: info.city.id,
-      };
+  // const saveData = () => {
+   
+  //   if (beauty_name.length > 0 && workspace_address.length > 0) {
+  //     let payload = {
+  //       salon_name: beauty_name,
+  //       street: workspace_address,
+  //       workplace: '2',
+  //       id: '-1',
+  //       city_id: info.city.id,
+  //     };
 
-      if (workspace_phones.length > 0) {
-        payload = {...payload, phones: workspace_phones}
-      }
+  //     if (workspace_phones.length > 0) {
+  //       payload = {...payload, phones: workspace_phones}
+  //     }
 
-      // todo add new field
+  //     console.log('payload', beauty_name)
 
-      dispatch(workplaceAddRequest({
-        navigation,
-        payload
-      }));
-    } else {
-      setVisibleValidationModal(true);
-    }
-  };
+  //     // todo add new field
 
-  useEffect(() => {
-    navigation.setParams({
-      onPress: saveData,
-    });
-  }, []);
+  //     // dispatch(workplaceAddRequest({
+  //     //   navigation,
+  //     //   payload
+  //     // }));
+  //   } else {
+  //     setVisibleValidationModal(true); // 
+  //   }
+  // };
 
   const setBeautyName = (name) => {
     dispatch(setForm({payload: {beauty_name: name}}));
-
     dispatch(beautyRoomsRequest()); // todo autocomplete view ...
-  };
 
-  const toggleValidationModal = () => {
-    setVisibleValidationModal(!visibleValidationModal);
+
   };
 
   const setDistricts = (district) => {
@@ -212,15 +205,7 @@ const WorkspaceAdd = ({navigation}) => {
 
       <View style={{marginVertical: 50}} />
 
-      <ValidationAlert
-        title="fill_fields"
-        visible={visibleValidationModal}
-        toggle={toggleValidationModal}
-        btnOutHandler={() => {
-          setVisibleValidationModal(false);
-          navigation.goBack();
-        }}
-      />
+     
     </KeyboardAwareScrollView>
   );
 };

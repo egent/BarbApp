@@ -135,6 +135,13 @@ export const types = {
         SUCCESS: 'WORKPLACE_DELETE.SUCCESS',
         FAILURE: 'WORKPLACE_DELETE.FAILURE',
     },
+    BEAUTY_ROOM: {
+        SEND: 'BEAUTY_ROOM.SEND',
+        ERROR: 'BEAUTY_ROOM.ERROR',
+    },
+    VALIDATION_ALERT: {
+        SET: 'VALIDATION_ALERT.SET',
+    },
 };
 
 const authRequest = data => ({
@@ -532,6 +539,21 @@ const workplaceDeleteFailure = data => ({
     ...data,
 });
 
+const beautyRoomSend = data => ({
+    type: types.BEAUTY_ROOM.SEND,
+    ...data,
+});
+
+const beautyRoomError = data => ({
+    type: types.BEAUTY_ROOM.ERROR,
+    ...data,
+});
+
+const setValidationAlert = data => ({
+    type: types.VALIDATION_ALERT.SET,
+    ...data,
+});
+
 export {
     authRequest,
     authSuccess,
@@ -612,4 +634,7 @@ export {
     workplaceDeleteRequest,
     workplaceDeleteSuccess,
     workplaceDeleteFailure,
+    beautyRoomSend,
+    beautyRoomError,
+    setValidationAlert,
 };

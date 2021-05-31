@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, TextInput, StyleSheet, Dimensions} from 'react-native';
+import {Text, View, TextInput, StyleSheet, Dimensions, Keyboard} from 'react-native';
 import {TextInputMask} from 'react-native-masked-text';
 import _ from '../../services/i18n';
 const {width} = Dimensions.get('window');
@@ -31,6 +31,7 @@ const Input = ({
           onChangeText={setData}
           autoCapitalize={autoCapitalize}
           keyboardType={keyboardType}
+          // onSubmitEditing={Keyboard.dismiss}
         />
       ) : (
         <TextInputMask

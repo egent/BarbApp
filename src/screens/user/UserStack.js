@@ -193,25 +193,37 @@ const UserStackScreens = ({navigation}) => (
     <UserStack.Screen
       name="WorkspaceAdd"
       component={WorkspaceAdd}
-      options={({navigation, route}) => ({
-        headerShown: true,
-        headerTitle: _.t('workspace_settings'),
-        headerLeft: (props) => (
-          <HeaderLeft {...props} navigation={navigation} icon="close" />
-        ),
-        headerRight: (props) => {
-            return (
-              <HeaderRightIconRedux
-                {...props}
-                icon="done"
-                onPress={beautyRoomSend}
-                navigation={navigation}
-              />
-            );
-        },
-        headerStyle: styles.headerStyle,
-        headerTitleStyle: styles.headerTitleStyle,
-      })}
+      options={({navigation, route}) => {
+        let title = 'workspace_settings';
+
+        if (route.params.type_id === 1) {
+          title = 'in_house_settings';
+        }
+
+        if (route.params.type_id === 3) {
+          title = 'in_client_settings';
+        }
+
+        return ({
+          headerShown: true,
+          headerTitle: _.t(title),
+          headerLeft: (props) => (
+            <HeaderLeft {...props} navigation={navigation} icon="close" />
+          ),
+          headerRight: (props) => {
+              return (
+                <HeaderRightIconRedux
+                  {...props}
+                  icon="done"
+                  onPress={beautyRoomSend}
+                  navigation={navigation}
+                />
+              );
+          },
+          headerStyle: styles.headerStyle,
+          headerTitleStyle: styles.headerTitleStyle,
+        });
+      }}
     />
 
 <UserStack.Screen

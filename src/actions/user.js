@@ -142,6 +142,9 @@ export const types = {
     VALIDATION_ALERT: {
         SET: 'VALIDATION_ALERT.SET',
     },
+    WORKPLACE_TYPE: {
+        SET: 'WORKPLACE_TYPE.SET',
+    },
 };
 
 const authRequest = data => ({
@@ -554,6 +557,12 @@ const setValidationAlert = data => ({
     ...data,
 });
 
+const setWorkplaceType = data => ({
+    type: types.WORKPLACE_TYPE.SET,
+    ...data,
+});
+
+
 export {
     authRequest,
     authSuccess,
@@ -637,4 +646,5 @@ export {
     beautyRoomSend,
     beautyRoomError,
     setValidationAlert,
+    setWorkplaceType,
 };

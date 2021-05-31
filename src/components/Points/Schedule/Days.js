@@ -60,7 +60,7 @@ const ScheduleDays = () => {
       <Text style={styles.title}>{_.t('work_time')}</Text>
       {scheduleDays.map((day) => {
         return (
-          <View style={styles.item}>
+          <View key={`day-${day.id}`} style={styles.item}>
             <View style={styles.name}>
               <Text
                 style={[

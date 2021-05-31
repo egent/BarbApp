@@ -56,14 +56,15 @@ const workspace_breaks = [
   {
     start: '12:00',
     end: '13:00',
+    comment: '',
     days: {
+      0: 'off',
       1: 'off',
       2: 'off',
       3: 'off',
       4: 'off',
       5: 'off',
       6: 'off',
-      7: 'off',
     },
   },
 ];
@@ -103,12 +104,17 @@ const initialState = {
   ...defaultState,
   city_info: null,
   // add workspace begin
+  workspace_type: null,
+  beauty_room: '-1', // user beauty room selected
   beauty_name: '',
   beauty_data: null,
   district_select: null,
+  district_select_in_client: [],
+  district_select_in_client_string: '',
   sub_district: null,
   metro: null,
   sub_district_select: null,
+  sub_district_select_string: '',
   metro_select_string: '',
   metro_select_array: null,
   workspace_address: '',
@@ -537,11 +543,16 @@ export default function user(state = initialState, action = {}) {
         ...state,
         showValidationAlert: true,
       };
-      case types.VALIDATION_ALERT.SET:
-        return {
-          ...state,
-          showValidationAlert: action.show,
-        };
+    case types.VALIDATION_ALERT.SET:
+      return {
+        ...state,
+        showValidationAlert: action.show,
+      };
+    case types.WORKPLACE_TYPE.SET:
+      return {
+        ...state,
+        workspace_type: action.type_id,
+      };
     default:
       return state;
   }

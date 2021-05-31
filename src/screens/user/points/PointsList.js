@@ -28,7 +28,7 @@ const menu = [
   },
   {
     id: 3,
-    title: 'in_office',
+    title: 'in_client_location',
     subTitle: 'add_client_location',
     icon: <Image source={carIcon} width={24} height={24} />,
     in_client_location: '',
@@ -45,6 +45,7 @@ const PointsList = ({navigation}) => {
   // });
 
   const deleteAddress = (address_id) => {
+    // alert
     dispatch(workplaceDeleteRequest({address_id}))
   };
 

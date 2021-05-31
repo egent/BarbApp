@@ -24,10 +24,10 @@ const PointMenuItem = ({
       </View>
       {places.map((p, index) => {
         return (
-          <View style={[styles.placeContainer, {marginTop: index === 0 ? 10 : 0}]}>
+          <View key={`place-${p.id}`} style={[styles.placeContainer, {marginTop: index === 0 ? 10 : 0}]}>
             <View style={styles.info}>
               {type_id === 2 && <Text style={styles.name}>{p.salon_name}</Text>}
-              <Text style={styles.street}>{p.street}</Text>
+              {type_id !== 3 ? (<Text style={styles.street}>{p.street}</Text>) : (<Text style={styles.street}>{Object.values(p.districts).join(', ')}</Text>)}
               {p.phones !== null && (
                 <Text style={styles.phones}>{p.phones.join(', ')}</Text>
               )}
@@ -40,12 +40,16 @@ const PointMenuItem = ({
           </View>
         );
       })}
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('WorkspaceAdd');
-        }}>
-        <Text style={styles.subTitle}>{_.t(subTitle)}</Text>
-      </TouchableOpacity>
+      {
+        (type_id !== 3 || (type_id === 3 && places.length < 2)) && (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('WorkspaceAdd', {type_id});
+            }}>
+            <Text style={styles.subTitle}>{_.t(subTitle)}</Text>
+          </TouchableOpacity>
+        )
+      }
     </View>
   );
 };

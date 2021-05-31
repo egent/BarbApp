@@ -1,6 +1,12 @@
 import moment from 'moment';
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -76,10 +82,16 @@ const ScheduleBreaks = ({navigation}) => {
 
   const setDay = (id, active) => {
     const breaks = JSON.parse(JSON.stringify(workspace_breaks));
-    console.log('breaks', breaks[0].days[id])
+
     breaks[0].days[id] = active ? 'off' : 'on';
     dispatch(setForm({payload: {workspace_breaks: breaks}}));
   };
+
+  const setBreakComment = (comment) => {
+    const breaks = JSON.parse(JSON.stringify(workspace_breaks));
+    breaks[0].comment = comment;
+    dispatch(setForm({payload: {workspace_breaks: breaks}}));
+  }
 
   return (
     <KeyboardAwareScrollView
@@ -121,6 +133,23 @@ const ScheduleBreaks = ({navigation}) => {
           );
         })}
       </View>
+
+      <View>
+        <Text style={styles.commentTitle}>{_.t('breaks_comment')}</Text>
+        <TextInput
+          style={styles.comment}
+          multiline={true}
+          underlineColorAndroid="transparent"
+          numberOfLines={5}
+          onChangeText={setBreakComment}
+          value={workspace_breaks[0].comment}
+          keyboardType="default"
+          returnKeyType="done"
+          blurOnSubmit={true}
+        />
+        <Text style={styles.commentHint}>{_.t('breaks_example_comment')}</Text>
+      </View>
+
       <DateTimePickerModal
         locale={locales[0].languageTag}
         isVisible={isTimePickerVisible}
@@ -172,6 +201,24 @@ const styles = StyleSheet.create({
     marginTop: 25,
     color: '#B6B8BC',
     fontSize: 14,
+  },
+  comment: {
+    borderColor: '#D4D6DF',
+    borderWidth: 1,
+    height: 60,
+    marginVertical: 10,
+    padding: 5,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+    textAlignVertical: 'top',
+  },
+  commentTitle: {
+    fontSize: 14,
+    color: '#B6B8BC',
+  },
+  commentHint: {
+    fontSize: 12,
+    color: '#D4D4D4',
   },
 });
 

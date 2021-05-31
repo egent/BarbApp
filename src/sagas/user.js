@@ -58,6 +58,7 @@ import {
   beautyRoomsFailure,
   cityInfoSuccess,
   cityInfoFailure,
+  workplaceAddRequest,
   workplaceAddSuccess,
   workplaceAddFailure,
   workplaceDeleteSuccess,
@@ -573,11 +574,13 @@ function* getWorkspacesSaga() {
   }
 }
 
-function* beautyRoomsSaga() {
+function* beautyRoomsSaga({term}) {
   const token = yield select(getAccessToken);
-  const response = yield call(api, ENDPOINT_GET_BEAUTY_ROOMS, 'POST', {}, token);
+  const response = yield call(api, ENDPOINT_GET_BEAUTY_ROOMS, 'POST', {term}, token);
   
-  console.log('response', response); // todo delete in production
+  // id: 41000
+  // name: "Section"
+  // salon_spec: 11
 
   if (response.status === 200) {
     yield put(
@@ -666,39 +669,118 @@ function* workspaceDeleteSaga(params) {
   }
 }
 
-function* beautyRoomSendSaga() {
-  const {beauty_name, workspace_address} = yield select(getUserState);
+function* beautyRoomSendSaga({navigation}) {
+  const {
+    beauty_name, 
+    workspace_address,
+    beauty_room,
+    workspace_type,
+    district_select,
+    sub_district_select,
+    info,
+    metro_select_array,
+    workspace_phones,
+    scheduleMenuActive,
+    scheduleDays,
+    schedule_odd,
+    workspace_breaks,
+    district_select_in_client,
+  } = yield select(getUserState);
 
-  console.log('beauty_name...', beauty_name);
-
-  if (beauty_name.length > 0 && workspace_address.length > 0) {
-    // let payload = {
-    //   salon_name: beauty_name,
-    //   street: workspace_address,
-    //   workplace: '2',
-    //   id: '-1',
-    //   city_id: info.city.id,
-    // };
-
-    // if (workspace_phones.length > 0) {
-    //   payload = {...payload, phones: workspace_phones}
-    // }
-
-    // console.log('payload', beauty_name)
-
-    // todo add new field
-
-    // dispatch(workplaceAddRequest({
-    //   navigation,
-    //   payload
-    // }));
-  } else {
-    yield put(beautyRoomError());
-
+  let checkForm = false;
+  if (workspace_type === 2 && beauty_name.length > 0 && workspace_address.length > 0 && workspace_phones.length > 0) {
+    checkForm = true;
   }
 
-  // beautyRoomSend,
-  // beautyRoomError,
+  if (workspace_type === 1 && workspace_address.length > 0) {
+    checkForm = true;
+  }
+
+  if (workspace_type === 3) {
+    checkForm = true;
+  }
+
+  if (checkForm) {
+    let payload = {
+      salon_name: beauty_name,
+      street: workspace_address,
+      workplace: workspace_type,
+      id: beauty_room,
+      city_id: info.city.id,
+    };
+
+    if (workspace_type !== 3 && district_select !== null) {
+      payload = {...payload, district_id: district_select.id}
+    }
+
+    if (workspace_type !== 3 && sub_district_select !== null && sub_district_select.length > 0) {
+      const microdistricts = [];
+      sub_district_select.map((m) => {
+        microdistricts.push(m.id);
+      });
+
+      payload = {...payload, microdistricts}
+    }
+
+    if (workspace_type !== 3 && metro_select_array !== null && metro_select_array.length > 0) {
+      const metros = [];
+      metro_select_array.map((m) => {
+        metros.push(m.id);
+      })
+      payload = {...payload, metros}
+    }
+
+    if (workspace_type === 3 && district_select_in_client !== null && district_select_in_client.length > 0) {
+      const work_dist = [];
+      district_select_in_client.map((m) => {
+        work_dist.push(m.id);
+      });
+
+      payload = {...payload, work_dist}
+    }
+
+    if (workspace_phones !== null && workspace_phones.length > 0) {
+      payload = {...payload, phones: workspace_phones}
+    }
+
+    if (scheduleMenuActive === 1) {
+      payload = {
+        ...payload, 
+        schedule_type: 1,
+        schedule: {
+          day: scheduleDays,
+        }
+      }
+    }
+
+    if (scheduleMenuActive === 2) {
+      payload = {
+        ...payload, 
+        schedule_type: 2,
+        schedule_odd,
+      }
+    }
+
+    const breakDays = [];
+    for (let i = 0; i < 7; i++) {
+      if (workspace_breaks[0].days[i] === 'on') {
+        breakDays.push(workspace_breaks[0].days[i]);
+      }
+    }
+
+    if (breakDays.length > 0) {
+      payload = {...payload, breaks: workspace_breaks[0]}
+    }
+
+    console.log('payload', payload); // todo delete in production
+
+    yield put(workplaceAddRequest({
+      navigation,
+      payload
+    }));
+  } else {
+    yield put(beautyRoomError());
+  }
 }
 
 function* watchAuthSaga() {

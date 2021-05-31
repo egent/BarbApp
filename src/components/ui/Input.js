@@ -1,6 +1,14 @@
 import React from 'react';
-import {Text, View, TextInput, StyleSheet, Dimensions, Keyboard} from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 import {TextInputMask} from 'react-native-masked-text';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from '../../services/i18n';
 const {width} = Dimensions.get('window');
 
@@ -15,6 +23,8 @@ const Input = ({
   mask = false,
   required = false,
   showLabel = true,
+  remove = false,
+  removeCallback = () => {},
 }) => {
   return (
     <View style={[styles.container, {...containerStyles}]}>
@@ -24,6 +34,7 @@ const Input = ({
           {required && <Text> ({_.t('required')})</Text>}
         </Text>
       )}
+
       {mask === false ? (
         <TextInput
           style={styles.field}
@@ -31,7 +42,6 @@ const Input = ({
           onChangeText={setData}
           autoCapitalize={autoCapitalize}
           keyboardType={keyboardType}
-          // onSubmitEditing={Keyboard.dismiss}
         />
       ) : (
         <TextInputMask
@@ -52,6 +62,13 @@ const Input = ({
           autofocus={true}
         />
       )}
+
+      {remove && (
+        <TouchableOpacity onPress={removeCallback} style={styles.removeBtn}>
+          <Icon name="close" color="#B4B4B4" size={20} />
+        </TouchableOpacity>
+      )}
+
       {help.length > 0 && <Text style={styles.help}>{_.t(help)}</Text>}
     </View>
   );
@@ -79,6 +96,14 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     color: '#7C7F84',
     fontSize: 12,
+  },
+  removeBtn: {
+    height: 48,
+    position: 'absolute',
+    top: 0,
+    right: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

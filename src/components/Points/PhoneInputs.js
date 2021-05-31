@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {Text, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Input from '../../components/ui/Input';
 import _ from '../../services/i18n';
@@ -9,6 +9,12 @@ const PhoneInputs = () => {
   const {workspace_phones, phone} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [data, setData] = useState([...workspace_phones]);
+
+  useEffect(() => {
+    if (workspace_phones.length === 0) {
+      setPhone(phone, 0);
+    }
+  });
 
   const addPhoneInput = () => {
     setData((data) => [...data, '']);
@@ -23,15 +29,23 @@ const PhoneInputs = () => {
     setData([...phones]);
   };
 
+  const deletePhone = (phone) => {
+    let phones = [...data];
+    const result = phones.filter((p) => {
+      return p !== phone;
+    });
+
+    dispatch(setForm({payload: {workspace_phones: result}}));
+    setData([...result]);
+  };
+
   return (
     <>
       {data.map((v, i) => {
-        let wPhone = v;
-        if (i === 0 && wPhone.length === 0) {
-          setPhone(phone, 0);
-        }
         return (
           <Input
+            required={true}
+            key={`phone-input-${i}`}
             label="workspace_phone"
             value={v}
             setData={(v) => {
@@ -41,10 +55,12 @@ const PhoneInputs = () => {
             showLabel={i === 0 ? true : false}
             keyboardType="phone-pad"
             mask={{
-            mask: '+389999999999',
-            validator: (value, settings) =>
-              value.length === settings.mask.length,
-          }}
+              mask: '+389999999999',
+              validator: (value, settings) =>
+                value.length === settings.mask.length,
+            }}
+            remove={i !== 0 ? true : false}
+            removeCallback={() => deletePhone(v, i)}
           />
         );
       })}

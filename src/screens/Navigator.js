@@ -9,8 +9,6 @@ import ValidationAlertRedux from '../components/modal/ValidationAlertRedux';
 export const navigationRef = React.createRef();
 class Navigator extends Component {
 
-
-
   render() {
     const {logIn} = this.props.user;
 

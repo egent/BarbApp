@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -6,67 +6,41 @@ import Input from '../../../components/ui/Input';
 import SelectInput from '../../../components/ui/SelectInput';
 import PhoneInputs from '../../../components/Points/PhoneInputs';
 import Schedule from '../../../components/Points/Schedule/Schedule';
-import ValidationAlertRedux from '../../../components/modal/ValidationAlertRedux';
 import Preloader from '../../../components/PreLoader';
 import WorkspaceBreaks from '../../../components/Points/WorkspaceBreaks';
 import {
   setForm,
   beautyRoomsRequest,
-  // workplaceAddRequest,
+  setWorkplaceType,
 } from '../../../actions/user';
 import _ from '../../../services/i18n';
 
-const WorkspaceAdd = ({navigation}) => {
+const WorkspaceAdd = ({navigation, route}) => {
   const dispatch = useDispatch();
   const {
     loading,
-    info,
     beauty_name,
-    beauty_data,
+    beauty_data, // todo ???
     city_info,
     district_select,
-    sub_district_select,
+    sub_district_select_string,
     metro_select_string,
     sub_district,
     metro,
     workspace_address,
     workspace_address_comment,
-    workspace_phones, // todo ??
+    district_select_in_client_string,
   } = useSelector((state) => state.user);
 
-  // const saveData = () => {
-   
-  //   if (beauty_name.length > 0 && workspace_address.length > 0) {
-  //     let payload = {
-  //       salon_name: beauty_name,
-  //       street: workspace_address,
-  //       workplace: '2',
-  //       id: '-1',
-  //       city_id: info.city.id,
-  //     };
+  const type_id = route.params.type_id;
 
-  //     if (workspace_phones.length > 0) {
-  //       payload = {...payload, phones: workspace_phones}
-  //     }
-
-  //     console.log('payload', beauty_name)
-
-  //     // todo add new field
-
-  //     // dispatch(workplaceAddRequest({
-  //     //   navigation,
-  //     //   payload
-  //     // }));
-  //   } else {
-  //     setVisibleValidationModal(true); // 
-  //   }
-  // };
+  useEffect(() => {
+    dispatch(setWorkplaceType({type_id}));
+  }, []);
 
   const setBeautyName = (name) => {
     dispatch(setForm({payload: {beauty_name: name}}));
-    dispatch(beautyRoomsRequest()); // todo autocomplete view ...
-
-
+    dispatch(beautyRoomsRequest({term: name})); // todo autocomplete view ...
   };
 
   const setDistricts = (district) => {
@@ -87,6 +61,7 @@ const WorkspaceAdd = ({navigation}) => {
           sub_district: subDistrict,
           metro,
           sub_district_select: null,
+          sub_district_select_string: '',
           metro_select_string: '',
           metro_select_array: null,
         },
@@ -94,11 +69,35 @@ const WorkspaceAdd = ({navigation}) => {
     );
   };
 
+  const setDistrictsClient = (districts) => {
+    const districtsStr = [];
+    districts.map((item) => {
+      districtsStr.push(item.name);
+    });
+
+    dispatch(
+      setForm({
+        payload: {
+          district_select_in_client: districts,
+          district_select_in_client_string: districtsStr.join(', '),
+          
+        },
+      }),
+    );
+  }
+
   const setSubDistricts = (subDistrict) => {
+    const sDistrArr = [];
+
+    subDistrict.map((item) => {
+      sDistrArr.push(item.name);
+    });
+
     dispatch(
       setForm({
         payload: {
           sub_district_select: subDistrict,
+          sub_district_select_string: sDistrArr.join(', '),
           metro_select_string: '',
           metro_select_array: null,
         },
@@ -140,34 +139,48 @@ const WorkspaceAdd = ({navigation}) => {
       showsVerticalScrollIndicator={false}
       style={styles.container}
       keyboardShouldPersistTaps="always">
-      <View>
-        <Input
-          label="beauty_room_name"
-          value={beauty_name}
-          setData={setBeautyName}
-          required={true}
+      {type_id === 2 && (
+        <View>
+          <Input
+            label="beauty_room_name"
+            value={beauty_name}
+            setData={setBeautyName}
+            required={true}
+          />
+        </View>
+      )}
+
+      {type_id !== 3 ? (
+        <SelectInput
+          label="district"
+          data={city_info?.districts}
+          saveData={setDistricts}
+          value={district_select?.name}
+          popupTitle="district"
         />
-      </View>
+      ) : (
+        <SelectInput
+          label="districts"
+          data={city_info?.districts}
+          saveData={setDistrictsClient}
+          value={district_select_in_client_string}
+          popupTitle="districts"
+          isSelectSingle={false}
+        />
+      )}
 
-      <SelectInput
-        label="district"
-        data={city_info?.districts}
-        saveData={setDistricts}
-        value={district_select?.name}
-        popupTitle="district"
-      />
-
-      {sub_district !== null && (
+      {(sub_district !== null && type_id !== 3) && (
         <SelectInput
           label="sub_district"
           data={sub_district}
           saveData={setSubDistricts}
-          value={sub_district_select?.name}
+          value={sub_district_select_string}
           popupTitle="sub_district"
+          isSelectSingle={false}
         />
       )}
 
-      {metro !== null && (
+      {(metro !== null && type_id !== 3) && (
         <SelectInput
           label="metro"
           data={metro}
@@ -178,15 +191,18 @@ const WorkspaceAdd = ({navigation}) => {
         />
       )}
 
-      <Input
-        label="workspace_address"
-        value={workspace_address}
-        setData={setWorkspaceAddress}
-        required={true}
-      />
+      {(type_id === 1 || type_id === 2) && (
+        <Input
+          label={type_id === 2 ? 'workspace_address' : 'in_house_address'}
+          value={workspace_address}
+          setData={setWorkspaceAddress}
+        />
+      )}
 
       <Input
-        label="workspace_address_comment"
+        label={
+          type_id === 3 ? 'client_address_comment' : 'workspace_address_comment'
+        }
         value={workspace_address_comment}
         setData={setWorkspaceAddressComment}
       />
@@ -198,14 +214,13 @@ const WorkspaceAdd = ({navigation}) => {
       <Text style={styles.titleBreak}>{_.t('breaks')}</Text>
       <View>
         <WorkspaceBreaks />
+
         <TouchableOpacity onPress={() => navigation.navigate('ScheduleBreak')}>
           <Text style={styles.addBreak}>{_.t('break_add')}</Text>
         </TouchableOpacity>
       </View>
 
       <View style={{marginVertical: 50}} />
-
-     
     </KeyboardAwareScrollView>
   );
 };

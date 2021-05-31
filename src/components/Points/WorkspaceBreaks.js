@@ -7,31 +7,31 @@ import {breaksDelete} from '../../actions/user';
 
 const days = [
   {
-    id: 1,
+    id: 0,
     title: 'monday_short',
   },
   {
-    id: 2,
+    id: 1,
     title: 'tuesday_short',
   },
   {
-    id: 3,
+    id: 2,
     title: 'wednesday_short',
   },
   {
-    id: 4,
+    id: 3,
     title: 'thursday_short',
   },
   {
-    id: 5,
+    id: 4,
     title: 'friday_short',
   },
   {
-    id: 6,
+    id: 5,
     title: 'saturday_short',
   },
   {
-    id: 7,
+    id: 6,
     title: 'sunday_short',
   },
 ];
@@ -48,7 +48,6 @@ const WorkspaceBreaks = () => {
       }
     });
     return breakDays.join(', ');
-
   };
 
   const breakDaysStr = getBreakDays();
@@ -63,7 +62,9 @@ const WorkspaceBreaks = () => {
         <Text style={styles.time}>
           {workspace_breaks[0].start} - {workspace_breaks[0].end}
         </Text>
-        <Text style={styles.dinner}>{_.t('dinner')}</Text>
+        {workspace_breaks[0].comment.length > 0 && (
+          <Text style={styles.dinner}>{workspace_breaks[0].comment}</Text>
+        )}
       </View>
       <TouchableOpacity
         onPress={() => {

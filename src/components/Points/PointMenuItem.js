@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet} from 'react-native'; 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import _ from '../../services/i18n';
 
@@ -13,6 +13,7 @@ const PointMenuItem = ({
   type_id,
   workspaces,
   remove,
+  update
 }) => {
   const places = workspaces[type_id].data;
 
@@ -24,10 +25,14 @@ const PointMenuItem = ({
       </View>
       {places.map((p, index) => {
         return (
-          <View key={`place-${p.id}`} style={[styles.placeContainer, {marginTop: index === 0 ? 10 : 0}]}>
+          <TouchableOpacity 
+            key={`place-${p.id}`} 
+            style={[styles.placeContainer, {marginTop: index === 0 ? 10 : 0}]}
+            onPress={() => update(type_id, p)}
+          >
             <View style={styles.info}>
               {type_id === 2 && <Text style={styles.name}>{p.salon_name}</Text>}
-              {type_id !== 3 ? (<Text style={styles.street}>{p.street}</Text>) : (<Text style={styles.street}>{Object.values(p.districts).join(', ')}</Text>)}
+              {type_id !== 3 ? (<Text style={styles.street}>{p.street}</Text>) : (<Text style={styles.districts}>{Object.values(p.districts).join(', ')}</Text>)}
               {p.phones !== null && (
                 <Text style={styles.phones}>{p.phones.join(', ')}</Text>
               )}
@@ -37,7 +42,7 @@ const PointMenuItem = ({
               hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}>
               <Icon size={24} color="#373737" name="close" />
             </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         );
       })}
       {
@@ -98,6 +103,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#6DB7E8',
     paddingVertical: 5,
+  },
+  districts: {
+    fontSize: 16,
+    color: '#6DB7E8',
+    paddingRight: 25,
   },
   phones: {
     color: '#CFCFCF',

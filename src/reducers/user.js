@@ -106,7 +106,7 @@ const initialState = {
   // add workspace begin
   workspace_type: null,
   beauty_room: '-1', // user beauty room selected
-  address_id: '-1', 
+  address_id: '-1', // for update address
   beauty_name: '',
   beauty_data: null,
   district_select: null,
@@ -125,6 +125,7 @@ const initialState = {
   scheduleMenuActive: 3,
   schedule_odd: false,
   workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
+  form_workplace_add_data: null,
   // add workspace end
   showValidationAlert: false,
 };
@@ -554,6 +555,171 @@ export default function user(state = initialState, action = {}) {
         ...state,
         workspace_type: action.type_id,
       };
+
+    case types.WORKPLACE_UPDATE.SET:
+      const type_id = action.type_id;
+
+      // save workplace add form
+      const form_workplace_add_data = {
+        workspace_type: state.workspace_type,
+        beauty_room: state.beauty_room, // user beauty room selected
+        address_id: state.address_id, // for update address
+        beauty_name: state.beauty_name,
+        beauty_data: state.beauty_data,
+        district_select: state.district_select,
+        district_select_in_client: state.district_select_in_client,
+        district_select_in_client_string:
+          state.district_select_in_client_string,
+        sub_district: state.sub_district,
+        metro: state.metro,
+        sub_district_select: state.sub_district_select,
+        sub_district_select_string: state.sub_district_select_string,
+        metro_select_string: state.metro_select_string,
+        metro_select_array: state.metro_select_array,
+        workspace_address: state.workspace_address,
+        workspace_address_comment: state.workspace_address_comment,
+        workspace_phones: state.workspace_phones,
+        scheduleDays: JSON.parse(JSON.stringify(state.scheduleDays)),
+        scheduleMenuActive: state.scheduleMenuActive,
+        schedule_odd: state.schedule_odd,
+        workspace_breaks: JSON.parse(JSON.stringify(state.workspace_breaks)),
+      };
+
+      // todo save old data
+      console.log('======');
+      console.log(action.place);
+      console.log(action.place.salon_name);
+      // todo delete up to production
+
+      let sub_district = [];
+      let metro = [];
+      let district_select = null;
+      if (type_id !== 3) {
+        state.city_info.districts.map((d) => {
+          if (d.id === action.place.district) {
+            district_select = d;
+            sub_district = d.microdistricts;
+            metro = d.metros;
+          }
+        });
+      }
+
+      let district_select_in_client = [];
+      let district_select_in_client_string = '';
+      if (type_id === 3) {
+        const district_select_in_client_arr = [];
+        Object.keys(action.place.districts).map((item) => {
+          state.city_info.districts.map((d) => {
+            if (parseInt(item) === d.id) {
+              district_select_in_client.push(d);
+              district_select_in_client_arr.push(d.name);
+            }
+          });
+        });
+        if (district_select_in_client.length > 0) {
+          district_select_in_client_string = district_select_in_client_arr.join(
+            ', ',
+          );
+        }
+      }
+
+      let sub_district_select = [];
+      let sub_district_select_string = '';
+      let metro_select_string = '';
+      let metro_select_array = [];
+
+      if (type_id !== 3) {
+        const sub_districts_arr = [];
+        const sub_metro_arr = [];
+
+        Object.values(action.place.microdistricts).map((item) => {
+          district_select.microdistricts.map((m) => {
+            if (m.id === item) {
+              sub_district_select.push(m);
+              sub_districts_arr.push(m.name);
+            }
+          });
+        });
+        sub_district_select_string = sub_districts_arr.join(', ');
+
+        Object.values(action.place.metros).map((item) => {
+          district_select.metros.map((m) => {
+            if (m.id === item) {
+              metro_select_array.push(m);
+              sub_metro_arr.push(m.name);
+            }
+          });
+        });
+        metro_select_string = sub_metro_arr.join(', ');
+      }
+
+      const breaks =
+        action.place.breaks !== null
+          ? [JSON.parse(JSON.stringify(action.place.breaks))]
+          : JSON.parse(JSON.stringify(workspace_breaks));
+
+      const scheduleDays = action.place.schedule !== null ? action.place.schedule.day : JSON.parse(JSON.stringify(days));
+
+      return {
+        ...state,
+        form_workplace_add_data,
+        workspace_type: type_id,
+        beauty_room:
+          action.place.salon_id !== null ? action.place.salon_id : '-1', // user beauty room selected
+        address_id: action.place.id, // for update address
+        beauty_name:
+          action.place.salon_name !== undefined ? action.place.salon_name : '',
+        beauty_data: null,
+        district_select,
+        district_select_in_client,
+        district_select_in_client_string,
+        sub_district,
+        metro,
+        sub_district_select,
+        sub_district_select_string,
+        metro_select_string,
+        metro_select_array,
+        workspace_address: action.place.street,
+        workspace_address_comment: action.place.comment,
+        workspace_phones: action.place.phones,
+        scheduleDays,
+        scheduleMenuActive: action.place.schedule_type,
+        schedule_odd: !!action.place.schedule_odd,
+        workspace_breaks: breaks,
+      };
+      case types.WORKPLACE_UPDATE.CLEAR:
+        return {
+          ...state,
+          workspace_type: null,
+          beauty_room: '-1', // user beauty room selected
+          address_id: '-1', // for update address
+          beauty_name: '',
+          beauty_data: null,
+          district_select: null,
+          district_select_in_client: [],
+          district_select_in_client_string: '',
+          sub_district: null,
+          metro: null,
+          sub_district_select: null,
+          sub_district_select_string: '',
+          metro_select_string: '',
+          metro_select_array: null,
+          workspace_address: '',
+          workspace_address_comment: '',
+          workspace_phones: [],
+          scheduleDays: JSON.parse(JSON.stringify(days)),
+          scheduleMenuActive: 3,
+          schedule_odd: false,
+          workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
+          form_workplace_add_data: null,
+        };
+      case types.WORKPLACE_UPDATE.HISTORY:
+        return {
+            ...state,
+            ...state.form_workplace_add_data,          
+            form_workplace_add_data: null,
+          };
+  
     default:
       return state;
   }

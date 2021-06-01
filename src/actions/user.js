@@ -145,6 +145,12 @@ export const types = {
     WORKPLACE_TYPE: {
         SET: 'WORKPLACE_TYPE.SET',
     },
+    WORKPLACE_UPDATE: {
+        SET: 'WORKPLACE_UPDATE.SET',
+        CLEAR: 'WORKPLACE_UPDATE.CLEAR',
+        HISTORY: 'WORKPLACE_UPDATE.HISTORY',
+        // todo ...
+    },
 };
 
 const authRequest = data => ({
@@ -562,6 +568,20 @@ const setWorkplaceType = data => ({
     ...data,
 });
 
+const setWorkplaceUpdate = data => ({
+    type: types.WORKPLACE_UPDATE.SET,
+    ...data,
+});
+
+const setWorkplaceClear = data => ({
+    type: types.WORKPLACE_UPDATE.CLEAR,
+    ...data,
+});
+
+const setWorkplaceHistory = data => ({
+    type: types.WORKPLACE_UPDATE.HISTORY,
+    ...data,
+});
 
 export {
     authRequest,
@@ -647,4 +667,7 @@ export {
     beautyRoomError,
     setValidationAlert,
     setWorkplaceType,
+    setWorkplaceUpdate,
+    setWorkplaceClear,
+    setWorkplaceHistory,
 };

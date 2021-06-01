@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -12,42 +12,38 @@ import {
   setForm,
   beautyRoomsRequest,
   setWorkplaceType,
-  setWorkplaceHistory,
 } from '../../../actions/user';
 import _ from '../../../services/i18n';
 
-const WorkspaceAdd = ({navigation, route}) => {
+const WorkspaceUpdate = ({navigation, route}) => {
+  const type_id = route.params.type_id;
+  const place = route.params.place;
+
   const dispatch = useDispatch();
   const {
     loading,
-    beauty_name,
-    beauty_data, // todo ???
+    // beauty_name,
+    // beauty_data, // todo ???
     city_info,
-    district_select,
-    sub_district_select_string,
-    metro_select_string,
-    sub_district,
-    metro,
-    workspace_address,
-    workspace_address_comment,
-    district_select_in_client_string,
-    address_id,
+    // district_select,
+    // sub_district_select_string,
+    // metro_select_string,
+    // sub_district,
+    // metro,
+    // workspace_address,
+    // workspace_address_comment,
+    // district_select_in_client_string,
   } = useSelector((state) => state.user);
 
   const type_id = route.params.type_id;
 
-  useEffect(() => {
-    dispatch(setWorkplaceType({type_id}));
-    return () => {
-      if (address_id !== '-1') {
-        dispatch(setWorkplaceHistory());
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   dispatch(setWorkplaceType({type_id}));
+  // }, []);
 
   const setBeautyName = (name) => {
-    dispatch(setForm({payload: {beauty_name: name}}));
-    dispatch(beautyRoomsRequest({term: name})); // todo autocomplete view ...
+    // dispatch(setForm({payload: {beauty_name: name}}));
+    // dispatch(beautyRoomsRequest({term: name})); // todo autocomplete view ...
   };
 
   const setDistricts = (district) => {
@@ -157,7 +153,7 @@ const WorkspaceAdd = ({navigation, route}) => {
         </View>
       )}
 
-      {type_id !== 3 ? (
+      {/* {type_id !== 3 ? (
         <SelectInput
           label="district"
           data={city_info?.districts}
@@ -225,7 +221,7 @@ const WorkspaceAdd = ({navigation, route}) => {
         <TouchableOpacity onPress={() => navigation.navigate('ScheduleBreak')}>
           <Text style={styles.addBreak}>{_.t('break_add')}</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <View style={{marginVertical: 50}} />
     </KeyboardAwareScrollView>
@@ -247,4 +243,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WorkspaceAdd;
+export default WorkspaceUpdate;

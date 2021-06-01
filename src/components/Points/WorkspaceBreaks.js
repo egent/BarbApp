@@ -39,7 +39,6 @@ const days = [
 const WorkspaceBreaks = () => {
   const dispatch = useDispatch();
   const {workspace_breaks} = useSelector((state) => state.user);
-
   const getBreakDays = () => {
     const breakDays = [];
     days.map((d) => {

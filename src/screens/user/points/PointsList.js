@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {FlatList, Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import PointMenuItem from '../../../components/Points/PointMenuItem';
-import {workplaceDeleteRequest} from '../../../actions/user';
+import {workplaceDeleteRequest, setWorkplaceUpdate} from '../../../actions/user';
 import Preloader from '../../../components/PreLoader';
 import ModalAlert from '../../../components/modal/Alert';
 import carIcon from '../../../assets/images/car.png';
@@ -15,7 +15,6 @@ const menu = [
     title: 'in_office',
     subTitle: 'add_office_location',
     icon: <Image source={bedIcon} width={24} height={24} />,
-    screenName: 'WorkspaceAdd',
     type_id: 2,
   },
   {
@@ -23,7 +22,6 @@ const menu = [
     title: 'in_house',
     subTitle: 'add_master_location',
     icon: <Image source={houseIcon} width={24} height={24} />,
-    screenName: '',
     type_id: 1,
   },
   {
@@ -31,7 +29,6 @@ const menu = [
     title: 'in_client_location',
     subTitle: 'add_client_location',
     icon: <Image source={carIcon} width={24} height={24} />,
-    in_client_location: '',
     type_id: 3,
   },
 ];
@@ -56,6 +53,11 @@ const PointsList = ({navigation}) => {
     setAlertVisible(false);
   };
 
+  const updateAddress = (typeId, place) => {
+    dispatch(setWorkplaceUpdate({type_id: typeId, place}));
+    navigation.navigate('WorkspaceAdd', {type_id: typeId, place});
+  }
+
   if (loading) {
     return <Preloader />;
   }
@@ -70,6 +72,7 @@ const PointsList = ({navigation}) => {
             {...item}
             workspaces={workspaces}
             navigation={navigation}
+            update={updateAddress}
             remove={deleteAddress}
           />
         )}

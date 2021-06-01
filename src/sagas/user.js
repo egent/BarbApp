@@ -685,6 +685,7 @@ function* beautyRoomSendSaga({navigation}) {
     schedule_odd,
     workspace_breaks,
     district_select_in_client,
+    workspace_address_comment,
     address_id,
   } = yield select(getUserState);
 
@@ -708,6 +709,7 @@ function* beautyRoomSendSaga({navigation}) {
       workplace: workspace_type,
       id: address_id,
       city_id: info.city.id,
+      comment: workspace_address_comment,
     };
 
     if (workspace_type !== 3 && district_select !== null) {
@@ -773,12 +775,14 @@ function* beautyRoomSendSaga({navigation}) {
       payload = {...payload, breaks: workspace_breaks[0]}
     }
 
-    // todo check new or updates
-
-    yield put(workplaceAddRequest({
-      navigation,
-      payload
-    }));
+    if (address_id === '-1') {
+      yield put(workplaceAddRequest({
+        navigation,
+        payload
+      }));
+    } else {
+      // todo update address ...
+    }
 
   } else {
     yield put(beautyRoomError());

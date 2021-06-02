@@ -3,10 +3,6 @@ import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const HeaderRightIcon = ({onPress, icon}) => {
-
-  console.log(onPress)
-  console.log(onPress)
-
   return (
     <TouchableOpacity
       style={{paddingRight: 10}}

@@ -27,6 +27,7 @@ import {
     watchWorkspaceAddSaga,
     watchWorkspaceDeleteSaga,
     watchBeautyRoomSendSaga,
+    watchWorkplaceUpdateSaga,
 } from './user';
 
 export default function* rootSaga() {
@@ -58,5 +59,6 @@ export default function* rootSaga() {
         watchWorkspaceAddSaga(),
         watchWorkspaceDeleteSaga(),
         watchBeautyRoomSendSaga(),
+        watchWorkplaceUpdateSaga(),
     ]);
 }

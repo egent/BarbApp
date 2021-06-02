@@ -66,6 +66,10 @@ import {
   beautyRoomSend,
   beautyRoomError,
   setValidationAlert,
+  workplaceUpdateRequest,
+  workplaceUpdateSuccess,
+  workplaceUpdateFailure,
+  setWorkplaceClear,
 } from '../actions/user';
 import {
   getClientId,
@@ -97,6 +101,7 @@ import {
   ENDPOINT_GET_CITY_INFO,
   ENDPOINT_WORKPLACE_ADD,
   ENDPOINT_WORKPLACE_DELETE,
+  ENDPOINT_WORKPLACE_UPDATE,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -111,7 +116,7 @@ function* authSaga(params) {
     client_id,
     client_secret,
   });
-  if (response.status === 200) {    
+  if (response.status === 200) {
     yield put(
       authSuccess({
         phone,
@@ -120,7 +125,6 @@ function* authSaga(params) {
         refresh_token: response.data.refresh_token,
       }),
     );
-
   } else {
     Alert.alert('', response.data.error);
     yield put(authFailure({}));
@@ -329,7 +333,7 @@ function* registerSaga(params) {
       }),
     );
 
-    yield put(authRequest({ phone, password, navigation }));
+    yield put(authRequest({phone, password, navigation}));
 
     // Alert.alert('', message);
   } else {
@@ -353,7 +357,6 @@ function* checkCodeSaga(params) {
 
     // Alert.alert('', message);
     navigation.navigate('UserInfo');
-
   } else {
     Alert.alert('', response.data.message);
     yield put(checkCodeFailure({}));
@@ -362,22 +365,23 @@ function* checkCodeSaga(params) {
 
 function* getCodeSaga(params) {
   const {phone, city, navigation} = params;
-  const response = yield call(api, ENDPOINT_GET_CODE, 'POST', {city_id: city.id, phone});
+  const response = yield call(api, ENDPOINT_GET_CODE, 'POST', {
+    city_id: city.id,
+    phone,
+  });
 
   if (response.status === 200) {
-   const {code, message} = response.data.data;
+    const {code, message} = response.data.data;
 
     try {
-
       yield put(
         getCodeSuccess({
           code,
           phone,
-          city
+          city,
         }),
       );
       navigation.navigate('CheckSms');
-
     } catch (error) {
       Toast.show({
         type: 'error',
@@ -431,12 +435,16 @@ function* passwordResetSaga(params) {
 function* dialogDeleteSaga(params) {
   const token = yield select(getAccessToken);
   const {dialogs} = params;
-  const response = yield call(api, ENDPOINT_DELETE_DIALOGS, 'POST', {dialogs}, token);
+  const response = yield call(
+    api,
+    ENDPOINT_DELETE_DIALOGS,
+    'POST',
+    {dialogs},
+    token,
+  );
 
   if (response.status === 200) {
-    yield put(
-      dialogDeleteSuccess()
-    );
+    yield put(dialogDeleteSuccess());
     yield put(dialogsRequest());
     Toast.show({
       type: 'success',
@@ -468,9 +476,7 @@ function* specsSaga() {
 
   if (response.status === 200) {
     const {specs} = response.data.data;
-    yield put(
-      specsSuccess({specs})
-    );
+    yield put(specsSuccess({specs}));
   } else if (response.status === 401) {
     yield put(specsFailure({}));
     yield put(authLogout());
@@ -488,7 +494,7 @@ function* specsSetSaga(params) {
 
   if (response.status === 200) {
     const {specs} = response.data.data;
-    yield put( specsSetSuccess({specs}));
+    yield put(specsSetSuccess({specs}));
     Toast.show({
       type: 'success',
       // text1: title,
@@ -497,10 +503,9 @@ function* specsSetSaga(params) {
       autoHide: true,
       visibilityTime: 2000,
     });
-    
+
     yield put(specsRequest());
     navigation.goBack();
-
   } else if (response.status === 401) {
     yield put(specsSetFailure({}));
     yield put(authLogout());
@@ -513,12 +518,16 @@ function* specsSetSaga(params) {
 function* profileDescriptionsSaga() {
   const token = yield select(getAccessToken);
 
-  const response = yield call(api, ENDPOINT_PROFILE_DESCRIPTIONS, 'GET', {}, token);
+  const response = yield call(
+    api,
+    ENDPOINT_PROFILE_DESCRIPTIONS,
+    'GET',
+    {},
+    token,
+  );
 
   if (response.status === 200) {
-    yield put(
-      profileDescriptionsSuccess({data: response.data.data}),
-    );
+    yield put(profileDescriptionsSuccess({data: response.data.data}));
   } else if (response.status === 401) {
     yield put(profileDescriptionsFailure({}));
     yield put(authLogout());
@@ -532,13 +541,18 @@ function* profileDescriptionUpdateSaga(params) {
   const {navigation, payload} = params;
   const token = yield select(getAccessToken);
 
-  const response = yield call(api, ENDPOINT_PROFILE_DESCRIPTIONS, 'POST', payload, token);
-
+  const response = yield call(
+    api,
+    ENDPOINT_PROFILE_DESCRIPTIONS,
+    'POST',
+    payload,
+    token,
+  );
 
   if (response.status === 200) {
     yield put(profileDescriptionUpdateSuccess());
     yield put(profileDescriptionsRequest());
-    
+
     Toast.show({
       type: 'success',
       text2: _.t('updated_success'),
@@ -548,7 +562,6 @@ function* profileDescriptionUpdateSaga(params) {
     });
 
     navigation.goBack();
-
   } else if (response.status === 401) {
     yield put(profileDescriptionUpdateFailure({}));
     yield put(authLogout());
@@ -563,9 +576,7 @@ function* getWorkspacesSaga() {
   const response = yield call(api, ENDPOINT_GET_WORKPLACES, 'GET', {}, token);
 
   if (response.status === 200) {
-    yield put(
-      getWorkplacesSuccess({data: response.data}),
-    );
+    yield put(getWorkplacesSuccess({data: response.data}));
   } else if (response.status === 401) {
     yield put(authLogout());
   } else {
@@ -576,16 +587,20 @@ function* getWorkspacesSaga() {
 
 function* beautyRoomsSaga({term}) {
   const token = yield select(getAccessToken);
-  const response = yield call(api, ENDPOINT_GET_BEAUTY_ROOMS, 'POST', {term}, token);
-  
+  const response = yield call(
+    api,
+    ENDPOINT_GET_BEAUTY_ROOMS,
+    'POST',
+    {term},
+    token,
+  );
+
   // id: 41000
   // name: "Section"
   // salon_spec: 11
 
   if (response.status === 200) {
-    yield put(
-      beautyRoomsSuccess({data: response.data}),
-    );
+    yield put(beautyRoomsSuccess({data: response.data}));
   } else if (response.status === 401) {
     yield put(authLogout());
   } else {
@@ -598,9 +613,7 @@ function* cityInfoSaga() {
   const token = yield select(getAccessToken);
   const response = yield call(api, ENDPOINT_GET_CITY_INFO, 'GET', {}, token);
   if (response.status === 200) {
-    yield put(
-      cityInfoSuccess({data: response.data}),
-    );
+    yield put(cityInfoSuccess({data: response.data}));
   } else if (response.status === 401) {
     yield put(authLogout());
   } else {
@@ -613,12 +626,18 @@ function* workspaceAddSaga(params) {
   const {navigation, payload} = params;
   const token = yield select(getAccessToken);
 
-  const response = yield call(api, ENDPOINT_WORKPLACE_ADD, 'POST', payload, token);
+  const response = yield call(
+    api,
+    ENDPOINT_WORKPLACE_ADD,
+    'POST',
+    payload,
+    token,
+  );
 
-  if (response.status === 200) {
-    yield put(getWorkplacesRequest()); 
+  if (response.data.status_code === 200) {
+    yield put(getWorkplacesRequest());
     yield put(workplaceAddSuccess());
-    
+
     Toast.show({
       type: 'success',
       text2: _.t('updated_success'),
@@ -628,7 +647,6 @@ function* workspaceAddSaga(params) {
     });
 
     navigation.goBack();
-
   } else if (response.status === 401) {
     yield put(workplaceAddFailure({}));
     yield put(authLogout());
@@ -642,12 +660,18 @@ function* workspaceDeleteSaga(params) {
   const {address_id, navigation} = params;
   const token = yield select(getAccessToken);
 
-  const response = yield call(api, ENDPOINT_WORKPLACE_DELETE, 'POST', {address_id}, token);
+  const response = yield call(
+    api,
+    ENDPOINT_WORKPLACE_DELETE,
+    'POST',
+    {address_id},
+    token,
+  );
 
-  if (response.status === 200) {
-    yield put(getWorkplacesRequest()); 
+  if (response.data.status_code === 200) {
+    yield put(getWorkplacesRequest());
     yield put(workplaceDeleteSuccess());
-    
+
     Toast.show({
       type: 'success',
       text2: _.t('updated_success'),
@@ -659,7 +683,6 @@ function* workspaceDeleteSaga(params) {
     if (navigation !== undefined) {
       navigation.goBack();
     }
-
   } else if (response.status === 401) {
     yield put(workplaceDeleteFailure({}));
     yield put(authLogout());
@@ -671,7 +694,7 @@ function* workspaceDeleteSaga(params) {
 
 function* beautyRoomSendSaga({navigation}) {
   const {
-    beauty_name, 
+    beauty_name,
     workspace_address,
     beauty_room,
     workspace_type,
@@ -690,7 +713,12 @@ function* beautyRoomSendSaga({navigation}) {
   } = yield select(getUserState);
 
   let checkForm = false;
-  if (workspace_type === 2 && beauty_name.length > 0 && workspace_address.length > 0 && workspace_phones.length > 0) {
+  if (
+    workspace_type === 2 &&
+    beauty_name.length > 0 &&
+    workspace_address.length > 0 &&
+    workspace_phones.length > 0
+  ) {
     checkForm = true;
   }
 
@@ -713,55 +741,67 @@ function* beautyRoomSendSaga({navigation}) {
     };
 
     if (workspace_type !== 3 && district_select !== null) {
-      payload = {...payload, district_id: district_select.id}
+      payload = {...payload, district_id: district_select.id};
     }
 
-    if (workspace_type !== 3 && sub_district_select !== null && sub_district_select.length > 0) {
+    if (
+      workspace_type !== 3 &&
+      sub_district_select !== null &&
+      sub_district_select.length > 0
+    ) {
       const microdistricts = [];
       sub_district_select.map((m) => {
         microdistricts.push(m.id);
       });
 
-      payload = {...payload, microdistricts}
+      payload = {...payload, microdistricts};
     }
 
-    if (workspace_type !== 3 && metro_select_array !== null && metro_select_array.length > 0) {
+    if (
+      workspace_type !== 3 &&
+      metro_select_array !== null &&
+      metro_select_array.length > 0
+    ) {
       const metros = [];
       metro_select_array.map((m) => {
         metros.push(m.id);
-      })
-      payload = {...payload, metros}
+      });
+      payload = {...payload, metros};
     }
 
-    if (workspace_type === 3 && district_select_in_client !== null && district_select_in_client.length > 0) {
+    if (
+      workspace_type === 3 &&
+      district_select_in_client !== null &&
+      district_select_in_client.length > 0
+    ) {
       const work_dist = [];
       district_select_in_client.map((m) => {
         work_dist.push(m.id);
       });
 
-      payload = {...payload, work_dist}
+      payload = {...payload, work_dist};
     }
 
     if (workspace_phones !== null && workspace_phones.length > 0) {
-      payload = {...payload, phones: workspace_phones}
+      payload = {...payload, phones: workspace_phones};
     }
 
     if (scheduleMenuActive === 1) {
       payload = {
-        ...payload, 
+        ...payload,
         schedule_type: 1,
         schedule: {
           day: scheduleDays,
-        }
-      }
+        },
+      };
     }
 
     if (scheduleMenuActive === 2) {
       payload = {
-        ...payload, 
+        ...payload,
         schedule_type: 2,
         schedule_odd,
-      }
+      };
     }
 
     const breakDays = [];
@@ -772,20 +812,57 @@ function* beautyRoomSendSaga({navigation}) {
     }
 
     if (breakDays.length > 0) {
-      payload = {...payload, breaks: workspace_breaks[0]}
+      payload = {...payload, breaks: workspace_breaks[0]};
     }
 
     if (address_id === '-1') {
-      yield put(workplaceAddRequest({
-        navigation,
-        payload
-      }));
+      yield put(
+        workplaceAddRequest({
+          navigation,
+          payload,
+        }),
+      );
     } else {
-      // todo update address ...
+      yield put(workplaceUpdateRequest({navigation, payload}));
     }
-
   } else {
     yield put(beautyRoomError());
+  }
+}
+
+function* workplaceUpdateSaga(params) {
+  const {navigation, payload} = params;
+  const token = yield select(getAccessToken);
+
+  const response = yield call(
+    api,
+    ENDPOINT_WORKPLACE_UPDATE,
+    'POST',
+    payload,
+    token,
+  );
+
+  if (response.data.status_code === 200) {
+    yield put(getWorkplacesRequest());
+    yield put(workplaceUpdateSuccess());
+
+    Toast.show({
+      type: 'success',
+      text2: _.t('updated_success'),
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+
+    yield put(setWorkplaceClear());
+
+    navigation.goBack();
+  } else if (response.status === 401) {
+    yield put(workplaceUpdateFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(workplaceUpdateFailure({}));
   }
 }
 
@@ -866,7 +943,10 @@ function* watchProfileDescriptionsSaga() {
 }
 
 function* watchProfileDescriptionUpdateSaga() {
-  yield takeLatest(types.PROFILE_DESCRIPTION_UPDATE.REQUEST, profileDescriptionUpdateSaga);
+  yield takeLatest(
+    types.PROFILE_DESCRIPTION_UPDATE.REQUEST,
+    profileDescriptionUpdateSaga,
+  );
 }
 
 function* watchGetWorkspacesSaga() {
@@ -890,7 +970,11 @@ function* watchWorkspaceDeleteSaga() {
 }
 
 function* watchBeautyRoomSendSaga() {
-  yield takeLatest(types.BEAUTY_ROOM.SEND, beautyRoomSendSaga)
+  yield takeLatest(types.BEAUTY_ROOM.SEND, beautyRoomSendSaga);
+}
+
+function* watchWorkplaceUpdateSaga() {
+  yield takeLatest(types.WORKPLACE_UPDATE.REQUEST, workplaceUpdateSaga);
 }
 
 export {
@@ -920,4 +1004,5 @@ export {
   watchWorkspaceAddSaga,
   watchWorkspaceDeleteSaga,
   watchBeautyRoomSendSaga,
+  watchWorkplaceUpdateSaga,
 };

@@ -16,6 +16,7 @@ const ENDPOINT_GET_WORKPLACES = BACKEND_URL_PREFIX + '/workplaces';
 const ENDPOINT_GET_BEAUTY_ROOMS = BACKEND_URL_PREFIX + '/workplaces/new/get-salons';
 const ENDPOINT_GET_CITY_INFO = BACKEND_URL_PREFIX + '/workplaces/new/get-city-info';
 const ENDPOINT_WORKPLACE_ADD = BACKEND_URL_PREFIX + '/workplaces/new/store-address';
+const ENDPOINT_WORKPLACE_UPDATE = BACKEND_URL_PREFIX + '/workplaces/new/save-address';
 const ENDPOINT_WORKPLACE_DELETE = BACKEND_URL_PREFIX + '/workplaces/delete-address';
 
 const ENDPOINT_SEND_EMAIL = BACKEND_URL + '/api-send-email-code';
@@ -38,6 +39,7 @@ export {
     ENDPOINT_GET_WORKPLACES,
     ENDPOINT_WORKPLACE_ADD,
     ENDPOINT_WORKPLACE_DELETE,
+    ENDPOINT_WORKPLACE_UPDATE,
     // ...
     ENDPOINT_USER_INFO,
     ENDPOINT_USER_INFO_FULL,

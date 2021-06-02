@@ -7,31 +7,31 @@ import {breaksDelete} from '../../actions/user';
 
 const days = [
   {
-    id: 0,
+    id: 1,
     title: 'monday_short',
   },
   {
-    id: 1,
+    id: 2,
     title: 'tuesday_short',
   },
   {
-    id: 2,
+    id: 3,
     title: 'wednesday_short',
   },
   {
-    id: 3,
+    id: 4,
     title: 'thursday_short',
   },
   {
-    id: 4,
+    id: 5,
     title: 'friday_short',
   },
   {
-    id: 5,
+    id: 6,
     title: 'saturday_short',
   },
   {
-    id: 6,
+    id: 7,
     title: 'sunday_short',
   },
 ];

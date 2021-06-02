@@ -116,6 +116,8 @@ export const types = {
     REQUEST: 'BEAUTY_ROOMS.REQUEST',
     SUCCESS: 'BEAUTY_ROOMS.SUCCESS',
     FAILURE: 'BEAUTY_ROOMS.FAILURE',
+    CLEAR: 'BEAUTY_ROOMS.CLEAR',
+    COPY: 'BEAUTY_ROOMS.COPY',
   },
   CITY_INFO: {
     REQUEST: 'CITY_INFO.REQUEST',
@@ -500,6 +502,16 @@ const beautyRoomsFailure = (data) => ({
   ...data,
 });
 
+const beautyRoomsClear = (data) => ({
+  type: types.BEAUTY_ROOMS.CLEAR,
+  ...data,
+});
+
+const beautyRoomsCopy = (data) => ({
+  type: types.BEAUTY_ROOMS.COPY,
+  ...data,
+});
+
 const cityInfoRequest = (data) => ({
   type: types.CITY_INFO.REQUEST,
   ...data,
@@ -690,4 +702,6 @@ export {
   workplaceUpdateRequest,
   workplaceUpdateSuccess,
   workplaceUpdateFailure,
+  beautyRoomsClear,
+  beautyRoomsCopy,
 };

@@ -480,12 +480,17 @@ export default function user(state = initialState, action = {}) {
       return {
         ...state,
         autoCompleteLoading: false,
-        beauty_data: action.data,
+        beauty_data: action.data.data.salons,
       };
     case types.BEAUTY_ROOMS.FAILURE:
       return {
         ...state,
         autoCompleteLoading: false,
+      };
+    case types.BEAUTY_ROOMS.CLEAR:
+      return {
+        ...state,
+        beauty_data: [],
       };
     case types.CITY_INFO.REQUEST:
       return {
@@ -585,12 +590,6 @@ export default function user(state = initialState, action = {}) {
         workspace_breaks: JSON.parse(JSON.stringify(state.workspace_breaks)),
       };
 
-      // todo save old data
-      console.log('======');
-      console.log(action.place);
-      console.log(action.place.salon_name);
-      // todo delete up to production
-
       let sub_district = [];
       let metro = [];
       let district_select = null;
@@ -658,7 +657,10 @@ export default function user(state = initialState, action = {}) {
           ? [JSON.parse(JSON.stringify(action.place.breaks))]
           : JSON.parse(JSON.stringify(workspace_breaks));
 
-      const scheduleDays = action.place.schedule !== null ? action.place.schedule.day : JSON.parse(JSON.stringify(days));
+      const scheduleDays =
+        action.place.schedule !== null
+          ? action.place.schedule.day
+          : JSON.parse(JSON.stringify(days));
 
       return {
         ...state,
@@ -687,39 +689,92 @@ export default function user(state = initialState, action = {}) {
         schedule_odd: !!action.place.schedule_odd,
         workspace_breaks: breaks,
       };
-      case types.WORKPLACE_UPDATE.CLEAR:
-        return {
-          ...state,
-          workspace_type: null,
-          beauty_room: '-1', // user beauty room selected
-          address_id: '-1', // for update address
-          beauty_name: '',
-          beauty_data: null,
-          district_select: null,
-          district_select_in_client: [],
-          district_select_in_client_string: '',
-          sub_district: null,
-          metro: null,
-          sub_district_select: null,
-          sub_district_select_string: '',
-          metro_select_string: '',
-          metro_select_array: null,
-          workspace_address: '',
-          workspace_address_comment: '',
-          workspace_phones: [],
-          scheduleDays: JSON.parse(JSON.stringify(days)),
-          scheduleMenuActive: 3,
-          schedule_odd: false,
-          workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
-          form_workplace_add_data: null,
-        };
-      case types.WORKPLACE_UPDATE.HISTORY:
-        return {
-            ...state,
-            ...state.form_workplace_add_data,          
-            form_workplace_add_data: null,
-          };
-  
+    case types.WORKPLACE_UPDATE.CLEAR:
+      return {
+        ...state,
+        workspace_type: null,
+        beauty_room: '-1', // user beauty room selected
+        address_id: '-1', // for update address
+        beauty_name: '',
+        beauty_data: [],
+        district_select: null,
+        district_select_in_client: [],
+        district_select_in_client_string: '',
+        sub_district: null,
+        metro: null,
+        sub_district_select: null,
+        sub_district_select_string: '',
+        metro_select_string: '',
+        metro_select_array: null,
+        workspace_address: '',
+        workspace_address_comment: '',
+        workspace_phones: [],
+        scheduleDays: JSON.parse(JSON.stringify(days)),
+        scheduleMenuActive: 3,
+        schedule_odd: false,
+        workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
+        form_workplace_add_data: null,
+      };
+    case types.WORKPLACE_UPDATE.HISTORY:
+      return {
+        ...state,
+        ...state.form_workplace_add_data,
+        form_workplace_add_data: null,
+      };
+    case types.BEAUTY_ROOMS.COPY:
+
+      const {salon_id, salon_name, address} = action.place;
+      let district_user_select = null;
+      let _sub_district = null;
+      let _metro = null;
+      state.city_info.districts.map((d) => {
+        if (d.id === address.district) {
+          district_user_select = d;
+          _sub_district = d.microdistricts;
+          _metro = d.metros;
+        }
+      });
+
+      const sub_district_sel = [];
+      const sub_district_sel_names = [];
+
+      address.microdistricts.map((item) => {
+        district_user_select.microdistricts.map((m) => {
+          if (m.id === item) {
+            sub_district_sel.push(m);
+            sub_district_sel_names.push(m.name);
+          }
+        });
+      });
+      const sub_district_sel_string = sub_district_sel_names.join(', ');
+
+      let metro_sel_str = '';
+      let metro_sel_array = [];
+      const metro_sel_arr = [];
+      address.metros.map((item) => {
+        district_user_select.metros.map((m) => {
+          if (m.id === item) {
+            metro_sel_array.push(m);
+            metro_sel_arr.push(m.name);
+          }
+        });
+      });
+      metro_sel_str = metro_sel_arr.join(', ');
+
+      return {
+        ...state,
+        beauty_room: salon_id,
+        beauty_name: salon_name,
+        workspace_address: address.street,
+        district_select: district_user_select,
+        metro_select_string: metro_sel_str,
+        metro_select_array: metro_sel_array,
+        sub_district_select: sub_district_sel,
+        sub_district_select_string: sub_district_sel_string,
+        sub_district: _sub_district,
+        metro: _metro,
+        beauty_data: [],
+      };
     default:
       return state;
   }

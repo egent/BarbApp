@@ -102,6 +102,7 @@ import {
   ENDPOINT_WORKPLACE_ADD,
   ENDPOINT_WORKPLACE_DELETE,
   ENDPOINT_WORKPLACE_UPDATE,
+  ENDPOINT_POINT_SEARCH_NAME,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -589,7 +590,7 @@ function* beautyRoomsSaga({term}) {
   const token = yield select(getAccessToken);
   const response = yield call(
     api,
-    ENDPOINT_GET_BEAUTY_ROOMS,
+    ENDPOINT_POINT_SEARCH_NAME,
     'POST',
     {term},
     token,
@@ -599,7 +600,7 @@ function* beautyRoomsSaga({term}) {
   // name: "Section"
   // salon_spec: 11
 
-  if (response.status === 200) {
+  if (response.data.status_code === 200) {
     yield put(beautyRoomsSuccess({data: response.data}));
   } else if (response.status === 401) {
     yield put(authLogout());

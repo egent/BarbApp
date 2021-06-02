@@ -8,11 +8,14 @@ import PhoneInputs from '../../../components/Points/PhoneInputs';
 import Schedule from '../../../components/Points/Schedule/Schedule';
 import Preloader from '../../../components/PreLoader';
 import WorkspaceBreaks from '../../../components/Points/WorkspaceBreaks';
+import Autocomplete from '../../../components/Points/Autocomplete';
+
 import {
   setForm,
   beautyRoomsRequest,
   setWorkplaceType,
   setWorkplaceHistory,
+  beautyRoomsClear,
 } from '../../../actions/user';
 import _ from '../../../services/i18n';
 
@@ -21,7 +24,7 @@ const WorkspaceAdd = ({navigation, route}) => {
   const {
     loading,
     beauty_name,
-    beauty_data, // todo ???
+    beauty_data,
     city_info,
     district_select,
     sub_district_select_string,
@@ -47,7 +50,11 @@ const WorkspaceAdd = ({navigation, route}) => {
 
   const setBeautyName = (name) => {
     dispatch(setForm({payload: {beauty_name: name}}));
-    dispatch(beautyRoomsRequest({term: name})); // todo autocomplete view ...
+    if (name.length > 2) {
+      dispatch(beautyRoomsRequest({term: name}));
+    } else {
+      dispatch(beautyRoomsClear());
+    }
   };
 
   const setDistricts = (district) => {
@@ -154,6 +161,7 @@ const WorkspaceAdd = ({navigation, route}) => {
             setData={setBeautyName}
             required={true}
           />
+          <Autocomplete />
         </View>
       )}
 

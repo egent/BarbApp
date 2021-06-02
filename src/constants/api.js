@@ -14,6 +14,7 @@ const ENDPOINT_SPECS = BACKEND_URL_PREFIX + '/profile/specs';
 const ENDPOINT_PROFILE_DESCRIPTIONS = BACKEND_URL_PREFIX +'/profile/descriptions';
 const ENDPOINT_GET_WORKPLACES = BACKEND_URL_PREFIX + '/workplaces';
 const ENDPOINT_GET_BEAUTY_ROOMS = BACKEND_URL_PREFIX + '/workplaces/new/get-salons';
+const ENDPOINT_POINT_SEARCH_NAME = BACKEND_URL_PREFIX + '/workplaces/get-salons-addresses';
 const ENDPOINT_GET_CITY_INFO = BACKEND_URL_PREFIX + '/workplaces/new/get-city-info';
 const ENDPOINT_WORKPLACE_ADD = BACKEND_URL_PREFIX + '/workplaces/new/store-address';
 const ENDPOINT_WORKPLACE_UPDATE = BACKEND_URL_PREFIX + '/workplaces/new/save-address';
@@ -40,6 +41,7 @@ export {
     ENDPOINT_WORKPLACE_ADD,
     ENDPOINT_WORKPLACE_DELETE,
     ENDPOINT_WORKPLACE_UPDATE,
+    ENDPOINT_POINT_SEARCH_NAME,
     // ...
     ENDPOINT_USER_INFO,
     ENDPOINT_USER_INFO_FULL,

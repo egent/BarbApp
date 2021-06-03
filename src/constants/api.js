@@ -19,6 +19,7 @@ const ENDPOINT_GET_CITY_INFO = BACKEND_URL_PREFIX + '/workplaces/new/get-city-in
 const ENDPOINT_WORKPLACE_ADD = BACKEND_URL_PREFIX + '/workplaces/new/store-address';
 const ENDPOINT_WORKPLACE_UPDATE = BACKEND_URL_PREFIX + '/workplaces/new/save-address';
 const ENDPOINT_WORKPLACE_DELETE = BACKEND_URL_PREFIX + '/workplaces/delete-address';
+const ENDPOINT_PRICE = BACKEND_URL_PREFIX + '/price';
 
 const ENDPOINT_SEND_EMAIL = BACKEND_URL + '/api-send-email-code';
 const ENDPOINT_UPLOAD_PHOTO = BACKEND_URL + '/api-settings/update-photo';
@@ -42,6 +43,7 @@ export {
     ENDPOINT_WORKPLACE_DELETE,
     ENDPOINT_WORKPLACE_UPDATE,
     ENDPOINT_POINT_SEARCH_NAME,
+    ENDPOINT_PRICE,
     // ...
     ENDPOINT_USER_INFO,
     ENDPOINT_USER_INFO_FULL,

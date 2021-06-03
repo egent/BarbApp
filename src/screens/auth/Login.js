@@ -6,9 +6,6 @@ import {
   TouchableOpacity,
   Dimensions,
   KeyboardAvoidingView,
-  TextInput,
-  Platform,
-  Pressable
 } from 'react-native';
 import analytics from '@react-native-firebase/analytics';
 import {connect} from 'react-redux';

@@ -161,7 +161,7 @@ export default {
     work_start_picker: 'Месяц и год старта карьеры',
     set_experience_date: 'Указать начало карьеры',
 
-    // places
+    // Places
     'master_locations': 'Места приема',
     'in_office': 'В салоне',
     'in_house': 'На дому', 
@@ -219,4 +219,9 @@ export default {
     'breaks_example_comment': 'Например, "обед"',
     'breaks_comment': 'Коментарий (видите только Вы)',
     'delete_workplace': 'Удалить место приема?',
+
+    // Price & services
+    price: 'Прайс-лист', 
+    services: 'Услуги',
+    consultation: 'Консультация',
 };

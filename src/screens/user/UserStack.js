@@ -256,7 +256,19 @@ const UserStackScreens = ({navigation}) => (
         headerTitleStyle: styles.headerTitleStyle,
       })}
     />
-
+    <UserStack.Screen
+      name="Price"
+      component={PriceScreen}
+      options={({navigation, route}) => ({
+        headerShown: true,
+        headerTitle: _.t('services_prices'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} />
+        ),
+        headerStyle: styles.headerStyle,
+        headerTitleStyle: [styles.headerTitleStyle, {color: '#86888B'}],
+      })}
+    />
     <UserStack.Screen
       name="Test"
       component={Test}

@@ -16,6 +16,7 @@ import {
   profileDescriptionsRequest,
   getWorkplacesRequest,
   cityInfoRequest,
+  priceRequest,
 } from '../../actions/user';
 import Preloader from '../../components/PreLoader';
 
@@ -64,6 +65,7 @@ const menu = [
     check: true,
     counter: 14,
     icon: <Image source={iconPrice} width={24} height={24} />,
+    screenName: 'Price',
   },
   {
     id: 5,
@@ -118,6 +120,7 @@ const Profile = ({navigation}) => {
     dispatch(profileDescriptionsRequest());
     dispatch(getWorkplacesRequest());
     dispatch(cityInfoRequest());
+    dispatch(priceRequest());
   }, []);
 
   if (loading) {

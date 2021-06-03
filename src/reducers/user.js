@@ -128,6 +128,11 @@ const initialState = {
   form_workplace_add_data: null,
   // add workspace end
   showValidationAlert: false,
+  
+  // price & services
+  price: [],
+  priceDescription : {},
+  showPriceSaveBtn: false,
 };
 
 export default function user(state = initialState, action = {}) {
@@ -775,6 +780,24 @@ export default function user(state = initialState, action = {}) {
         metro: _metro,
         beauty_data: [],
       };
+      case types.PRICE.REQUEST:
+        return {
+          ...state,
+          loading: true,
+        };
+      case types.PRICE.SUCCESS:
+        const {price, description} = action.priceInfo.data;
+        return {
+          ...state,
+          loading: false,
+          priceInfo: price,
+          priceDescription: description,
+        };
+      case types.PRICE.FAILURE:
+        return {
+          ...state,
+          loading: false,
+        };
     default:
       return state;
   }

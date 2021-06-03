@@ -155,6 +155,11 @@ export const types = {
     SUCCESS: 'WORKPLACE_UPDATE.SUCCESS',
     FAILURE: 'WORKPLACE_UPDATE.FAILURE',
   },
+  PRICE: {
+    REQUEST: 'PRICE.REQUEST',
+    SUCCESS: 'PRICE.SUCCESS',
+    FAILURE: 'PRICE.FAILURE',
+  },
 };
 
 const authRequest = (data) => ({
@@ -612,6 +617,21 @@ const workplaceUpdateRequest = (data) => ({
     ...data,
   });
 
+  const priceRequest = (data) => ({
+    type: types.PRICE.REQUEST,
+    ...data,
+  });
+  
+  const priceSuccess = (data) => ({
+    type: types.PRICE.SUCCESS,
+    ...data,
+  });
+  
+  const priceFailure = (data) => ({
+    type: types.PRICE.FAILURE,
+    ...data,
+  });
+
 export {
   authRequest,
   authSuccess,
@@ -704,4 +724,7 @@ export {
   workplaceUpdateFailure,
   beautyRoomsClear,
   beautyRoomsCopy,
+  priceRequest,
+  priceSuccess,
+  priceFailure,
 };

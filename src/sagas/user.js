@@ -70,6 +70,9 @@ import {
   workplaceUpdateSuccess,
   workplaceUpdateFailure,
   setWorkplaceClear,
+  priceRequest,
+  priceSuccess,
+  priceFailure,
 } from '../actions/user';
 import {
   getClientId,
@@ -103,6 +106,7 @@ import {
   ENDPOINT_WORKPLACE_DELETE,
   ENDPOINT_WORKPLACE_UPDATE,
   ENDPOINT_POINT_SEARCH_NAME,
+  ENDPOINT_PRICE,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -867,6 +871,23 @@ function* workplaceUpdateSaga(params) {
   }
 }
 
+function* priceSaga() {
+  const token = yield select(getAccessToken);
+
+  const response = yield call(api, ENDPOINT_PRICE, 'GET', {}, token);
+
+  if (response.data.status_code === 200) {
+    yield put(priceSuccess({priceInfo: response.data}));
+  } else if (response.status === 401) {
+    yield put(priceFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(priceFailure({}));
+  }
+}
+
+
 function* watchAuthSaga() {
   yield takeLatest(types.AUTH.REQUEST, authSaga);
 }
@@ -978,6 +999,10 @@ function* watchWorkplaceUpdateSaga() {
   yield takeLatest(types.WORKPLACE_UPDATE.REQUEST, workplaceUpdateSaga);
 }
 
+function* watchPriceSaga() {
+  yield takeLatest(types.PRICE.REQUEST, priceSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -1006,4 +1031,5 @@ export {
   watchWorkspaceDeleteSaga,
   watchBeautyRoomSendSaga,
   watchWorkplaceUpdateSaga,
+  watchPriceSaga,
 };

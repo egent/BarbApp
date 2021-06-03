@@ -2,7 +2,10 @@ import React, {useState} from 'react';
 import {FlatList, Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import PointMenuItem from '../../../components/Points/PointMenuItem';
-import {workplaceDeleteRequest, setWorkplaceUpdate} from '../../../actions/user';
+import {
+  workplaceDeleteRequest,
+  setWorkplaceUpdate,
+} from '../../../actions/user';
 import Preloader from '../../../components/PreLoader';
 import ModalAlert from '../../../components/modal/Alert';
 import carIcon from '../../../assets/images/car.png';
@@ -46,7 +49,7 @@ const PointsList = ({navigation}) => {
 
   const toggleAlert = () => {
     setAlertVisible(!alertVisible);
-  }
+  };
 
   const _deleteAddress = () => {
     dispatch(workplaceDeleteRequest({address_id: addressId}));
@@ -56,7 +59,7 @@ const PointsList = ({navigation}) => {
   const updateAddress = (typeId, place) => {
     dispatch(setWorkplaceUpdate({type_id: typeId, place}));
     navigation.navigate('WorkspaceAdd', {type_id: typeId, place});
-  }
+  };
 
   if (loading) {
     return <Preloader />;
@@ -80,7 +83,7 @@ const PointsList = ({navigation}) => {
       <ModalAlert
         visible={alertVisible}
         toggle={toggleAlert}
-        title='delete_workplace'
+        title="delete_workplace"
         onPress={_deleteAddress}
       />
     </>

@@ -3,7 +3,6 @@ import {
   Text,
   View,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   FlatList,
 } from 'react-native';
@@ -13,9 +12,11 @@ import {beautyRoomsCopy} from '../../actions/user';
 const Autocomplete = () => {
   const {beauty_data} = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  if (beauty_data !== null && beauty_data.length === 0) {
+
+  if (beauty_data === null || beauty_data.length === 0) {
     return null;
   }
+  
   return (
     <FlatList
       nestedScrollEnabled

@@ -19,6 +19,7 @@ import ProfileDescription from '../../screens/user/ProfileDescription';
 import PointsList from '../../screens/user/points/PointsList';
 import WorkspaceAdd from '../../screens/user/points/WorkspaceAdd';
 import ScheduleBreak from '../../screens/user/points/ScheduleBreaks';
+import PriceScreen from '../../screens/user/Price';
 
 import {beautyRoomSend} from '../../actions/user';
 
@@ -204,29 +205,30 @@ const UserStackScreens = ({navigation}) => (
           title = 'in_client_settings';
         }
 
-        return ({
+        return {
           headerShown: true,
           headerTitle: _.t(title),
           headerLeft: (props) => (
             <HeaderLeft {...props} navigation={navigation} icon="close" />
           ),
           headerRight: (props) => {
-              return (
-                <HeaderRightIconRedux
-                  {...props}
-                  icon="done"
-                  onPress={beautyRoomSend}
-                  navigation={navigation}
-                />
-              );
+            return (
+              <HeaderRightIconRedux
+                place={route.params.place}
+                {...props}
+                icon="done"
+                onPress={beautyRoomSend}
+                navigation={navigation}
+              />
+            );
           },
           headerStyle: styles.headerStyle,
           headerTitleStyle: styles.headerTitleStyle,
-        });
+        };
       }}
     />
 
-<UserStack.Screen
+    <UserStack.Screen
       name="ScheduleBreak"
       component={ScheduleBreak}
       options={({navigation, route}) => ({
@@ -241,7 +243,9 @@ const UserStackScreens = ({navigation}) => (
               <HeaderRightIcon
                 {...props}
                 icon="done"
-                onPress={() => {navigation.goBack()}}
+                onPress={() => {
+                  navigation.goBack();
+                }}
               />
             );
           } catch (e) {

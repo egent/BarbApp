@@ -1,36 +1,22 @@
-import React, {useEffect} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import React from 'react';
+import {StyleSheet} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-// import {priceRequest} from '../../actions/user';
-// import Preloader from '../../components/PreLoader';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import TabContainer from '../../components/Price/TabContainer';
 import Consultation from '../../components/Price/Consultation';
+import PriceList from '../../components/Price/PriceList';
 
 const PriceScreen = ({navigation}) => {
-  const dispatch = useDispatch();
-  const {loading, priceInfo} = useSelector((state) => state.user);
-
-  // useEffect(() => {
-  //   dispatch(priceRequest());
-  // }, []);
-
-  // if (loading) {
-  //   return <Preloader />;
-  // }
-
   return (
     <KeyboardAwareScrollView
       style={styles.container}
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="always">
-
       <TabContainer price={true} navigation={navigation} />
 
       <Consultation />
 
-
-
+      <PriceList />
     </KeyboardAwareScrollView>
   );
 };

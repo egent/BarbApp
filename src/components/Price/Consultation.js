@@ -9,7 +9,6 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from '../../services/i18n';
-import Input from '../../components/ui/Input';
 import {setForm} from '../../actions/user';
 
 const Consultation = () => {

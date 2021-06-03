@@ -224,4 +224,10 @@ export default {
     price: 'Прайс-лист', 
     services: 'Услуги',
     consultation: 'Консультация',
+    price_item: 'Цена',
+    time: 'Время',
+    from_price: 'От',
+    uah: 'грн',
+    min: 'мин',
+
 };

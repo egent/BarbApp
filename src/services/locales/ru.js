@@ -229,5 +229,8 @@ export default {
     from_price: 'От',
     uah: 'грн',
     min: 'мин',
+    promo_code_hint: 'Узнайте что клиент нашел Вас на Barb',
+    offers_sort_barb: 'Предложения с промокодом показываются в каталоге первыми',
+    save: 'Сохранить',
 
 };

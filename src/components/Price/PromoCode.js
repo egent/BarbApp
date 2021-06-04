@@ -1,42 +1,28 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  TextInput,
-} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {Text, View, TouchableOpacity, StyleSheet, TextInput} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from '../../services/i18n';
 import {setForm} from '../../actions/user';
 
-const Consultation = () => {
-  const dispatch = useDispatch();
+const PromoCode = () => {
+  const dispatch = useDispatch();  
   const {priceDescription} = useSelector((state) => state.user);
-  const active = !!priceDescription.consultation_on;
-  const activeFrom = !!priceDescription.consultation_from;
-  const price = priceDescription.consultation_price;
+  const active = !!priceDescription.bonus_on;
+  const price = priceDescription.bonus_value;
 
   const updateActive = () => {
     const description = JSON.parse(JSON.stringify(priceDescription));
-    description.consultation_on = !active;
+    description.bonus_on = !active;
     if (!active) {
-      description.consultation_from = null;
-      description.consultation_price = null;
+      description.bonus_value = null;
     }
-    save({showPriceSaveBtn: true, priceDescription: description});
-  };
-
-  const updateForm = () => {
-    const description = JSON.parse(JSON.stringify(priceDescription));
-    description.consultation_from = !activeFrom;
     save({showPriceSaveBtn: true, priceDescription: description});
   };
 
   const setPrice = (value) => {
     const description = JSON.parse(JSON.stringify(priceDescription));
-    description.consultation_price = value;
+    description.bonus_value = value;
     save({showPriceSaveBtn: true, priceDescription: description});
   };
 
@@ -57,30 +43,28 @@ const Consultation = () => {
         <Icon
           name={active ? 'check-box' : 'check-box-outline-blank'}
           color={active ? '#6DB7E8' : '#AFAFAF'}
-          size={24}
+          size={25}
         />
-        <Text style={styles.title}>{_.t('consultation')}</Text>
+        <View>
+            <Text style={styles.title}>{_.t('consultation')}</Text>
+            <Text style={styles.hint}>{_.t('promo_code_hint')}</Text>
+        </View>
       </TouchableOpacity>
       {active && (
-        <View style={styles.form}>
-          <TouchableOpacity activeOpacity={0.8} onPress={updateForm}>
-            <Icon
-              name={
-                activeFrom ? 'radio-button-checked' : 'radio-button-unchecked'
-              }
-              color={activeFrom ? '#6DB7E8' : '#AFAFAF'}
-              size={24}
-            />
-          </TouchableOpacity>
-          <TextInput
-            style={styles.priceConsult}
-            underlineColorAndroid="transparent"
-            onChangeText={setPrice}
-            value={price}
-            keyboardType="phone-pad"
-            returnKeyType="done"
-            blurOnSubmit={true}
-          />
+        <View style={styles.promoCode}>
+            <View style={styles.form}>
+                <TextInput
+                    style={styles.input}
+                    underlineColorAndroid="transparent"
+                    onChangeText={setPrice}
+                    value={price}
+                    keyboardType="phone-pad"
+                    returnKeyType="done"
+                    blurOnSubmit={true}
+                />
+                <Text style={styles.hint}>%</Text>
+            </View>
+            <Text style={styles.sort}>{_.t('offers_sort_barb')}</Text>
         </View>
       )}
     </>
@@ -106,7 +90,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  priceConsult: {
+  input: {
     borderColor: '#D4D6DF',
     borderWidth: 1,
     height: 40,
@@ -117,6 +101,21 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     textAlignVertical: 'top',
   },
+  hint: {
+    fontSize: 12,
+    color: '#989B9E',
+    paddingLeft: 5,
+  },
+  promoCode: {
+    backgroundColor: "#fff",
+    paddingHorizontal: 25,
+    paddingBottom: 25,
+  },
+  sort: {
+    fontSize: 12,
+    color: '#989B9E',
+    paddingLeft: 15,
+  },
 });
 
-export default Consultation;
+export default PromoCode;

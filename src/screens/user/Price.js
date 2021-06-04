@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import TabContainer from '../../components/Price/TabContainer';
 import Consultation from '../../components/Price/Consultation';
 import PriceList from '../../components/Price/PriceList';
+import PromoCode from '../../components/Price/PromoCode';
 
 const PriceScreen = ({navigation}) => {
   return (
@@ -17,6 +17,11 @@ const PriceScreen = ({navigation}) => {
       <Consultation />
 
       <PriceList />
+
+      <PromoCode />
+
+      <View style={{marginVertical: 50}} />
+
     </KeyboardAwareScrollView>
   );
 };

@@ -57,7 +57,7 @@ const PromoCode = () => {
                     style={styles.input}
                     underlineColorAndroid="transparent"
                     onChangeText={setPrice}
-                    value={price}
+                    value={price.toString()}
                     keyboardType="phone-pad"
                     returnKeyType="done"
                     blurOnSubmit={true}

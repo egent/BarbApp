@@ -10,7 +10,9 @@ const PriceList = () => {
       style={styles.container}
       keyExtractor={(item) => `price-cat-${item.id}`}
       data={priceInfo}
-      renderItem={({item}) => <PriceCategory {...item} />}      
+      renderItem={({item}) => {
+        return <PriceCategory {...item} />;
+      }}      
     />
   );
 };

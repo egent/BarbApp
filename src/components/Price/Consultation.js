@@ -17,6 +17,7 @@ const Consultation = () => {
   const active = !!priceDescription.consultation_on;
   const activeFrom = !!priceDescription.consultation_from;
   const price = priceDescription.consultation_price;
+  const time = priceDescription.consultation_time;
 
   const updateActive = () => {
     const description = JSON.parse(JSON.stringify(priceDescription));
@@ -37,6 +38,12 @@ const Consultation = () => {
   const setPrice = (value) => {
     const description = JSON.parse(JSON.stringify(priceDescription));
     description.consultation_price = value;
+    save({showPriceSaveBtn: true, priceDescription: description});
+  };
+
+  const setTime = (value) => {
+    const description = JSON.parse(JSON.stringify(priceDescription));
+    description.consultation_time = value;
     save({showPriceSaveBtn: true, priceDescription: description});
   };
 
@@ -61,6 +68,7 @@ const Consultation = () => {
         />
         <Text style={styles.title}>{_.t('consultation')}</Text>
       </TouchableOpacity>
+
       {active && (
         <View style={styles.form}>
           <TouchableOpacity activeOpacity={0.8} onPress={updateForm}>
@@ -72,15 +80,38 @@ const Consultation = () => {
               size={24}
             />
           </TouchableOpacity>
-          <TextInput
-            style={styles.priceConsult}
-            underlineColorAndroid="transparent"
-            onChangeText={setPrice}
-            value={price}
-            keyboardType="phone-pad"
-            returnKeyType="done"
-            blurOnSubmit={true}
-          />
+
+          <View style={styles.inputs}>
+            <View style={styles.inputItem}>
+              <Text style={styles.from}>{_.t('from_price')}</Text>
+
+              <TextInput
+                style={styles.input}
+                underlineColorAndroid="transparent"
+                onChangeText={setPrice}
+                value={price.toString()}
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                blurOnSubmit={true}
+                placeholder={_.t('price_item')}
+              />
+              <Text style={styles.txt}>{_.t('uah')}</Text>
+
+            </View>
+            <View style={styles.inputItem}>
+              <TextInput
+                style={[styles.input, {marginRight: 5}]}
+                underlineColorAndroid="transparent"
+                onChangeText={setTime}
+                value={time.toString()}
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                blurOnSubmit={true}
+                placeholder={_.t('time')}
+              />
+              <Text style={styles.txt}>{_.t('min')}</Text>
+            </View>
+          </View>
         </View>
       )}
     </>
@@ -106,7 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  priceConsult: {
+  input: {
     borderColor: '#D4D6DF',
     borderWidth: 1,
     height: 40,
@@ -116,6 +147,26 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     textAlignVertical: 'top',
+  },
+  inputs: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginLeft: 10,
+  },
+  inputItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  from: {
+    color: '#7C7F84',
+    fontSize: 14,
+  },
+  txt: {
+    color: '#7C7F84',
+    fontSize: 14,
+    paddingLeft: 10,
   },
 });
 

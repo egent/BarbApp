@@ -20,6 +20,7 @@ import PointsList from '../../screens/user/points/PointsList';
 import WorkspaceAdd from '../../screens/user/points/WorkspaceAdd';
 import ScheduleBreak from '../../screens/user/points/ScheduleBreaks';
 import PriceScreen from '../../screens/user/Price';
+import Services from '../../screens/user/Services';
 
 import {beautyRoomSend} from '../../actions/user';
 
@@ -188,7 +189,7 @@ const UserStackScreens = ({navigation}) => (
           <HeaderLeft {...props} navigation={navigation} />
         ),
         headerStyle: styles.headerStyle,
-        headerTitleStyle: [styles.headerTitleStyle, {color: '#86888B'}],
+        headerTitleStyle: [styles.headerTitleStyle], // , {color: '#86888B'}
       })}
     />
     <UserStack.Screen
@@ -266,7 +267,20 @@ const UserStackScreens = ({navigation}) => (
           <HeaderLeft {...props} navigation={navigation} />
         ),
         headerStyle: styles.headerStyle,
-        headerTitleStyle: [styles.headerTitleStyle, {color: '#86888B'}],
+        headerTitleStyle: [styles.headerTitleStyle], // , {color: '#86888B'}
+      })}
+    />
+    <UserStack.Screen
+      name="Services"
+      component={Services}
+      options={({navigation, route}) => ({
+        headerShown: true,
+        headerTitle: _.t('services_prices'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} />
+        ),
+        headerStyle: styles.headerStyle,
+        headerTitleStyle: [styles.headerTitleStyle],
       })}
     />
     <UserStack.Screen

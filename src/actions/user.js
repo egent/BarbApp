@@ -159,6 +159,12 @@ export const types = {
     REQUEST: 'PRICE.REQUEST',
     SUCCESS: 'PRICE.SUCCESS',
     FAILURE: 'PRICE.FAILURE',
+    CLEAR: 'PRICE.CLEAR',
+  },
+  PRICE_SAVE: {
+    REQUEST: 'PRICE_SAVE.REQUEST',
+    SUCCESS: 'PRICE_SAVE.SUCCESS',
+    FAILURE: 'PRICE_SAVE.FAILURE',
   },
 };
 
@@ -632,6 +638,26 @@ const workplaceUpdateRequest = (data) => ({
     ...data,
   });
 
+  const priceSaveRequest = (data) => ({
+    type: types.PRICE_SAVE.REQUEST,
+    ...data,
+  });
+  
+  const priceSaveSuccess = (data) => ({
+    type: types.PRICE_SAVE.SUCCESS,
+    ...data,
+  });
+  
+  const priceSaveFailure = (data) => ({
+    type: types.PRICE_SAVE.FAILURE,
+    ...data,
+  });
+
+  const priceClear = (data) => ({
+    type: types.PRICE.CLEAR,
+    ...data,
+  });
+
 export {
   authRequest,
   authSuccess,
@@ -727,4 +753,8 @@ export {
   priceRequest,
   priceSuccess,
   priceFailure,
+  priceSaveRequest,
+  priceSaveSuccess,
+  priceSaveFailure,
+  priceClear,
 };

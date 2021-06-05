@@ -1,4 +1,5 @@
-import React from 'react';
+import {find, reject} from 'lodash';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -6,49 +7,101 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from '../../services/i18n';
+import {setForm} from '../../actions/user';
 
-const PriceCategoryItem = ({id, name, activeId, setActiveId}) => {
-  const active = activeId === id ? true : false;
+const PriceCategoryItem = ({id, name, activeId, setActiveId, active}) => {
+  const dispatch = useDispatch();
+  const {priceSelect} = useSelector((state) => state.user);
+  const [activeItem, setActiveItem] = useState(activeId === id ? true : (active ? true : false))
+
+  let pSelect = JSON.parse(JSON.stringify(priceSelect));
+  let priceItem = find(pSelect, {cat_id: id});
+  pSelect = reject(pSelect, {cat_id: id});
+
+  let from = priceItem !== undefined ? priceItem.from : false;
+  let priceFrom = priceItem !== undefined ? priceItem.cost : 0;
+  let priceTime = priceItem !== undefined ? priceItem.time : 0;
+
+  const setPrice = (value) => {
+    if (priceItem !== undefined) {
+      priceItem.cost = value;
+    } else {
+      priceItem = {cat_id: id, from: false, cost: value, time: 0};
+    }
+    save(priceItem);
+  };
+
+  const setMin = (value) => {
+    if (priceItem !== undefined) {
+      priceItem.time = value;
+    } else {
+      priceItem = {cat_id: id, from: false, cost: 0, time: value};
+    }
+    save(priceItem);
+  };
+
+  const setFrom = () => {
+    if (priceItem !== undefined) {
+      priceItem.from = !from;
+    } else {
+      priceItem = {cat_id: id, from: !from, cost: 0, time: 0};
+    }
+    save(priceItem);
+  };
+
+  const save = (price) => {
+    pSelect.push(price);
+    const payload = {showPriceSaveBtn: true, priceSelect: pSelect};
+    dispatch(
+      setForm({
+        payload,
+      }),
+    );
+  };
+
   return (
     <>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => setActiveId(!active ? id : null)}
+        onPress={() => {
+          setActiveId(!activeItem ? true : false, id);
+          setActiveItem(!activeItem);
+        } }
         style={styles.container}>
         <View
           style={styles.active}
           hitSlop={{top: 5, bottom: 5, left: 5, right: 5}}>
           <Icon
-            name={active ? 'check-box' : 'check-box-outline-blank'}
-            color={active ? '#6DB7E8' : '#AFAFAF'}
+            name={activeItem ? 'check-box' : 'check-box-outline-blank'}
+            color={activeItem ? '#6DB7E8' : '#AFAFAF'}
             size={24}
           />
         </View>
         <View
-          style={[styles.titleContainer, {borderBottomWidth: active ? 0 : 1}]}>
+          style={[styles.titleContainer, {borderBottomWidth: activeItem ? 0 : 1}]}>
           <Text style={styles.title}>{name}</Text>
         </View>
       </TouchableOpacity>
-      {active && (
+      {activeItem && (
         <View style={styles.form}>
-          <View style={styles.radioBtn}>
+          <TouchableOpacity onPress={setFrom} style={styles.radioBtn}>
             <Icon
-              name={false ? 'radio-button-checked' : 'radio-button-unchecked'}
+              name={from ? 'radio-button-checked' : 'radio-button-unchecked'}
               color="#B1B1B1"
               size={24}
             />
-          </View>
+          </TouchableOpacity>
           <View style={styles.inputs}>
             <View style={styles.inputItem}>
               <Text style={styles.txt}>{_.t('from_price')}</Text>
-
               <TextInput
                 style={[styles.input, {marginHorizontal: 5}]}
                 underlineColorAndroid="transparent"
-                // onChangeText={setPrice}
-                // value={price}
+                onChangeText={setPrice}
+                value={priceFrom.toString()}
                 keyboardType="phone-pad"
                 returnKeyType="done"
                 blurOnSubmit={true}
@@ -61,8 +114,8 @@ const PriceCategoryItem = ({id, name, activeId, setActiveId}) => {
               <TextInput
                 style={[styles.input, {marginRight: 5}]}
                 underlineColorAndroid="transparent"
-                // onChangeText={setPrice}
-                // value={price}
+                onChangeText={setMin}
+                value={priceTime.toString()}
                 keyboardType="phone-pad"
                 returnKeyType="done"
                 blurOnSubmit={true}

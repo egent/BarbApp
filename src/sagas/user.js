@@ -73,6 +73,9 @@ import {
   priceRequest,
   priceSuccess,
   priceFailure,
+  priceSaveSuccess,
+  priceSaveFailure,
+  priceClear,
 } from '../actions/user';
 import {
   getClientId,
@@ -100,13 +103,14 @@ import {
   ENDPOINT_SPECS,
   ENDPOINT_PROFILE_DESCRIPTIONS,
   ENDPOINT_GET_WORKPLACES,
-  ENDPOINT_GET_BEAUTY_ROOMS,
+  // ENDPOINT_GET_BEAUTY_ROOMS,
   ENDPOINT_GET_CITY_INFO,
   ENDPOINT_WORKPLACE_ADD,
   ENDPOINT_WORKPLACE_DELETE,
   ENDPOINT_WORKPLACE_UPDATE,
   ENDPOINT_POINT_SEARCH_NAME,
   ENDPOINT_PRICE,
+  ENDPOINT_PRICE_SAVE,
 } from '../constants/api';
 
 function* authSaga(params) {
@@ -887,6 +891,44 @@ function* priceSaga() {
   }
 }
 
+function* priceUpdateSaga() {
+  const {priceDescription, priceSelect} = yield select(getUserState);
+  const payload = {
+    description: priceDescription,
+    price: priceSelect,
+  };
+  const token = yield select(getAccessToken);
+
+  const response = yield call(
+    api,
+    ENDPOINT_PRICE_SAVE,
+    'POST',
+    payload,
+    token,
+  );
+
+  if (response.data.status_code === 200) {
+    yield put(priceSaveSuccess());
+    yield put(priceRequest());
+
+    Toast.show({
+      type: 'success',
+      text2: _.t('updated_success'),
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+
+    yield put(priceClear());
+
+  } else if (response.status === 401) {
+    yield put(priceSaveFailure({}));
+    yield put(authLogout());
+  } else {
+    Alert.alert('', response.data.message);
+    yield put(priceSaveFailure({}));
+  }
+}
 
 function* watchAuthSaga() {
   yield takeLatest(types.AUTH.REQUEST, authSaga);
@@ -1003,6 +1045,10 @@ function* watchPriceSaga() {
   yield takeLatest(types.PRICE.REQUEST, priceSaga);
 }
 
+function* watchPriceUpdateSaga() {
+  yield takeLatest(types.PRICE_SAVE.REQUEST, priceUpdateSaga);
+}
+
 export {
   watchAuthSaga,
   watchUserInfoSaga,
@@ -1032,4 +1078,5 @@ export {
   watchBeautyRoomSendSaga,
   watchWorkplaceUpdateSaga,
   watchPriceSaga,
+  watchPriceUpdateSaga,
 };

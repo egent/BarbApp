@@ -128,11 +128,14 @@ const initialState = {
   form_workplace_add_data: null,
   // add workspace end
   showValidationAlert: false,
-  
+
   // price & services
   price: [],
-  priceDescription : {},
+  priceDescriptionDefault: {},
+  priceDescription: {},
+  priceSelect: [],
   showPriceSaveBtn: false,
+  priceServiceSum: 0,
 };
 
 export default function user(state = initialState, action = {}) {
@@ -519,8 +522,6 @@ export default function user(state = initialState, action = {}) {
         loading: true,
       };
     case types.WORKPLACE_ADD.SUCCESS:
-      // todo clear form data
-
       return {
         ...state,
         loading: false,
@@ -727,7 +728,6 @@ export default function user(state = initialState, action = {}) {
         form_workplace_add_data: null,
       };
     case types.BEAUTY_ROOMS.COPY:
-
       const {salon_id, salon_name, address} = action.place;
       let district_user_select = null;
       let _sub_district = null;
@@ -780,24 +780,68 @@ export default function user(state = initialState, action = {}) {
         metro: _metro,
         beauty_data: [],
       };
-      case types.PRICE.REQUEST:
-        return {
-          ...state,
-          loading: true,
-        };
-      case types.PRICE.SUCCESS:
-        const {price, description} = action.priceInfo.data;
-        return {
-          ...state,
-          loading: false,
-          priceInfo: price,
-          priceDescription: description,
-        };
-      case types.PRICE.FAILURE:
-        return {
-          ...state,
-          loading: false,
-        };
+    case types.PRICE.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.PRICE.SUCCESS:
+      const {price, description} = action.priceInfo.data;
+      let sum = 0;
+      const selected = [];
+      price.map(({items}) => {
+        items.map((item) => {
+          if (item.active) {
+            const {price_from, price, duration} = item.procedure;
+            selected.push({
+              cat_id: item.id,
+              from: price_from,
+              cost: price,
+              time: duration,
+            });
+            sum += 1;
+          }
+        });
+      });
+
+      return {
+        ...state,
+        loading: false,
+        priceInfo: price,
+        priceDescription: description,
+        priceDescriptionDefault: description,
+        priceServiceSum: sum,
+        priceSelect: selected,
+      };
+    case types.PRICE.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PRICE.CLEAR:
+      return {
+        ...state,
+        priceDescription: JSON.parse(
+          JSON.stringify(state.priceDescriptionDefault),
+        ),
+        priceSelect: [],
+        showPriceSaveBtn: false,
+      };
+    case types.PRICE_SAVE.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.PRICE_SAVE.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PRICE_SAVE.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

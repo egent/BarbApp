@@ -63,7 +63,7 @@ const menu = [
     title: 'services_prices',
     showIos: true,
     check: true,
-    counter: 14,
+    counter: 0,
     icon: <Image source={iconPrice} width={24} height={24} />,
     screenName: 'Price',
   },
@@ -111,6 +111,7 @@ const Profile = ({navigation}) => {
     loading,
     specsUser,
     workspaces,
+    priceServiceSum,
     profileDescription: {description, image},
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -153,6 +154,8 @@ const Profile = ({navigation}) => {
       menu[2].alertPoint = false;
     }
   } catch (error) {}
+
+  menu[3].counter = priceServiceSum;
 
   return (
     <FlatList
@@ -223,10 +226,9 @@ const Profile = ({navigation}) => {
             <View style={styles.titleContainer}>
               <View style={{justifyContent: 'center'}}>
                 <Text style={styles.title}>{_.t(title)}</Text>
-
                 {isSubTitle && <Text style={styles.subTitle}>{subTitle}</Text>}
               </View>
-              {counter && <Text style={styles.counter}>{counter}</Text>}
+              {counter !== null && <Text style={styles.counter}>{counter}</Text>}
             </View>
           </TouchableOpacity>
         );

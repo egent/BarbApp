@@ -1,8 +1,19 @@
 import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {useSelector} from 'react-redux';
 import _ from '../../services/i18n';
 
-const TabContainer = ({price}) => {
+const TabContainer = ({price, navigation, checkSave}) => {
+  const {showPriceSaveBtn} = useSelector((state) => state.user);
+
+  const navServiceHandler = () => {
+    if (showPriceSaveBtn) {
+      checkSave();
+    } else {
+      navigation.navigate('Services');
+    }
+  };
+
   return (
     <View style={styles.tabContainer}>
       <TouchableOpacity
@@ -21,7 +32,7 @@ const TabContainer = ({price}) => {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={navServiceHandler}
         style={
           price === false
             ? styles.activeTabContainer

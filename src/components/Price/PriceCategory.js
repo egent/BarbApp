@@ -3,8 +3,8 @@ import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PriceCategoryItems from '../../components/Price/PriceCategoryItems';
 
-const PriceCategory = ({id, name, items}) => {
-  const [showCat, setShowCat] = useState(false);
+const PriceCategory = ({id, name, items, checked}) => {
+  const [showCat, setShowCat] = useState(Boolean(checked));
 
   return (
     <View style={styles.container}>

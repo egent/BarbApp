@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 10,
     marginBottom: 20,
-    maxHeight: 170,
+    // maxHeight: 170,
   },
   shadow: {
     shadowColor: '#000',

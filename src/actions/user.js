@@ -130,6 +130,7 @@ export const types = {
     FAILURE: 'WORKPLACE_ADD.FAILURE',
   },
   BREAKS: {
+    SAVE: 'BREAKS.SAVE',
     DELETE: 'BREAKS.DELETE',
   },
   WORKPLACE_DELETE: {
@@ -658,6 +659,11 @@ const priceClear = (data) => ({
   ...data,
 });
 
+const breaksSave = (data) => ({
+  type: types.BREAKS.SAVE,
+  ...data,
+});
+
 export {
   authRequest,
   authSuccess,
@@ -757,4 +763,5 @@ export {
   priceSaveSuccess,
   priceSaveFailure,
   priceClear,
+  breaksSave,
 };

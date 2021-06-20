@@ -4,6 +4,7 @@ import React from 'react';
 import HeaderLeft from '../../components/HeaderLeft';
 import HeaderRight from '../../components/HeaderRight';
 import HeaderRightIcon from '../../components/HeaderRightIcon';
+import HeaderSaveRight from '../../components/HeaderSaveRight';
 import HeaderRightIconRedux from '../../components/HeaderRightIconRedux';
 import HeaderTitleChat from '../../components/HeaderTitleChat';
 import _ from '../../services/i18n';
@@ -22,7 +23,7 @@ import ScheduleBreak from '../../screens/user/points/ScheduleBreaks';
 import PriceScreen from '../../screens/user/Price';
 import Services from '../../screens/user/Services';
 
-import {beautyRoomSend} from '../../actions/user';
+import {beautyRoomSend, breaksSave} from '../../actions/user';
 
 import Test from '../../screens/user/~Profile'; // todo delete in production
 
@@ -241,12 +242,11 @@ const UserStackScreens = ({navigation}) => (
         headerRight: (props) => {
           try {
             return (
-              <HeaderRightIcon
+              <HeaderSaveRight
                 {...props}
                 icon="done"
-                onPress={() => {
-                  navigation.goBack();
-                }}
+                navigation={navigation}
+                save={breaksSave}
               />
             );
           } catch (e) {

@@ -38,41 +38,43 @@ const days = [
 
 const WorkspaceBreaks = () => {
   const dispatch = useDispatch();
-  const {workspace_breaks} = useSelector((state) => state.user);
-  const getBreakDays = () => {
+  const {breaks_done} = useSelector((state) => state.user);
+
+  const getBreakDays = (b) => {
     const breakDays = [];
     days.map((d) => {
-      if (workspace_breaks[0].days[d.id] === 'on') {
+      if (b.days[d.id] === 'on') {
         breakDays.push(_.t(d.title));
       }
     });
-    return breakDays.join(', ');
+    return breakDays.length > 0 ? breakDays.join(', ') : '';
   };
 
-  const breakDaysStr = getBreakDays();
-  if (breakDaysStr.length === 0) {
-    return null;
-  }
-
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>{breakDaysStr}</Text>
-        <Text style={styles.time}>
-          {workspace_breaks[0].start} - {workspace_breaks[0].end}
-        </Text>
-        {workspace_breaks[0].comment.length > 0 && (
-          <Text style={styles.dinner}>{workspace_breaks[0].comment}</Text>
-        )}
-      </View>
-      <TouchableOpacity
-        onPress={() => {
-          dispatch(breaksDelete());
-        }}
-        hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}>
-        <Icon size={24} color="#373737" name="close" />
-      </TouchableOpacity>
-    </View>
+    <>
+      {breaks_done.map((item, index) => {
+        return (
+          <View style={styles.container} key={`break-${index}`}>
+            <View>
+              <Text style={styles.title}>{getBreakDays(item)}</Text>
+              <Text style={styles.time}>
+                {item.start} - {item.end}
+              </Text>
+              {item.comment.length > 0 && (
+                <Text style={styles.dinner}>{item.comment}</Text>
+              )}
+            </View>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(breaksDelete({index}));
+              }}
+              hitSlop={{top: 50, bottom: 50, left: 50, right: 50}}>
+              <Icon size={24} color="#373737" name="close" />
+            </TouchableOpacity>
+          </View>
+        );
+      })}
+    </>
   );
 };
 

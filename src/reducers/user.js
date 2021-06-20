@@ -533,9 +533,14 @@ export default function user(state = initialState, action = {}) {
         loading: false,
       };
     case types.BREAKS.DELETE:
+      const d = state.breaks_done.filter(
+        (item, index) => action.index !== index,
+      );
+
       return {
         ...state,
         workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
+        breaks_done: d,
       };
     case types.WORKPLACE_DELETE.REQUEST:
       return {
@@ -847,6 +852,15 @@ export default function user(state = initialState, action = {}) {
       return {
         ...state,
         loading: false,
+      };
+    case types.BREAKS.SAVE:
+      const done = [...state.breaks_done];
+      done.push(state.workspace_breaks[0]);
+      return {
+        ...state,
+        loading: false,
+        workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
+        breaks_done: done,
       };
     default:
       return state;

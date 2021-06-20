@@ -69,10 +69,10 @@ const ScheduleBreaks = ({navigation}) => {
       const breaks = JSON.parse(JSON.stringify(workspace_breaks));
 
       if (type === 'from') {
-        breaks[0].start = selectedTime;
-        breaks[0].end = moment(time).add(1, 'hours').format('HH:mm');
+        breaks.start = selectedTime;
+        breaks.end = moment(time).add(1, 'hours').format('HH:mm');
       } else {
-        breaks[0].end = selectedTime;
+        breaks.end = selectedTime;
       }
 
       dispatch(setForm({payload: {workspace_breaks: breaks}}));
@@ -91,7 +91,7 @@ const ScheduleBreaks = ({navigation}) => {
     const breaks = JSON.parse(JSON.stringify(workspace_breaks));
     breaks[0].comment = comment;
     dispatch(setForm({payload: {workspace_breaks: breaks}}));
-  }
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -160,7 +160,6 @@ const ScheduleBreaks = ({navigation}) => {
         headerTextIOS={timePickerTitle}
         cancelTextIOS={_.t('cancel')}
         confirmTextIOS={_.t('select')}
-        isDarkModeEnabled={false}
         display="spinner"
         date={DEFAULT_MINUTES}
       />

@@ -70,15 +70,17 @@ const PointsList = ({navigation}) => {
       <FlatList
         data={menu}
         keyExtractor={({id}) => `points-menu-${id}`}
-        renderItem={({item}) => (
-          <PointMenuItem
-            {...item}
-            workspaces={workspaces}
-            navigation={navigation}
-            update={updateAddress}
-            remove={deleteAddress}
-          />
-        )}
+        renderItem={({item}) => {
+          return (
+            <PointMenuItem
+              {...item}
+              workspaces={workspaces}
+              navigation={navigation}
+              update={updateAddress}
+              remove={deleteAddress}
+            />
+          );
+        }}
       />
       <ModalAlert
         visible={alertVisible}

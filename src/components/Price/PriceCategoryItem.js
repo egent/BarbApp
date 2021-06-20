@@ -22,8 +22,10 @@ const PriceCategoryItem = ({id, name, activeId, setActiveId, active}) => {
   pSelect = reject(pSelect, {cat_id: id});
 
   let from = priceItem !== undefined ? priceItem.from : false;
-  let priceFrom = priceItem !== undefined ? priceItem.cost : 0;
-  let priceTime = priceItem !== undefined ? priceItem.time : 0;
+  let priceFrom =
+    priceItem !== undefined && priceItem !== null ? priceItem.cost : 0;
+  let priceTime =
+    priceItem !== undefined && priceItem !== null ? priceItem.time : 0;
 
   const setPrice = (value) => {
     if (priceItem !== undefined) {
@@ -180,9 +182,6 @@ const styles = StyleSheet.create({
     width: 100,
     padding: 5,
     marginLeft: 5,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    textAlignVertical: 'top',
   },
   inputItem: {
     flexDirection: 'row',

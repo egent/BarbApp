@@ -45,7 +45,7 @@ const WorkspaceAdd = ({navigation, route}) => {
       if (address_id !== '-1') {
         dispatch(setWorkplaceHistory());
       }
-    }
+    };
   }, []);
 
   const setBeautyName = (name) => {
@@ -94,11 +94,10 @@ const WorkspaceAdd = ({navigation, route}) => {
         payload: {
           district_select_in_client: districts,
           district_select_in_client_string: districtsStr.join(', '),
-          
         },
       }),
     );
-  }
+  };
 
   const setSubDistricts = (subDistrict) => {
     const sDistrArr = [];
@@ -165,7 +164,7 @@ const WorkspaceAdd = ({navigation, route}) => {
         </View>
       )}
 
-      {type_id !== 3 ? (
+      {type_id !== 3 && city_info?.districts?.length > 0 && (
         <SelectInput
           label="district"
           data={city_info?.districts}
@@ -173,7 +172,9 @@ const WorkspaceAdd = ({navigation, route}) => {
           value={district_select?.name}
           popupTitle="district"
         />
-      ) : (
+      )}
+
+      {type_id === 3 && city_info.districts.length > 0 && (
         <SelectInput
           label="districts"
           data={city_info?.districts}
@@ -184,7 +185,7 @@ const WorkspaceAdd = ({navigation, route}) => {
         />
       )}
 
-      {(sub_district !== null && type_id !== 3) && (
+      {sub_district !== null && type_id !== 3 && (
         <SelectInput
           label="sub_district"
           data={sub_district}
@@ -195,7 +196,7 @@ const WorkspaceAdd = ({navigation, route}) => {
         />
       )}
 
-      {(metro !== null && type_id !== 3) && (
+      {metro !== null && type_id !== 3 && (
         <SelectInput
           label="metro"
           data={metro}

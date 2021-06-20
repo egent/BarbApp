@@ -93,7 +93,7 @@ const UserStackScreens = ({navigation}) => (
       component={MessageDetail}
       options={({navigation, route}) => ({
         headerShown: true,
-        headerTitle: route.params.title,
+        // headerTitle: route.params.title,
         headerLeft: (props) => (
           <HeaderLeft {...props} navigation={navigation} />
         ),

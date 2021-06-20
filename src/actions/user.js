@@ -609,54 +609,54 @@ const setWorkplaceHistory = (data) => ({
 });
 
 const workplaceUpdateRequest = (data) => ({
-    type: types.WORKPLACE_UPDATE.REQUEST,
-    ...data,
-  });
-  
-  const workplaceUpdateSuccess = (data) => ({
-    type: types.WORKPLACE_UPDATE.SUCCESS,
-    ...data,
-  });
-  
-  const workplaceUpdateFailure = (data) => ({
-    type: types.WORKPLACE_UPDATE.FAILURE,
-    ...data,
-  });
+  type: types.WORKPLACE_UPDATE.REQUEST,
+  ...data,
+});
 
-  const priceRequest = (data) => ({
-    type: types.PRICE.REQUEST,
-    ...data,
-  });
-  
-  const priceSuccess = (data) => ({
-    type: types.PRICE.SUCCESS,
-    ...data,
-  });
-  
-  const priceFailure = (data) => ({
-    type: types.PRICE.FAILURE,
-    ...data,
-  });
+const workplaceUpdateSuccess = (data) => ({
+  type: types.WORKPLACE_UPDATE.SUCCESS,
+  ...data,
+});
 
-  const priceSaveRequest = (data) => ({
-    type: types.PRICE_SAVE.REQUEST,
-    ...data,
-  });
-  
-  const priceSaveSuccess = (data) => ({
-    type: types.PRICE_SAVE.SUCCESS,
-    ...data,
-  });
-  
-  const priceSaveFailure = (data) => ({
-    type: types.PRICE_SAVE.FAILURE,
-    ...data,
-  });
+const workplaceUpdateFailure = (data) => ({
+  type: types.WORKPLACE_UPDATE.FAILURE,
+  ...data,
+});
 
-  const priceClear = (data) => ({
-    type: types.PRICE.CLEAR,
-    ...data,
-  });
+const priceRequest = (data) => ({
+  type: types.PRICE.REQUEST,
+  ...data,
+});
+
+const priceSuccess = (data) => ({
+  type: types.PRICE.SUCCESS,
+  ...data,
+});
+
+const priceFailure = (data) => ({
+  type: types.PRICE.FAILURE,
+  ...data,
+});
+
+const priceSaveRequest = (data) => ({
+  type: types.PRICE_SAVE.REQUEST,
+  ...data,
+});
+
+const priceSaveSuccess = (data) => ({
+  type: types.PRICE_SAVE.SUCCESS,
+  ...data,
+});
+
+const priceSaveFailure = (data) => ({
+  type: types.PRICE_SAVE.FAILURE,
+  ...data,
+});
+
+const priceClear = (data) => ({
+  type: types.PRICE.CLEAR,
+  ...data,
+});
 
 export {
   authRequest,

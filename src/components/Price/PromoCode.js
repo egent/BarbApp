@@ -1,12 +1,18 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, TextInput} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  TextInput,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from '../../services/i18n';
 import {setForm} from '../../actions/user';
 
 const PromoCode = () => {
-  const dispatch = useDispatch();  
+  const dispatch = useDispatch();
   const {priceDescription} = useSelector((state) => state.user);
   const active = !!priceDescription.bonus_on;
   const price = priceDescription.bonus_value;
@@ -46,25 +52,25 @@ const PromoCode = () => {
           size={25}
         />
         <View>
-            <Text style={styles.title}>{_.t('consultation')}</Text>
-            <Text style={styles.hint}>{_.t('promo_code_hint')}</Text>
+          <Text style={styles.title}>{_.t('promo_title')}</Text>
+          <Text style={styles.hint}>{_.t('promo_code_hint')}</Text>
         </View>
       </TouchableOpacity>
       {active && (
         <View style={styles.promoCode}>
-            <View style={styles.form}>
-                <TextInput
-                    style={styles.input}
-                    underlineColorAndroid="transparent"
-                    onChangeText={setPrice}
-                    value={price.toString()}
-                    keyboardType="phone-pad"
-                    returnKeyType="done"
-                    blurOnSubmit={true}
-                />
-                <Text style={styles.hint}>%</Text>
-            </View>
-            <Text style={styles.sort}>{_.t('offers_sort_barb')}</Text>
+          <View style={styles.form}>
+            <TextInput
+              style={styles.input}
+              underlineColorAndroid="transparent"
+              onChangeText={setPrice}
+              value={price !== null ? price.toString() : '0'}
+              keyboardType="phone-pad"
+              returnKeyType="done"
+              blurOnSubmit={true}
+            />
+            <Text style={styles.hint}>%</Text>
+          </View>
+          <Text style={styles.sort}>{_.t('offers_sort_barb')}</Text>
         </View>
       )}
     </>
@@ -97,9 +103,6 @@ const styles = StyleSheet.create({
     width: 100,
     padding: 5,
     marginLeft: 5,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    textAlignVertical: 'top',
   },
   hint: {
     fontSize: 12,
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   promoCode: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     paddingHorizontal: 25,
     paddingBottom: 25,
   },

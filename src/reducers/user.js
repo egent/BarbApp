@@ -125,6 +125,7 @@ const initialState = {
   scheduleMenuActive: 3,
   schedule_odd: false,
   workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
+  breaks_done: [],
   form_workplace_add_data: null,
   // add workspace end
   showValidationAlert: false,
@@ -542,9 +543,14 @@ export default function user(state = initialState, action = {}) {
         loading: true,
       };
     case types.WORKPLACE_DELETE.SUCCESS:
+      const city = {...state.city_info};
+      city.districts.map((item) => {
+        item.checked = false;
+      });
       return {
         ...state,
         loading: false,
+        city_info: city,
       };
     case types.WORKPLACE_DELETE.FAILURE:
       return {

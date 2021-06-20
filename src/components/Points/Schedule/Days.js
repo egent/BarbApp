@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -9,7 +9,8 @@ import {setForm} from '../../../actions/user';
 import _ from '../../../services/i18n';
 
 const locales = RNLocalize.getLocales();
-const DEFAULT_MINUTES = new Date().setMinutes(0);
+const today = new Date();
+const DEFAULT_MINUTES = Platform.OS === 'ios' ? today.getMinutes(0) : today;
 
 const ScheduleDays = () => {
   const dispatch = useDispatch();
@@ -48,69 +49,73 @@ const ScheduleDays = () => {
 
   const openSelectTimeModal = (day, type) => {
     setTimeParams({
-      day, type
+      day,
+      type,
     });
-    setTimePickerTitle(`${_.t(day.title)} - ${_.t(type)}`)
+    setTimePickerTitle(`${_.t(day.title)} - ${_.t(type)}`);
     setVisibleTimePicker(true);
-  }
+  };
 
   return (
     <>
-    <View style={styles.container}>
-      <Text style={styles.title}>{_.t('work_time')}</Text>
-      {scheduleDays.map((day) => {
-        return (
-          <View key={`day-${day.id}`} style={styles.item}>
-            <View style={styles.name}>
-              <Text
-                style={[
-                  styles.day,
-                  {color: day.workday === 'on' ? '#000' : '#C6C6C6'},
-                ]}>
-                {_.t(day.title)}
-              </Text>
-            </View>
+      <View style={styles.container}>
+        <Text style={styles.title}>{_.t('work_time')}</Text>
+        {scheduleDays.map((day) => {
+          return (
+            <View key={`day-${day.id}`} style={styles.item}>
+              <View style={styles.name}>
+                <Text
+                  style={[
+                    styles.day,
+                    {color: day.workday === 'on' ? '#000' : '#C6C6C6'},
+                  ]}>
+                  {_.t(day.title)}
+                </Text>
+              </View>
 
-            <View style={styles.time}>
-              {day.workday === 'on' ? (
-                <>
-                  <TouchableOpacity onPress={() => {
-                    openSelectTimeModal(day, 'from')
-                  }}>
-                    <Text style={styles.timeTxt}>{day.time_from}</Text>
-                  </TouchableOpacity>
-                  <Text> - </Text>
-                  <TouchableOpacity onPress={() => {
-                    openSelectTimeModal(day, 'to')
-                  }}>
-                    <Text style={styles.timeTxt}>{day.time_to}</Text>
-                  </TouchableOpacity>
-                </>
-              ) : (
-                <Text style={[styles.dayOff]}>{_.t('day_off')}</Text>
-              )}
-            </View>
+              <View style={styles.time}>
+                {day.workday === 'on' ? (
+                  <>
+                    <TouchableOpacity
+                      onPress={() => {
+                        openSelectTimeModal(day, 'from');
+                      }}>
+                      <Text style={styles.timeTxt}>{day.time_from}</Text>
+                    </TouchableOpacity>
+                    <Text> - </Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        openSelectTimeModal(day, 'to');
+                      }}>
+                      <Text style={styles.timeTxt}>{day.time_to}</Text>
+                    </TouchableOpacity>
+                  </>
+                ) : (
+                  <Text style={[styles.dayOff]}>{_.t('day_off')}</Text>
+                )}
+              </View>
 
-            <TouchableOpacity
-              onPress={() => {
-                setWorkDay(day);
-              }}
-              style={styles.icon}>
-              <Icon
-                size={32}
-                color={day.workday === 'on' ? '#6DB7E8' : '#BEC3C7'}
-                name={
-                  day.workday === 'on'
-                    ? 'toggle-switch-outline'
-                    : 'toggle-switch-off-outline'
-                }
-              />
-            </TouchableOpacity>
-          </View>
-        );
-      })}
-    </View>
-    <DateTimePickerModal
+              <TouchableOpacity
+                onPress={() => {
+                  setWorkDay(day);
+                }}
+                style={styles.icon}>
+                <Icon
+                  size={32}
+                  color={day.workday === 'on' ? '#6DB7E8' : '#BEC3C7'}
+                  name={
+                    day.workday === 'on'
+                      ? 'toggle-switch-outline'
+                      : 'toggle-switch-off-outline'
+                  }
+                />
+              </TouchableOpacity>
+            </View>
+          );
+        })}
+      </View>
+
+      <DateTimePickerModal
         locale={locales[0].languageTag}
         isVisible={isTimePickerVisible}
         mode="time"
@@ -120,7 +125,6 @@ const ScheduleDays = () => {
         headerTextIOS={timePickerTitle}
         cancelTextIOS={_.t('cancel')}
         confirmTextIOS={_.t('select')}
-        isDarkModeEnabled={false}
         display="spinner"
         date={DEFAULT_MINUTES}
       />

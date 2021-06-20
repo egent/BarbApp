@@ -486,6 +486,7 @@ function* specsSaga() {
   if (response.status === 200) {
     const {specs} = response.data.data;
     yield put(specsSuccess({specs}));
+    yield put(priceRequest());
   } else if (response.status === 401) {
     yield put(specsFailure({}));
     yield put(authLogout());
@@ -813,6 +814,13 @@ function* beautyRoomSendSaga({navigation}) {
       };
     }
 
+    if (scheduleMenuActive === 3) {
+      payload = {
+        ...payload,
+        schedule_type: 3,
+      };
+    }
+
     const breakDays = [];
     for (let i = 0; i < 7; i++) {
       if (workspace_breaks[0].days[i] === 'on') {
@@ -831,6 +839,7 @@ function* beautyRoomSendSaga({navigation}) {
           payload,
         }),
       );
+      yield put(setWorkplaceClear());
     } else {
       yield put(workplaceUpdateRequest({navigation, payload}));
     }

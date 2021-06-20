@@ -89,7 +89,7 @@ const Consultation = () => {
                 style={styles.input}
                 underlineColorAndroid="transparent"
                 onChangeText={setPrice}
-                value={price.toString()}
+                value={price !== null ? price.toString() : '0'}
                 keyboardType="phone-pad"
                 returnKeyType="done"
                 blurOnSubmit={true}
@@ -103,7 +103,7 @@ const Consultation = () => {
                 style={[styles.input, {marginRight: 5}]}
                 underlineColorAndroid="transparent"
                 onChangeText={setTime}
-                value={time.toString()}
+                value={time !== null ? time.toString() : ''}
                 keyboardType="phone-pad"
                 returnKeyType="done"
                 blurOnSubmit={true}
@@ -144,9 +144,6 @@ const styles = StyleSheet.create({
     width: 100,
     padding: 5,
     marginLeft: 5,
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    textAlignVertical: 'top',
   },
   inputs: {
     flex: 1,

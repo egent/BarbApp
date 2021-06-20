@@ -811,6 +811,9 @@ function* beautyRoomSendSaga({navigation}) {
         ...payload,
         schedule_type: 2,
         schedule_odd,
+        schedule: {
+          day: scheduleDays,
+        },
       };
     }
 

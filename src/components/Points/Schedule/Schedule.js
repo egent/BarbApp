@@ -51,12 +51,10 @@ const Schedule = () => {
         })}
       </View>
 
-      {scheduleMenuActive === 1 && (
-        <ScheduleDays />
-      )}
+      {scheduleMenuActive === 2 && <ScheduleOdd />}
 
-      {scheduleMenuActive === 2 && (
-        <ScheduleOdd />
+      {(scheduleMenuActive === 1 || scheduleMenuActive === 2) && (
+        <ScheduleDays />
       )}
 
       {scheduleMenuActive === 3 && (

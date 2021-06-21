@@ -754,7 +754,7 @@
 				CODE_SIGN_ENTITLEMENTS = barbapp/Barb.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = X3A5V4WS24;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -827,7 +827,7 @@
 				CODE_SIGN_ENTITLEMENTS = barbapp/Barb.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = X3A5V4WS24;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

@@ -37,7 +37,7 @@ const menu = [
 ];
 
 const PointsList = ({navigation}) => {
-  const {workspaces, loading} = useSelector((state) => state.user);
+  const {workspaces, loading, userType} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [alertVisible, setAlertVisible] = useState(false);
   const [addressId, setAddressId] = useState(null);
@@ -70,7 +70,10 @@ const PointsList = ({navigation}) => {
       <FlatList
         data={menu}
         keyExtractor={({id}) => `points-menu-${id}`}
-        renderItem={({item}) => {
+        renderItem={({item, index}) => {
+          if (userType === 'salon' && index > 0) {
+            return null;
+          }
           return (
             <PointMenuItem
               {...item}

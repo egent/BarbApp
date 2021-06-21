@@ -127,6 +127,7 @@ const initialState = {
   workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
   breaks_done: [],
   form_workplace_add_data: null,
+  userType: null,
   // add workspace end
   showValidationAlert: false,
 
@@ -470,10 +471,12 @@ export default function user(state = initialState, action = {}) {
         loading: false,
       };
     case types.GET_WORKPLACES.SUCCESS:
+      const {addresses, type} = action.data;
       return {
         ...state,
         loading: false,
-        workspaces: action.data.addresses,
+        workspaces: addresses,
+        userType: type,
       };
     case types.FORM.SET:
       return {

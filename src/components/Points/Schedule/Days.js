@@ -10,7 +10,7 @@ import _ from '../../../services/i18n';
 
 const locales = RNLocalize.getLocales();
 const today = new Date();
-const DEFAULT_MINUTES = Platform.OS === 'ios' ? today.getMinutes(0) : today;
+// const DEFAULT_MINUTES = Platform.OS === 'ios' ? today.getMinutes(0) : today;
 
 const ScheduleDays = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const ScheduleDays = () => {
   const [isTimePickerVisible, setVisibleTimePicker] = useState(false);
   const [timePickerTitle, setTimePickerTitle] = useState('');
   const [timeParams, setTimeParams] = useState(null);
+  const [defaultDate, setDefaultDate] = useState(new Date());
 
   const setWorkDay = (d) => {
     const days = [...scheduleDays];
@@ -52,6 +53,13 @@ const ScheduleDays = () => {
       day,
       type,
     });
+
+    setDefaultDate(
+      type === 'from'
+        ? new Date(new Date().setHours(9, 0, 0, 0))
+        : new Date(new Date().setHours(20, 0, 0, 0)),
+    );
+
     setTimePickerTitle(`${_.t(day.title)} - ${_.t(type)}`);
     setVisibleTimePicker(true);
   };
@@ -126,7 +134,7 @@ const ScheduleDays = () => {
         cancelTextIOS={_.t('cancel')}
         confirmTextIOS={_.t('select')}
         display="spinner"
-        date={DEFAULT_MINUTES}
+        date={defaultDate}
       />
     </>
   );

@@ -16,7 +16,6 @@ import _ from '../../../services/i18n';
 import {setForm} from '../../../actions/user';
 
 const locales = RNLocalize.getLocales();
-const DEFAULT_MINUTES = new Date().setMinutes(0);
 
 const days = [
   {
@@ -49,15 +48,23 @@ const days = [
   },
 ];
 
-const ScheduleBreaks = ({navigation}) => {
+const ScheduleBreaks = () => {
   const {workspace_breaks} = useSelector((state) => state.user);
   const [isTimePickerVisible, setVisibleTimePicker] = useState(false);
   const [timePickerTitle, setTimePickerTitle] = useState('');
   const [timeParams, setTimeParams] = useState(null);
+  const [defaultDate, setDefaultDate] = useState(new Date());
   const dispatch = useDispatch();
 
   const openSelectTimeModal = (type) => {
     setTimeParams({type});
+
+    setDefaultDate(
+      type === 'from'
+        ? new Date(new Date().setHours(12, 0, 0, 0))
+        : new Date(new Date().setHours(13, 0, 0, 0)),
+    );
+
     setTimePickerTitle(`${_.t('break')} - ${_.t(type)}`);
     setVisibleTimePicker(true);
   };
@@ -161,7 +168,7 @@ const ScheduleBreaks = ({navigation}) => {
         cancelTextIOS={_.t('cancel')}
         confirmTextIOS={_.t('select')}
         display="spinner"
-        date={DEFAULT_MINUTES}
+        date={defaultDate}
       />
     </KeyboardAwareScrollView>
   );

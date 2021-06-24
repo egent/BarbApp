@@ -735,12 +735,12 @@ export default function user(state = initialState, action = {}) {
         workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
         form_workplace_add_data: null,
       };
-    case types.WORKPLACE_UPDATE.HISTORY:
-      return {
-        ...state,
-        ...state.form_workplace_add_data,
-        form_workplace_add_data: null,
-      };
+    // case types.WORKPLACE_UPDATE.HISTORY:
+    //   return {
+    //     ...state,
+    //     ...state.form_workplace_add_data,
+    //     form_workplace_add_data: null,
+    //   };
     case types.BEAUTY_ROOMS.COPY:
       const {salon_id, salon_name, address} = action.place;
       let district_user_select = null;

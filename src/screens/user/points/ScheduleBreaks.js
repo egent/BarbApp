@@ -76,10 +76,10 @@ const ScheduleBreaks = () => {
       const breaks = JSON.parse(JSON.stringify(workspace_breaks));
 
       if (type === 'from') {
-        breaks.start = selectedTime;
-        breaks.end = moment(time).add(1, 'hours').format('HH:mm');
+        breaks[0].start = selectedTime;
+        breaks[0].end = moment(time).add(1, 'hours').format('HH:mm');
       } else {
-        breaks.end = selectedTime;
+        breaks[0].end = selectedTime;
       }
 
       dispatch(setForm({payload: {workspace_breaks: breaks}}));

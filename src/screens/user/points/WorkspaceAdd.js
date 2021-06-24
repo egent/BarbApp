@@ -16,6 +16,7 @@ import {
   setWorkplaceType,
   setWorkplaceHistory,
   beautyRoomsClear,
+  setWorkplaceClear,
 } from '../../../actions/user';
 import _ from '../../../services/i18n';
 
@@ -42,9 +43,10 @@ const WorkspaceAdd = ({navigation, route}) => {
   useEffect(() => {
     dispatch(setWorkplaceType({type_id}));
     return () => {
-      if (address_id !== '-1') {
-        dispatch(setWorkplaceHistory());
-      }
+      // if (address_id !== '-1') {
+      //   dispatch(setWorkplaceHistory());
+      // }
+      dispatch(setWorkplaceClear());
     };
   }, []);
 

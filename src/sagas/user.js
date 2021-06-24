@@ -905,6 +905,7 @@ function* priceSaga() {
 
 function* priceUpdateSaga() {
   const {priceDescription, priceSelect} = yield select(getUserState);
+
   const payload = {
     description: priceDescription,
     price: priceSelect,

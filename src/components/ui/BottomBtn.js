@@ -15,7 +15,10 @@ const BottomBtn = ({show}) => {
   };
 
   return (
-    <TouchableOpacity onPress={save} activeOpacity={0.95} style={styles.container}>
+    <TouchableOpacity
+      onPress={save}
+      activeOpacity={0.95}
+      style={styles.container}>
       <Text style={styles.txt}>{_.t('save')}</Text>
     </TouchableOpacity>
   );

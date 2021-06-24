@@ -9,8 +9,6 @@ import {setForm} from '../../../actions/user';
 import _ from '../../../services/i18n';
 
 const locales = RNLocalize.getLocales();
-const today = new Date();
-// const DEFAULT_MINUTES = Platform.OS === 'ios' ? today.getMinutes(0) : today;
 
 const ScheduleDays = () => {
   const dispatch = useDispatch();

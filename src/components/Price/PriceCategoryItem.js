@@ -71,7 +71,7 @@ const PriceCategoryItem = ({id, name, activeId, setActiveId, active}) => {
         onPress={() => {
           setActiveId(!activeItem ? true : false, id);
           setActiveItem(!activeItem);
-        } }
+        }}
         style={styles.container}>
         <View
           style={styles.active}
@@ -83,7 +83,10 @@ const PriceCategoryItem = ({id, name, activeId, setActiveId, active}) => {
           />
         </View>
         <View
-          style={[styles.titleContainer, {borderBottomWidth: activeItem ? 0 : 1}]}>
+          style={[
+            styles.titleContainer,
+            {borderBottomWidth: activeItem ? 0 : 1},
+          ]}>
           <Text style={styles.title}>{name}</Text>
         </View>
       </TouchableOpacity>
@@ -108,6 +111,9 @@ const PriceCategoryItem = ({id, name, activeId, setActiveId, active}) => {
                 returnKeyType="done"
                 blurOnSubmit={true}
                 placeholder={_.t('price_item')}
+                onFocus={(e) => {
+                  setPrice('');
+                }}
               />
 
               <Text style={styles.txt}>{_.t('uah')}</Text>
@@ -122,6 +128,9 @@ const PriceCategoryItem = ({id, name, activeId, setActiveId, active}) => {
                 returnKeyType="done"
                 blurOnSubmit={true}
                 placeholder={_.t('time')}
+                onFocus={(e) => {
+                  setMin('');
+                }}
               />
               <Text style={styles.txt}>{_.t('min')}</Text>
             </View>

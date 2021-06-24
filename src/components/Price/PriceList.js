@@ -4,15 +4,15 @@ import {useSelector} from 'react-redux';
 import PriceCategory from '../../components/Price/PriceCategory';
 
 const PriceList = () => {
-  const {priceInfo} = useSelector((state) => state.user); 
+  const {priceInfo} = useSelector((state) => state.user);
   return (
-    <FlatList 
+    <FlatList
       style={styles.container}
       keyExtractor={(item) => `price-cat-${item.id}`}
       data={priceInfo}
       renderItem={({item}) => {
         return <PriceCategory {...item} />;
-      }}      
+      }}
     />
   );
 };
@@ -20,7 +20,7 @@ const PriceList = () => {
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
-  }
+  },
 });
 
 export default PriceList;

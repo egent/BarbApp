@@ -22,7 +22,11 @@ const locales = RNLocalize.getLocales();
 import moment from 'moment';
 import "moment/locale/ru";
 import "moment/locale/uk";
-moment.locale(locales[0].languageCode)
+moment.locale(locales[0].languageCode);
+
+if (__DEV__) {
+  import('./ReactotronConfig').then(() => console.log('Reactotron Configured'));
+}
 
 
 // moment.updateLocale('en', {

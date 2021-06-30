@@ -720,6 +720,7 @@ function* beautyRoomSendSaga({navigation}) {
     district_select_in_client,
     workspace_address_comment,
     address_id,
+    breaks_done,
   } = yield select(getUserState);
 
   let checkForm = false;
@@ -748,6 +749,7 @@ function* beautyRoomSendSaga({navigation}) {
       id: address_id,
       city_id: info.city.id,
       comment: workspace_address_comment,
+      breaks: breaks_done,
     };
 
     if (workspace_type !== 3 && district_select !== null) {
@@ -824,16 +826,18 @@ function* beautyRoomSendSaga({navigation}) {
       };
     }
 
-    const breakDays = [];
-    for (let i = 0; i < 7; i++) {
-      if (workspace_breaks[0].days[i] === 'on') {
-        breakDays.push(workspace_breaks[0].days[i]);
-      }
-    }
+    // const breakDays = [];
+    // for (let i = 0; i < 7; i++) {
+    //   if (workspace_breaks[0].days[i] === 'on') {
+    //     breakDays.push(workspace_breaks[0].days[i]);
+    //   }
+    // }
 
-    if (breakDays.length > 0) {
-      payload = {...payload, breaks: workspace_breaks[0]};
-    }
+    // if (breakDays.length > 0) {
+    //   payload = {...payload, breaks: breaks_done};
+    // }
+
+    console.log('payload 111', payload);
 
     if (address_id === '-1') {
       yield put(
@@ -854,6 +858,9 @@ function* beautyRoomSendSaga({navigation}) {
 function* workplaceUpdateSaga(params) {
   const {navigation, payload} = params;
   const token = yield select(getAccessToken);
+
+
+console.log('payload', payload);
 
   const response = yield call(
     api,

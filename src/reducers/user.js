@@ -584,31 +584,32 @@ export default function user(state = initialState, action = {}) {
     case types.WORKPLACE_UPDATE.SET:
       const type_id = action.type_id;
 
+      // todo delete in production
       // save workplace add form
-      const form_workplace_add_data = {
-        workspace_type: state.workspace_type,
-        beauty_room: state.beauty_room, // user beauty room selected
-        address_id: state.address_id, // for update address
-        beauty_name: state.beauty_name,
-        beauty_data: state.beauty_data,
-        district_select: state.district_select,
-        district_select_in_client: state.district_select_in_client,
-        district_select_in_client_string:
-          state.district_select_in_client_string,
-        sub_district: state.sub_district,
-        metro: state.metro,
-        sub_district_select: state.sub_district_select,
-        sub_district_select_string: state.sub_district_select_string,
-        metro_select_string: state.metro_select_string,
-        metro_select_array: state.metro_select_array,
-        workspace_address: state.workspace_address,
-        workspace_address_comment: state.workspace_address_comment,
-        workspace_phones: state.workspace_phones,
-        scheduleDays: JSON.parse(JSON.stringify(state.scheduleDays)),
-        scheduleMenuActive: state.scheduleMenuActive,
-        schedule_odd: state.schedule_odd,
-        workspace_breaks: JSON.parse(JSON.stringify(state.workspace_breaks)),
-      };
+      // const form_workplace_add_data = {
+      //   workspace_type: state.workspace_type,
+      //   beauty_room: state.beauty_room, // user beauty room selected
+      //   address_id: state.address_id, // for update address
+      //   beauty_name: state.beauty_name,
+      //   beauty_data: state.beauty_data,
+      //   district_select: state.district_select,
+      //   district_select_in_client: state.district_select_in_client,
+      //   district_select_in_client_string:
+      //     state.district_select_in_client_string,
+      //   sub_district: state.sub_district,
+      //   metro: state.metro,
+      //   sub_district_select: state.sub_district_select,
+      //   sub_district_select_string: state.sub_district_select_string,
+      //   metro_select_string: state.metro_select_string,
+      //   metro_select_array: state.metro_select_array,
+      //   workspace_address: state.workspace_address,
+      //   workspace_address_comment: state.workspace_address_comment,
+      //   workspace_phones: state.workspace_phones,
+      //   scheduleDays: JSON.parse(JSON.stringify(state.scheduleDays)),
+      //   scheduleMenuActive: state.scheduleMenuActive,
+      //   schedule_odd: state.schedule_odd,
+      //   workspace_breaks: JSON.parse(JSON.stringify(state.workspace_breaks)),
+      // };
 
       let sub_district = [];
       let metro = [];
@@ -671,11 +672,11 @@ export default function user(state = initialState, action = {}) {
         });
         metro_select_string = sub_metro_arr.join(', ');
       }
-
+      
       const breaks =
         action.place.breaks !== null
-          ? [JSON.parse(JSON.stringify(action.place.breaks))]
-          : JSON.parse(JSON.stringify(workspace_breaks));
+          ? [...JSON.parse(JSON.stringify(action.place.breaks))]
+          : [...state.breaks_done];
 
       const scheduleDays =
         action.place.schedule !== null
@@ -684,7 +685,7 @@ export default function user(state = initialState, action = {}) {
 
       return {
         ...state,
-        form_workplace_add_data,
+        // form_workplace_add_data,
         workspace_type: type_id,
         beauty_room:
           action.place.salon_id !== null ? action.place.salon_id : '-1', // user beauty room selected
@@ -707,7 +708,7 @@ export default function user(state = initialState, action = {}) {
         scheduleDays,
         scheduleMenuActive: action.place.schedule_type,
         schedule_odd: !!action.place.schedule_odd,
-        workspace_breaks: breaks,
+        breaks_done: breaks,
       };
     case types.WORKPLACE_UPDATE.CLEAR:
       return {
@@ -734,6 +735,7 @@ export default function user(state = initialState, action = {}) {
         schedule_odd: false,
         workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
         form_workplace_add_data: null,
+        breaks_done: [],
       };
     // case types.WORKPLACE_UPDATE.HISTORY:
     //   return {
@@ -857,8 +859,7 @@ export default function user(state = initialState, action = {}) {
         loading: false,
       };
     case types.BREAKS.SAVE:
-      const done = [...state.breaks_done];
-      done.push(state.workspace_breaks[0]);
+      const done = [state.workspace_breaks[0], ...state.breaks_done];
       return {
         ...state,
         loading: false,

@@ -42,11 +42,13 @@ const WorkspaceBreaks = () => {
 
   const getBreakDays = (b) => {
     const breakDays = [];
-    days.map((d) => {
-      if (b.days[d.id] === 'on') {
-        breakDays.push(_.t(d.title));
-      }
-    });
+    try {
+      days.map((d) => {
+        if (b.days[d.id] === 'on') {
+          breakDays.push(_.t(d.title));
+        }
+      });
+    } catch (e) {}
     return breakDays.length > 0 ? breakDays.join(', ') : '';
   };
 
@@ -60,7 +62,7 @@ const WorkspaceBreaks = () => {
               <Text style={styles.time}>
                 {item.start} - {item.end}
               </Text>
-              {item.comment.length > 0 && (
+              {item.comment !== undefined && item.comment.length > 0 && (
                 <Text style={styles.dinner}>{item.comment}</Text>
               )}
             </View>

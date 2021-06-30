@@ -91,12 +91,14 @@ const ScheduleBreaks = () => {
     const breaks = JSON.parse(JSON.stringify(workspace_breaks));
 
     breaks[0].days[id] = active ? 'off' : 'on';
+
     dispatch(setForm({payload: {workspace_breaks: breaks}}));
   };
 
   const setBreakComment = (comment) => {
     const breaks = JSON.parse(JSON.stringify(workspace_breaks));
     breaks[0].comment = comment;
+
     dispatch(setForm({payload: {workspace_breaks: breaks}}));
   };
 
@@ -137,7 +139,7 @@ const ScheduleBreaks = () => {
               />
               <Text style={styles.dayTitle}>{_.t(day.title)}</Text>
             </TouchableOpacity>
-          );
+          ); 
         })}
       </View>
 

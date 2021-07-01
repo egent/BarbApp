@@ -1,6 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import WorkTime from '../../../components/ui/WorkTime';
+
 import ScheduleDays from './Days';
 import ScheduleOdd from './Odd';
 import _ from '../../../services/i18n';
@@ -51,11 +53,15 @@ const Schedule = () => {
         })}
       </View>
 
-      {scheduleMenuActive === 2 && <ScheduleOdd />}
+      {scheduleMenuActive === 2 && (
+        <>
+          <ScheduleOdd />
+          <WorkTime />
+        </>
 
-      {(scheduleMenuActive === 1 || scheduleMenuActive === 2) && (
-        <ScheduleDays />
       )}
+
+      {scheduleMenuActive === 1 && <ScheduleDays />}
 
       {scheduleMenuActive === 3 && (
         <Text style={{marginTop: 10, marginBottom: 20}}>

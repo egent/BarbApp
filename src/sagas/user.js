@@ -716,6 +716,7 @@ function* beautyRoomSendSaga({navigation}) {
     scheduleMenuActive,
     scheduleDays,
     schedule_odd,
+    schedule_odd_time,
     workspace_breaks,
     district_select_in_client,
     workspace_address_comment,
@@ -813,9 +814,10 @@ function* beautyRoomSendSaga({navigation}) {
         ...payload,
         schedule_type: 2,
         schedule_odd,
-        schedule: {
-          day: scheduleDays,
-        },
+        schedule: schedule_odd_time,
+        // schedule: {
+        //   day: scheduleDays,
+        // },
       };
     }
 
@@ -837,8 +839,6 @@ function* beautyRoomSendSaga({navigation}) {
     //   payload = {...payload, breaks: breaks_done};
     // }
 
-    console.log('payload 111', payload);
-
     if (address_id === '-1') {
       yield put(
         workplaceAddRequest({
@@ -858,9 +858,6 @@ function* beautyRoomSendSaga({navigation}) {
 function* workplaceUpdateSaga(params) {
   const {navigation, payload} = params;
   const token = yield select(getAccessToken);
-
-
-console.log('payload', payload);
 
   const response = yield call(
     api,

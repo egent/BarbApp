@@ -124,6 +124,7 @@ const initialState = {
   scheduleDays: JSON.parse(JSON.stringify(days)),
   scheduleMenuActive: 3,
   schedule_odd: false,
+  schedule_odd_time: {time_from: null, time_to: null},
   workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
   breaks_done: [],
   form_workplace_add_data: null,
@@ -672,7 +673,7 @@ export default function user(state = initialState, action = {}) {
         });
         metro_select_string = sub_metro_arr.join(', ');
       }
-      
+
       const breaks =
         action.place.breaks !== null
           ? [...JSON.parse(JSON.stringify(action.place.breaks))]
@@ -682,6 +683,14 @@ export default function user(state = initialState, action = {}) {
         action.place.schedule !== null
           ? action.place.schedule.day
           : JSON.parse(JSON.stringify(days));
+
+      console.log('action.place', action.place)
+
+      let schedule_odd_time = {time_from: null, time_to: null};
+      if (action.place.schedule_type === 2) {
+        const {time_from, time_to} = action.place.schedule;
+        schedule_odd_time = {time_from, time_to};
+      }
 
       return {
         ...state,
@@ -709,6 +718,7 @@ export default function user(state = initialState, action = {}) {
         scheduleMenuActive: action.place.schedule_type,
         schedule_odd: !!action.place.schedule_odd,
         breaks_done: breaks,
+        schedule_odd_time,
       };
     case types.WORKPLACE_UPDATE.CLEAR:
       return {
@@ -733,6 +743,7 @@ export default function user(state = initialState, action = {}) {
         scheduleDays: JSON.parse(JSON.stringify(days)),
         scheduleMenuActive: 3,
         schedule_odd: false,
+        schedule_odd_time: {time_from: null, time_to: null},
         workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
         form_workplace_add_data: null,
         breaks_done: [],

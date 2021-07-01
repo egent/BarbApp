@@ -1,6 +1,6 @@
 import moment from 'moment';
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Platform} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';

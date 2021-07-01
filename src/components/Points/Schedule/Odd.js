@@ -30,35 +30,39 @@ const ScheduleOdd = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {working.map((w) => {
-        let active = false;
-        if (
-          (w.title === 'working_odd' &&
-            (schedule_odd === false || schedule_odd === null)) ||
-          (w.title === 'working_even' && schedule_odd === true)
-        ) {
-          active = true;
-        }
-        return (
-          <TouchableOpacity style={styles.item} onPress={() => setSchedule(w)}>
-            <Icon
-              size={24}
-              color="#7C7F84"
-              name={active ? 'radiobox-marked' : 'radiobox-blank'}
-            />
-            <Text style={styles.title}>{_.t(w.title)}</Text>
-          </TouchableOpacity>
-        );
-      })}
-    </View>
+    <>
+      <View style={styles.container}>
+        {working.map((w) => {
+          let active = false;
+          if (
+            (w.title === 'working_odd' &&
+              (schedule_odd === false || schedule_odd === null)) ||
+            (w.title === 'working_even' && schedule_odd === true)
+          ) {
+            active = true;
+          }
+          return (
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() => setSchedule(w)}>
+              <Icon
+                size={24}
+                color="#7C7F84"
+                name={active ? 'radiobox-marked' : 'radiobox-blank'}
+              />
+              <Text style={styles.title}>{_.t(w.title)}</Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   item: {
     flexDirection: 'row',
@@ -69,6 +73,10 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 14,
     color: '#7C7F84',
+  },
+  timeWork: {
+    paddingLeft: 10,
+    fontSize: 14,
   },
 });
 

@@ -19,31 +19,31 @@ const locales = RNLocalize.getLocales();
 
 const days = [
   {
-    id: 1,
+    id: 0,
     title: 'monday',
   },
   {
-    id: 2,
+    id: 1,
     title: 'tuesday',
   },
   {
-    id: 3,
+    id: 2,
     title: 'wednesday',
   },
   {
-    id: 4,
+    id: 3,
     title: 'thursday',
   },
   {
-    id: 5,
+    id: 4,
     title: 'friday',
   },
   {
-    id: 6,
+    id: 5,
     title: 'saturday',
   },
   {
-    id: 7,
+    id: 6,
     title: 'sunday',
   },
 ];
@@ -89,7 +89,6 @@ const ScheduleBreaks = () => {
 
   const setDay = (id, active) => {
     const breaks = JSON.parse(JSON.stringify(workspace_breaks));
-
     breaks[0].days[id] = active ? 'off' : 'on';
 
     dispatch(setForm({payload: {workspace_breaks: breaks}}));
@@ -139,7 +138,7 @@ const ScheduleBreaks = () => {
               />
               <Text style={styles.dayTitle}>{_.t(day.title)}</Text>
             </TouchableOpacity>
-          ); 
+          );
         })}
       </View>
 

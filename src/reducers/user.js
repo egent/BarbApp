@@ -679,12 +679,26 @@ export default function user(state = initialState, action = {}) {
           ? [...JSON.parse(JSON.stringify(action.place.breaks))]
           : [...state.breaks_done];
 
-      const scheduleDays =
-        action.place.schedule !== null
-          ? action.place.schedule.day
-          : JSON.parse(JSON.stringify(days));
+      // const scheduleDays =
+      //   action.place.schedule !== null
+      //     ? action.place.schedule.day
+      //     : JSON.parse(JSON.stringify(days));
 
-      console.log('action.place', action.place)
+      let scheduleDays = JSON.parse(JSON.stringify(days));
+
+      if (
+        action.place.schedule !== null &&
+        action.place.schedule.day !== undefined
+      ) {
+        scheduleDays = action.place.schedule.day;
+      }
+
+      if (
+        action.place.schedule !== null &&
+        action.place.schedule.length === 7
+      ) {
+        scheduleDays = action.place.schedule;
+      }
 
       let schedule_odd_time = {time_from: null, time_to: null};
       if (action.place.schedule_type === 2) {
@@ -726,6 +740,7 @@ export default function user(state = initialState, action = {}) {
         workspace_type: null,
         beauty_room: '-1', // user beauty room selected
         address_id: '-1', // for update address
+        salon_address_id: '-1',
         beauty_name: '',
         beauty_data: [],
         district_select: null,
@@ -756,6 +771,7 @@ export default function user(state = initialState, action = {}) {
     //   };
     case types.BEAUTY_ROOMS.COPY:
       const {salon_id, salon_name, address} = action.place;
+
       let district_user_select = null;
       let _sub_district = null;
       let _metro = null;
@@ -806,6 +822,7 @@ export default function user(state = initialState, action = {}) {
         sub_district: _sub_district,
         metro: _metro,
         beauty_data: [],
+        salon_address_id: address.id,
       };
     case types.PRICE.REQUEST:
       return {

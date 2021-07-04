@@ -717,7 +717,7 @@ function* beautyRoomSendSaga({navigation}) {
     scheduleDays,
     schedule_odd,
     schedule_odd_time,
-    workspace_breaks,
+    // workspace_breaks,
     district_select_in_client,
     workspace_address_comment,
     address_id,
@@ -748,6 +748,8 @@ function* beautyRoomSendSaga({navigation}) {
       street: workspace_address,
       workplace: workspace_type,
       id: address_id,
+      salon_address_id: address_id,
+      salon_id: beauty_room,
       city_id: info.city.id,
       comment: workspace_address_comment,
       breaks: breaks_done,
@@ -886,7 +888,13 @@ function* workplaceUpdateSaga(params) {
     yield put(workplaceUpdateFailure({}));
     yield put(authLogout());
   } else {
-    Alert.alert('', response.data.message);
+    Toast.show({
+      type: 'error',
+      text2: response.data.error,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
     yield put(workplaceUpdateFailure({}));
   }
 }
@@ -916,13 +924,7 @@ function* priceUpdateSaga() {
   };
   const token = yield select(getAccessToken);
 
-  const response = yield call(
-    api,
-    ENDPOINT_PRICE_SAVE,
-    'POST',
-    payload,
-    token,
-  );
+  const response = yield call(api, ENDPOINT_PRICE_SAVE, 'POST', payload, token);
 
   if (response.data.status_code === 200) {
     yield put(priceSaveSuccess());

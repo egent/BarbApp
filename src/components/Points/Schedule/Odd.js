@@ -11,7 +11,7 @@ const working = [
     title: 'working_odd',
   },
   {
-    id: 1,
+    id: 2,
     title: 'working_even',
   },
 ];
@@ -23,7 +23,7 @@ const ScheduleOdd = () => {
     dispatch(
       setForm({
         payload: {
-          schedule_odd: w.title === 'working_odd' ? false : true,
+          schedule_odd: w.title === 'working_odd' ? true : false,
         },
       }),
     );
@@ -34,15 +34,22 @@ const ScheduleOdd = () => {
       <View style={styles.container}>
         {working.map((w) => {
           let active = false;
-          if (
-            (w.title === 'working_odd' &&
+
+          {/* if (
+            (w.title === 'working_even' &&
               (schedule_odd === false || schedule_odd === null)) ||
-            (w.title === 'working_even' && schedule_odd === true)
+            (w.title === 'working_odd' && schedule_odd === true)
+          )  */}
+          
+          if (
+            (w.id === 1 && schedule_odd === true) ||
+            (w.id === 2 && schedule_odd === false)
           ) {
             active = true;
           }
           return (
             <TouchableOpacity
+              key={`shedule-day-${w.id}`}
               style={styles.item}
               onPress={() => setSchedule(w)}>
               <Icon

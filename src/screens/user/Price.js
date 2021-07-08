@@ -56,6 +56,7 @@ const PriceScreen = ({navigation}) => {
       <KeyboardAwareScrollView
         style={styles.container}
         showsVerticalScrollIndicator={false}
+        extraScrollHeight={25}
         keyboardShouldPersistTaps="always">
         <TabContainer
           price={true}

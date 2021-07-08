@@ -42,6 +42,7 @@ const Input = ({
           onChangeText={setData}
           autoCapitalize={autoCapitalize}
           keyboardType={keyboardType}
+          blurOnSubmit={true}
         />
       ) : (
         <TextInputMask

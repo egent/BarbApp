@@ -27,14 +27,17 @@ const WorkspaceAdd = ({navigation, route}) => {
     beauty_name,
     beauty_data,
     city_info,
-    district_select,
+    district_select, // todo ...
     sub_district_select_string,
+    sub_district_select,
     metro_select_string,
     sub_district,
     metro,
+    metro_select_array,
     workspace_address,
     workspace_address_comment,
     district_select_in_client_string,
+    district_select_in_client,
     address_id,
   } = useSelector((state) => state.user);
 
@@ -173,6 +176,7 @@ const WorkspaceAdd = ({navigation, route}) => {
           saveData={setDistricts}
           value={district_select?.name}
           popupTitle="district"
+          selectedItems={district_select}
         />
       )}
 
@@ -184,6 +188,7 @@ const WorkspaceAdd = ({navigation, route}) => {
           value={district_select_in_client_string}
           popupTitle="districts"
           isSelectSingle={false}
+          selectedItems={district_select_in_client}
         />
       )}
 
@@ -195,6 +200,7 @@ const WorkspaceAdd = ({navigation, route}) => {
           value={sub_district_select_string}
           popupTitle="sub_district"
           isSelectSingle={false}
+          selectedItems={sub_district_select}
         />
       )}
 
@@ -206,6 +212,7 @@ const WorkspaceAdd = ({navigation, route}) => {
           value={metro_select_string}
           isSelectSingle={false}
           popupTitle="metro"
+          selectedItems={metro_select_array}
         />
       )}
 

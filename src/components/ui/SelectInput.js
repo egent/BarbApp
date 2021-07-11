@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import {
   Text,
   View,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
+import {find} from 'lodash';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Select2 from '../../components/SelectTwo';
 import _ from '../../services/i18n';
@@ -20,8 +21,30 @@ const SelectInput = ({
   isSelectSingle = true,
   colorArrow = '#B4B4B4',
   popupTitle = 'select_city',
+  selectedItems = [],
 }) => {
   const selectorRef = useRef(null);
+
+  const list = [...data];
+
+  useEffect(() => {
+    setDefault();
+  }, []);
+
+  const setDefault = () => {
+    list.map((item) => {
+      item.checked = false;
+      if (isSelectSingle) {
+        if (item.id === selectedItems?.id) {
+          item.checked = true;
+        }
+      } else {
+        if (find(selectedItems, {id: item.id})) {
+          item.checked = true;
+        }
+      }
+    });
+  };
 
   return (
     <>
@@ -36,6 +59,7 @@ const SelectInput = ({
         </TouchableOpacity>
       </View>
       <Select2
+        selectedItems={selectedItems}
         selectedName={value}
         ref={selectorRef}
         title={value}

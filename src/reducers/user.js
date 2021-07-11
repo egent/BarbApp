@@ -105,6 +105,7 @@ const initialState = {
   city_info: null,
   // add workspace begin
   workspace_type: null,
+  beauty_copy: null, // from search
   beauty_room: '-1', // user beauty room selected
   address_id: '-1', // for update address
   beauty_name: '',
@@ -488,6 +489,7 @@ export default function user(state = initialState, action = {}) {
       return {
         ...state,
         autoCompleteLoading: true,
+        beauty_copy: null,
       };
     case types.BEAUTY_ROOMS.SUCCESS:
       return {
@@ -716,6 +718,7 @@ export default function user(state = initialState, action = {}) {
         beauty_name:
           action.place.salon_name !== undefined ? action.place.salon_name : '',
         beauty_data: null,
+        beauty_copy: null,
         district_select,
         district_select_in_client,
         district_select_in_client_string,
@@ -762,6 +765,7 @@ export default function user(state = initialState, action = {}) {
         workspace_breaks: JSON.parse(JSON.stringify(workspace_breaks)),
         form_workplace_add_data: null,
         breaks_done: [],
+        beauty_copy: null,
       };
     // case types.WORKPLACE_UPDATE.HISTORY:
     //   return {
@@ -823,6 +827,7 @@ export default function user(state = initialState, action = {}) {
         metro: _metro,
         beauty_data: [],
         salon_address_id: address.id,
+        beauty_copy: action.place,
       };
     case types.PRICE.REQUEST:
       return {

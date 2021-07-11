@@ -17,8 +17,10 @@ const WorkTime = () => {
   const [defaultDate, setDefaultDate] = useState(new Date());
   const [timePickerTitle, setTimePickerTitle] = useState('');
   const [isTimePickerVisible, setVisibleTimePicker] = useState(false);
-  const [timeFrom, setTimeFrom] = useState(schedule_odd_time.time_from || '--');
-  const [timeTo, setTimeTo] = useState(schedule_odd_time.time_to || '--');
+  const [timeFrom, setTimeFrom] = useState(
+    schedule_odd_time.time_from || '09:00',
+  );
+  const [timeTo, setTimeTo] = useState(schedule_odd_time.time_to || '20:00');
 
   const setTime = (time) => {
     if (timeParams !== null) {
@@ -27,10 +29,10 @@ const WorkTime = () => {
       let time_to = null;
       if (timeParams === 'time_from') {
         time_from = selectedTime;
-        time_to = timeTo !== '--' ? timeTo : null;
+        time_to = timeTo !== '20:00' ? timeTo : null;
         setTimeFrom(selectedTime);
       } else {
-        time_from = timeFrom !== '--' ? timeFrom : null;
+        time_from = timeFrom !== '09:00' ? timeFrom : null;
         time_to = selectedTime;
         setTimeTo(selectedTime);
       }
@@ -60,6 +62,7 @@ const WorkTime = () => {
         <View
           style={{flexDirection: 'row', paddingVertical: 10, paddingLeft: 2}}>
           <TouchableOpacity
+            hitSlop={{top: 20, bottom: 20, left: 20, right: 10}}
             onPress={() => {
               openSelectTimeModal('time_from');
             }}>
@@ -67,6 +70,7 @@ const WorkTime = () => {
           </TouchableOpacity>
           <Text style={{paddingHorizontal: 10, color: '#6DB7E8'}}> - </Text>
           <TouchableOpacity
+            hitSlop={{top: 20, bottom: 20, left: 10, right: 20}}
             onPress={() => {
               openSelectTimeModal('time_to');
             }}>

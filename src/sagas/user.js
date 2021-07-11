@@ -722,6 +722,7 @@ function* beautyRoomSendSaga({navigation}) {
     workspace_address_comment,
     address_id,
     breaks_done,
+    beauty_copy,
   } = yield select(getUserState);
 
   let checkForm = false;
@@ -842,16 +843,19 @@ function* beautyRoomSendSaga({navigation}) {
     // }
 
     if (address_id === '-1') {
-      yield put(
-        workplaceAddRequest({
-          navigation,
-          payload,
-        }),
-      );
-      yield put(setWorkplaceClear());
+      if (beauty_copy !== null) {
+        payload = {
+          ...payload,
+          salon_id: beauty_copy.salon_id,
+          salon_address_id: beauty_copy.address.id,
+          coords: beauty_copy.address.coords,
+        };
+      }
+      yield put(workplaceAddRequest({navigation, payload}));
     } else {
       yield put(workplaceUpdateRequest({navigation, payload}));
     }
+
   } else {
     yield put(beautyRoomError());
   }
@@ -939,7 +943,6 @@ function* priceUpdateSaga() {
     });
 
     yield put(priceClear());
-
   } else if (response.status === 401) {
     yield put(priceSaveFailure({}));
     yield put(authLogout());

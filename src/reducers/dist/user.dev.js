@@ -674,21 +674,25 @@ function user() {
         var sub_districts_arr = [];
         var sub_metro_arr = [];
         Object.values(action.place.microdistricts).map(function (item) {
-          district_select.microdistricts.map(function (m) {
-            if (m.id === item) {
-              sub_district_select.push(m);
-              sub_districts_arr.push(m.name);
-            }
-          });
+          try {
+            district_select.microdistricts.map(function (m) {
+              if (m.id === item) {
+                sub_district_select.push(m);
+                sub_districts_arr.push(m.name);
+              }
+            });
+          } catch (e) {}
         });
         sub_district_select_string = sub_districts_arr.join(', ');
         Object.values(action.place.metros).map(function (item) {
-          district_select.metros.map(function (m) {
-            if (m.id === item) {
-              metro_select_array.push(m);
-              sub_metro_arr.push(m.name);
-            }
-          });
+          try {
+            district_select.metros.map(function (m) {
+              if (m.id === item) {
+                metro_select_array.push(m);
+                sub_metro_arr.push(m.name);
+              }
+            });
+          } catch (error) {}
         });
         metro_select_string = sub_metro_arr.join(', ');
       }

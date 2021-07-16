@@ -67,6 +67,9 @@ const PromoCode = () => {
               keyboardType="phone-pad"
               returnKeyType="done"
               blurOnSubmit={true}
+              onFocus={(e) => {
+                setPrice('');
+              }}
             />
             <Text style={styles.hint}>%</Text>
           </View>

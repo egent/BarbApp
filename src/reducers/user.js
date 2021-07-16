@@ -656,22 +656,26 @@ export default function user(state = initialState, action = {}) {
         const sub_metro_arr = [];
 
         Object.values(action.place.microdistricts).map((item) => {
-          district_select.microdistricts.map((m) => {
-            if (m.id === item) {
-              sub_district_select.push(m);
-              sub_districts_arr.push(m.name);
-            }
-          });
+          try {
+            district_select.microdistricts.map((m) => {
+              if (m.id === item) {
+                sub_district_select.push(m);
+                sub_districts_arr.push(m.name);
+              }
+            });
+          } catch (e) {}
         });
         sub_district_select_string = sub_districts_arr.join(', ');
 
         Object.values(action.place.metros).map((item) => {
-          district_select.metros.map((m) => {
-            if (m.id === item) {
-              metro_select_array.push(m);
-              sub_metro_arr.push(m.name);
-            }
-          });
+          try {
+            district_select.metros.map((m) => {
+              if (m.id === item) {
+                metro_select_array.push(m);
+                sub_metro_arr.push(m.name);
+              }
+            });
+          } catch (error) {}
         });
         metro_select_string = sub_metro_arr.join(', ');
       }

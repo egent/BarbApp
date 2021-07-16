@@ -125,7 +125,7 @@ const PriceCategoryItem = ({id, name, activeId, setActiveId, active}) => {
                 onChangeText={setMin}
                 value={priceTime.toString()}
                 keyboardType="phone-pad"
-                // returnKeyType="done"
+                returnKeyType="done"
                 blurOnSubmit={true}
                 placeholder={_.t('time')}
                 onFocus={(e) => {

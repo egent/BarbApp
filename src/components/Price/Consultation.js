@@ -94,6 +94,9 @@ const Consultation = () => {
                 returnKeyType="done"
                 blurOnSubmit={true}
                 placeholder={_.t('price_item')}
+                onFocus={(e) => {
+                  setPrice('');
+                }}
               />
               <Text style={styles.txt}>{_.t('uah')}</Text>
 
@@ -108,6 +111,9 @@ const Consultation = () => {
                 returnKeyType="done"
                 blurOnSubmit={true}
                 placeholder={_.t('time')}
+                onFocus={(e) => {
+                  setTime('');
+                }}
               />
               <Text style={styles.txt}>{_.t('min')}</Text>
             </View>

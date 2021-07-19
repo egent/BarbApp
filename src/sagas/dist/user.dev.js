@@ -1906,6 +1906,8 @@ function beautyRoomSendSaga(_ref2) {
           }
 
           if (scheduleMenuActive === 2) {
+            schedule_odd_time.time_from = schedule_odd_time.time_from === null ? '09:00' : schedule_odd_time.time_from;
+            schedule_odd_time.time_to = schedule_odd_time.time_to === null ? '20:00' : schedule_odd_time.time_to;
             payload = _objectSpread({}, payload, {
               schedule_type: 2,
               schedule_odd: schedule_odd,

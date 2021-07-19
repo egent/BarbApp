@@ -29,7 +29,7 @@ const PointMenuItem = ({
             key={`place-${p.id}`}
             style={[styles.placeContainer, {marginTop: index === 0 ? 10 : 0}]}
             onPress={() => update(type_id, p)}>
-            <View style={styles.info}>
+            <View style={[styles.info, {flex: 8}]}>
               {type_id === 2 && <Text style={styles.name}>{p.salon_name}</Text>}
               {type_id !== 3 ? (
                 <Text style={styles.street}>{p.street}</Text>
@@ -43,6 +43,7 @@ const PointMenuItem = ({
               )}
             </View>
             <TouchableOpacity
+              style={{flex: 1, alignItems: 'flex-end'}}
               onPress={() => {
                 remove(p.id);
               }}

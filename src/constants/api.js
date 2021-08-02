@@ -36,6 +36,7 @@ const ENDPOINT_UPLOAD_PHOTO = BACKEND_URL + '/api-settings/update-photo';
 const ENDPOINT_DIALOGS = BACKEND_URL + '/api-dialogs';
 const ENDPOINT_DIALOG = BACKEND_URL + '/api-dialog/';
 const ENDPOINT_SAVE_PUSH_TOKEN = '/api-save-push-token';
+const ENDPOINT_SERVICES = BACKEND_URL_PREFIX + '/procedures';
 
 export {
   ONESIGNAL_APP_ID,
@@ -66,4 +67,5 @@ export {
   ENDPOINT_SAVE_PUSH_TOKEN,
   ENDPOINT_GET_BEAUTY_ROOMS,
   ENDPOINT_GET_CITY_INFO,
+  ENDPOINT_SERVICES,
 };

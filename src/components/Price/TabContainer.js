@@ -17,7 +17,7 @@ const TabContainer = ({price, navigation, checkSave}) => {
   return (
     <View style={styles.tabContainer}>
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => navigation.navigate('Price')}
         style={[
           price === true
             ? styles.activeTabContainer

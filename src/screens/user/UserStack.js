@@ -33,6 +33,7 @@ const UserStack = createStackNavigator();
 
 const UserStackScreens = ({navigation}) => (
   <UserStack.Navigator
+    initialRouteName="Services" // todo delete from production
     screenOptions={{
       headerTitleStyle: {
         color: 'rgba(0, 0, 0, 0.3)',

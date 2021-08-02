@@ -11,7 +11,7 @@ const saveSubsetBlackFilterUser = createBlacklistFilter('user', ['loading']);
 
 const persistConfig = {
   timeout: 2000,
-  key: 'appStore',
+  key: 'app_2_1',
   storage: AsyncStorage,
   stateReconciler: autoMergeLevel2,
   transforms: [saveSubsetBlackFilterUser],

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
+exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -16,6 +16,11 @@ var types = {
     REQUEST: 'SERVICES.REQUEST',
     SUCCESS: 'SERVICES.SUCCESS',
     FAILURE: 'SERVICES.FAILURE'
+  },
+  SERVICES_CATEGORY: {
+    REQUEST: 'SERVICES_CATEGORY.REQUEST',
+    SUCCESS: 'SERVICES_CATEGORY.SUCCESS',
+    FAILURE: 'SERVICES_CATEGORY.FAILURE'
   }
 };
 exports.types = types;
@@ -43,3 +48,27 @@ var servicesFailure = function servicesFailure(data) {
 };
 
 exports.servicesFailure = servicesFailure;
+
+var servicesCategoryRequest = function servicesCategoryRequest(data) {
+  return _objectSpread({
+    type: types.SERVICES_CATEGORY.REQUEST
+  }, data);
+};
+
+exports.servicesCategoryRequest = servicesCategoryRequest;
+
+var servicesCategorySuccess = function servicesCategorySuccess(data) {
+  return _objectSpread({
+    type: types.SERVICES_CATEGORY.SUCCESS
+  }, data);
+};
+
+exports.servicesCategorySuccess = servicesCategorySuccess;
+
+var servicesCategoryFailure = function servicesCategoryFailure(data) {
+  return _objectSpread({
+    type: types.SERVICES_CATEGORY.FAILURE
+  }, data);
+};
+
+exports.servicesCategoryFailure = servicesCategoryFailure;

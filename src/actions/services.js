@@ -4,6 +4,11 @@ export const types = {
     SUCCESS: 'SERVICES.SUCCESS',
     FAILURE: 'SERVICES.FAILURE',
   },
+  SERVICES_CATEGORY: {
+    REQUEST: 'SERVICES_CATEGORY.REQUEST',
+    SUCCESS: 'SERVICES_CATEGORY.SUCCESS',
+    FAILURE: 'SERVICES_CATEGORY.FAILURE',
+  },
 };
 
 export const servicesRequest = (data) => ({
@@ -18,5 +23,20 @@ export const servicesSuccess = (data) => ({
 
 export const servicesFailure = (data) => ({
   type: types.SERVICES.FAILURE,
+  ...data,
+});
+
+export const servicesCategoryRequest = (data) => ({
+  type: types.SERVICES_CATEGORY.REQUEST,
+  ...data,
+});
+
+export const servicesCategorySuccess = (data) => ({
+  type: types.SERVICES_CATEGORY.SUCCESS,
+  ...data,
+});
+
+export const servicesCategoryFailure = (data) => ({
+  type: types.SERVICES_CATEGORY.FAILURE,
   ...data,
 });

@@ -14,8 +14,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var initialState = {
+  loading: false,
   services: [],
-  loading: false
+  servicesCategory: []
 };
 
 function services() {
@@ -35,6 +36,23 @@ function services() {
       });
 
     case _services.types.SERVICES.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.SERVICES_CATEGORY.REQUEST:
+      return _objectSpread({}, state, {
+        loading: true
+      });
+
+    case _services.types.SERVICES_CATEGORY.SUCCESS:
+      // todo format data ?
+      return _objectSpread({}, state, {
+        loading: false,
+        servicesCategory: action.payload.data.categories
+      });
+
+    case _services.types.SERVICES_CATEGORY.FAILURE:
       return _objectSpread({}, state, {
         loading: false
       });

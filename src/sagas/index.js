@@ -32,7 +32,7 @@ import {
   watchPriceUpdateSaga,
 } from './user';
 
-import {watchServices} from './services';
+import {watchServices, watchServicesCategory} from './services';
 
 export default function* rootSaga() {
   yield all([
@@ -68,5 +68,6 @@ export default function* rootSaga() {
     watchPriceUpdateSaga(),
     // services
     watchServices(),
+    watchServicesCategory(),
   ]);
 }

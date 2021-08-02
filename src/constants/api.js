@@ -37,6 +37,7 @@ const ENDPOINT_DIALOGS = BACKEND_URL + '/api-dialogs';
 const ENDPOINT_DIALOG = BACKEND_URL + '/api-dialog/';
 const ENDPOINT_SAVE_PUSH_TOKEN = '/api-save-push-token';
 const ENDPOINT_SERVICES = BACKEND_URL_PREFIX + '/procedures';
+const ENDPOINT_SERVICES_CATEGORY = BACKEND_URL_PREFIX + '/procedures/cats';
 
 export {
   ONESIGNAL_APP_ID,
@@ -68,4 +69,5 @@ export {
   ENDPOINT_GET_BEAUTY_ROOMS,
   ENDPOINT_GET_CITY_INFO,
   ENDPOINT_SERVICES,
+  ENDPOINT_SERVICES_CATEGORY,
 };

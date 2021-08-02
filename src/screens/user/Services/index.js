@@ -5,7 +5,7 @@ import TabContainer from '@components/Price/TabContainer';
 import HorizontalScrollingMenu from '@components/ui/HorizontalScrollingMenu';
 import PreLoader from '@components/PreLoader';
 import _ from '@services/i18n';
-import {servicesRequest} from '@actions/services';
+import {servicesRequest, servicesCategoryRequest} from '@actions/services';
 
 import * as S from './styled';
 
@@ -15,6 +15,7 @@ const Services = ({navigation}) => {
 
   useEffect(() => {
     dispatch(servicesRequest());
+    dispatch(servicesCategoryRequest());
   }, [dispatch]);
 
   if (loading) {

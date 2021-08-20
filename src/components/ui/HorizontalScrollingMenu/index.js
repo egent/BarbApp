@@ -6,6 +6,11 @@ import * as S from './styled';
 const HorizontalScrollingMenu = ({data}) => {
   const listRef = useRef(null);
   const [active, setActive] = useState(0);
+  let menu = [];
+
+  try {
+    menu = Object.keys(data.types);
+  } catch (error) {}
 
   return (
     <S.Container>
@@ -20,7 +25,7 @@ const HorizontalScrollingMenu = ({data}) => {
         ref={listRef}
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={Object.keys(data.types)}
+        data={menu}
         keyExtractor={(item, index) => `horizontal-menu-${index}`}
         renderItem={({item, index}) => {
           if (item === 'uid') {

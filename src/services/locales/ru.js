@@ -256,4 +256,13 @@ export default {
   stop: 'Отклонена',
   draft: 'Черновик',
   check: 'На модерации',
+  all: 'Все',
+  service_add: 'Добавить услугу',
+  service_name: 'Название услуги',
+  category: 'Категория',
+  cost_long: 'Цена и длительность',
+  description: 'Описание',
+  service_photo: 'Фото процедуры',
+  photo_add: 'Добавить фото',
+  description_short: 'Краткое описание',
 };

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
+exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -20,7 +20,18 @@ var types = {
   SERVICES_CATEGORY: {
     REQUEST: 'SERVICES_CATEGORY.REQUEST',
     SUCCESS: 'SERVICES_CATEGORY.SUCCESS',
-    FAILURE: 'SERVICES_CATEGORY.FAILURE'
+    FAILURE: 'SERVICES_CATEGORY.FAILURE',
+    SELECT: 'SERVICES_CATEGORY.SELECT',
+    PHOTOS: 'SERVICES_CATEGORY.PHOTOS',
+    PHOTO_REMOVE: 'SERVICES_CATEGORY.PHOTO_REMOVE'
+  },
+  SERVICE_STATE: {
+    UPDATE: 'SERVICE_STATE.UPDATE'
+  },
+  SERVICES_ADD: {
+    REQUEST: 'SERVICES_ADD.REQUEST',
+    SUCCESS: 'SERVICES_ADD.SUCCESS',
+    FAILURE: 'SERVICES_ADD.FAILURE'
   }
 };
 exports.types = types;
@@ -72,3 +83,63 @@ var servicesCategoryFailure = function servicesCategoryFailure(data) {
 };
 
 exports.servicesCategoryFailure = servicesCategoryFailure;
+
+var servicesStateUpdate = function servicesStateUpdate(data) {
+  return _objectSpread({
+    type: types.SERVICE_STATE.UPDATE
+  }, data);
+};
+
+exports.servicesStateUpdate = servicesStateUpdate;
+
+var servicesCategorySelect = function servicesCategorySelect(payload) {
+  return {
+    type: types.SERVICES_CATEGORY.SELECT,
+    payload: payload
+  };
+};
+
+exports.servicesCategorySelect = servicesCategorySelect;
+
+var servicesCategoryPhotos = function servicesCategoryPhotos(payload) {
+  return {
+    type: types.SERVICES_CATEGORY.PHOTOS,
+    payload: payload
+  };
+};
+
+exports.servicesCategoryPhotos = servicesCategoryPhotos;
+
+var servicesCategoryPhotoRemove = function servicesCategoryPhotoRemove(payload) {
+  return {
+    type: types.SERVICES_CATEGORY.PHOTO_REMOVE,
+    payload: payload
+  };
+};
+
+exports.servicesCategoryPhotoRemove = servicesCategoryPhotoRemove;
+
+var serviceAddRequest = function serviceAddRequest(payload) {
+  return {
+    type: types.SERVICES_ADD.REQUEST,
+    payload: payload
+  };
+};
+
+exports.serviceAddRequest = serviceAddRequest;
+
+var serviceAddSuccess = function serviceAddSuccess(data) {
+  return _objectSpread({
+    type: types.SERVICES_ADD.SUCCESS
+  }, data);
+};
+
+exports.serviceAddSuccess = serviceAddSuccess;
+
+var serviceAddFailure = function serviceAddFailure(data) {
+  return _objectSpread({
+    type: types.SERVICES_ADD.FAILURE
+  }, data);
+};
+
+exports.serviceAddFailure = serviceAddFailure;

@@ -38,7 +38,9 @@ const Services = ({navigation}) => {
         <S.EmptyText>{_.t('services_empty')}</S.EmptyText>
       </S.EmptyContainer>
       <S.ButtonContainer>
-        <S.ButtonAdd>
+        <S.ButtonAdd
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('ServicesForm')}>
           <Icon name="plus" color="#fff" size={48} />
         </S.ButtonAdd>
       </S.ButtonContainer>

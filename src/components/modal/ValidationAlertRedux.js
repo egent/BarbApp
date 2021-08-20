@@ -20,13 +20,17 @@ const ValidationAlertRedux = ({title, navigation}) => {
   const {showValidationAlert} = useSelector((state) => state.user);
 
   const toggle = () => {
-    dispatch(setValidationAlert({show: !showValidationAlert}))
-  }
+    dispatch(setValidationAlert({show: !showValidationAlert}));
+  };
 
-  btnOutHandler = () => {
+  const close = () => {
+    dispatch(setValidationAlert({show: false}));
+  };
+
+  const btnOutHandler = () => {
     dispatch(setValidationAlert({show: false}));
     navigation.goBack();
-  }
+  };
 
   return (
     <Modal
@@ -50,7 +54,7 @@ const ValidationAlertRedux = ({title, navigation}) => {
           <Text style={styles.title}>{_.t(title)}</Text>
           <View style={styles.btnContainer}>
             <TouchableOpacity
-              onPress={toggle}
+              onPress={close}
               style={styles.btnReturn}
               activeOpacity={0.8}>
               <Text style={styles.returnText}>{_.t('return_to_form')}</Text>

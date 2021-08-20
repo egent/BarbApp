@@ -8,6 +8,17 @@ export const types = {
     REQUEST: 'SERVICES_CATEGORY.REQUEST',
     SUCCESS: 'SERVICES_CATEGORY.SUCCESS',
     FAILURE: 'SERVICES_CATEGORY.FAILURE',
+    SELECT: 'SERVICES_CATEGORY.SELECT',
+    PHOTOS: 'SERVICES_CATEGORY.PHOTOS',
+    PHOTO_REMOVE: 'SERVICES_CATEGORY.PHOTO_REMOVE',
+  },
+  SERVICE_STATE: {
+    UPDATE: 'SERVICE_STATE.UPDATE',
+  },
+  SERVICES_ADD: {
+    REQUEST: 'SERVICES_ADD.REQUEST',
+    SUCCESS: 'SERVICES_ADD.SUCCESS',
+    FAILURE: 'SERVICES_ADD.FAILURE',
   },
 };
 
@@ -38,5 +49,40 @@ export const servicesCategorySuccess = (data) => ({
 
 export const servicesCategoryFailure = (data) => ({
   type: types.SERVICES_CATEGORY.FAILURE,
+  ...data,
+});
+
+export const servicesStateUpdate = (data) => ({
+  type: types.SERVICE_STATE.UPDATE,
+  ...data,
+});
+
+export const servicesCategorySelect = (payload) => ({
+  type: types.SERVICES_CATEGORY.SELECT,
+  payload,
+});
+
+export const servicesCategoryPhotos = (payload) => ({
+  type: types.SERVICES_CATEGORY.PHOTOS,
+  payload,
+});
+
+export const servicesCategoryPhotoRemove = (payload) => ({
+  type: types.SERVICES_CATEGORY.PHOTO_REMOVE,
+  payload,
+});
+
+export const serviceAddRequest = (payload) => ({
+  type: types.SERVICES_ADD.REQUEST,
+  payload,
+});
+
+export const serviceAddSuccess = (data) => ({
+  type: types.SERVICES_ADD.SUCCESS,
+  ...data,
+});
+
+export const serviceAddFailure = (data) => ({
+  type: types.SERVICES_ADD.FAILURE,
   ...data,
 });

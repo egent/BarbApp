@@ -31,3 +31,8 @@ export const ButtonAdd = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
+
+// ServiceCategories begin
+export const CategoryContainer = styled.View``;
+export const NodeText = styled.Text``;
+// ServiceCategories end

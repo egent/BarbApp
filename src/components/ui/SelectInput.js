@@ -19,7 +19,7 @@ const SelectInput = ({
   value,
   containerStyles = {},
   isSelectSingle = true,
-  colorArrow = '#B4B4B4',
+  colorArrow = '#  ',
   popupTitle = 'select_city',
   selectedItems = [],
 }) => {

@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@natalia.li/react-native-nested-list": "^0.2.2",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/datetimepicker": "^3.4.7",
     "@react-native-community/masked-view": "^0.1.10",
@@ -22,6 +23,7 @@
     "i18n-js": "^3.7.0",
     "lodash": "^4.17.21",
     "moment": "^2.26.0",
+    "patch-package": "^6.4.7",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-gesture-handler": "^1.6.1",

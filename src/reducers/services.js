@@ -4,6 +4,17 @@ const initialState = {
   loading: false,
   services: [],
   servicesCategory: [],
+  // service begin
+  serviceName: '',
+  serviceCategorySelected: [],
+  serviceCategorySelectedStr: '',
+  serviceCategoryPhotos: [],
+  duration: '',
+  priceFrom: false,
+  price: '',
+  description: '',
+  descriptionShort: '',
+  // service end
 };
 
 export default function services(state = initialState, action = {}) {
@@ -30,13 +41,62 @@ export default function services(state = initialState, action = {}) {
         loading: true,
       };
     case types.SERVICES_CATEGORY.SUCCESS:
-      // todo format data ?
+      const servicesCategory = Object.values(action.payload.data.categories);
+      servicesCategory.map((item) => {
+        item.checked = false;
+      });
       return {
         ...state,
         loading: false,
-        servicesCategory: action.payload.data.categories,
+        servicesCategory,
       };
     case types.SERVICES_CATEGORY.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.SERVICE_STATE.UPDATE:
+      return {
+        ...state,
+        ...action.payload,
+      };
+    case types.SERVICES_CATEGORY.SELECT:
+      let selected = [];
+      action.payload.map((item) => {
+        selected.push(item.name);
+      });
+      return {
+        ...state,
+        serviceCategorySelected: action.payload,
+        serviceCategorySelectedStr: selected.join(', '),
+      };
+    case types.SERVICES_CATEGORY.PHOTOS:
+      const serviceCategoryPhotos = [...state.serviceCategoryPhotos];
+      serviceCategoryPhotos.push(action.payload);
+      return {
+        ...state,
+        serviceCategoryPhotos,
+      };
+    case types.SERVICES_CATEGORY.PHOTO_REMOVE:
+      const photos = [];
+      state.serviceCategoryPhotos.map((p) => {
+        p.uri !== action.payload.uri && photos.push(p);
+      });
+      return {
+        ...state,
+        serviceCategoryPhotos: photos,
+      };
+    case types.SERVICES_ADD.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.SERVICES_ADD.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.SERVICES_ADD.FAILURE:
       return {
         ...state,
         loading: false,

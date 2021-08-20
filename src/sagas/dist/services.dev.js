@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.watchServices = watchServices;
 exports.watchServicesCategory = watchServicesCategory;
+exports.watchServiceAdd = watchServiceAdd;
 
 var _reactNative = require("react-native");
 
@@ -34,10 +35,16 @@ regeneratorRuntime.mark(servicesSaga),
 regeneratorRuntime.mark(servicesCategorySaga),
     _marked3 =
 /*#__PURE__*/
-regeneratorRuntime.mark(watchServices),
+regeneratorRuntime.mark(serviceAddSaga),
     _marked4 =
 /*#__PURE__*/
-regeneratorRuntime.mark(watchServicesCategory);
+regeneratorRuntime.mark(watchServices),
+    _marked5 =
+/*#__PURE__*/
+regeneratorRuntime.mark(watchServicesCategory),
+    _marked6 =
+/*#__PURE__*/
+regeneratorRuntime.mark(watchServiceAdd);
 
 function servicesSaga() {
   var token, response;
@@ -163,15 +170,84 @@ function servicesCategorySaga() {
   }, _marked2);
 }
 
-function watchServices() {
-  return regeneratorRuntime.wrap(function watchServices$(_context3) {
+function serviceAddSaga(params) {
+  var _params$payload, data, navigation, token, response;
+
+  return regeneratorRuntime.wrap(function serviceAddSaga$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          _context3.next = 2;
-          return (0, _effects.takeLatest)(_services.types.SERVICES.REQUEST, servicesSaga);
+          _params$payload = params.payload, data = _params$payload.data, navigation = _params$payload.navigation;
+          _context3.next = 3;
+          return (0, _effects.select)(_selectors.getAccessToken);
 
-        case 2:
+        case 3:
+          token = _context3.sent;
+          _context3.next = 6;
+          return (0, _effects.call)(_api.api, _api2.ENDPOINT_SERVICE_ADD, 'post', data, token);
+
+        case 6:
+          response = _context3.sent;
+
+          if (!(response.data.status_code === 200)) {
+            _context3.next = 16;
+            break;
+          }
+
+          _context3.next = 10;
+          return (0, _effects.put)((0, _services.serviceAddSuccess)({
+            payload: response.data
+          }));
+
+        case 10:
+          _context3.next = 12;
+          return (0, _effects.put)((0, _services.servicesRequest)());
+
+        case 12:
+          navigation.goBack();
+
+          _reactNativeToastMessage["default"].show({
+            type: 'success',
+            text2: response.data.data.message,
+            position: 'bottom',
+            autoHide: true,
+            visibilityTime: 2000
+          });
+
+          _context3.next = 26;
+          break;
+
+        case 16:
+          if (!(response.status === 401)) {
+            _context3.next = 23;
+            break;
+          }
+
+          _context3.next = 19;
+          return (0, _effects.put)((0, _services.serviceAddFailure)({}));
+
+        case 19:
+          _context3.next = 21;
+          return (0, _effects.put)((0, _user.authLogout)());
+
+        case 21:
+          _context3.next = 26;
+          break;
+
+        case 23:
+          _reactNativeToastMessage["default"].show({
+            type: 'error',
+            text1: _i18n["default"].t('error'),
+            text2: response.data.result,
+            position: 'bottom',
+            autoHide: true,
+            visibilityTime: 2000
+          });
+
+          _context3.next = 26;
+          return (0, _effects.put)((0, _services.serviceAddFailure)({}));
+
+        case 26:
         case "end":
           return _context3.stop();
       }
@@ -179,13 +255,13 @@ function watchServices() {
   }, _marked3);
 }
 
-function watchServicesCategory() {
-  return regeneratorRuntime.wrap(function watchServicesCategory$(_context4) {
+function watchServices() {
+  return regeneratorRuntime.wrap(function watchServices$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.next = 2;
-          return (0, _effects.takeLatest)(_services.types.SERVICES_CATEGORY.REQUEST, servicesCategorySaga);
+          return (0, _effects.takeLatest)(_services.types.SERVICES.REQUEST, servicesSaga);
 
         case 2:
         case "end":
@@ -193,4 +269,36 @@ function watchServicesCategory() {
       }
     }
   }, _marked4);
+}
+
+function watchServicesCategory() {
+  return regeneratorRuntime.wrap(function watchServicesCategory$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          _context5.next = 2;
+          return (0, _effects.takeLatest)(_services.types.SERVICES_CATEGORY.REQUEST, servicesCategorySaga);
+
+        case 2:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  }, _marked5);
+}
+
+function watchServiceAdd() {
+  return regeneratorRuntime.wrap(function watchServiceAdd$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.next = 2;
+          return (0, _effects.takeLatest)(_services.types.SERVICES_ADD.REQUEST, serviceAddSaga);
+
+        case 2:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  }, _marked6);
 }

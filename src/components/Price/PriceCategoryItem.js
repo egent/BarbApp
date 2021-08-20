@@ -15,7 +15,7 @@ import {setForm} from '../../actions/user';
 const PriceCategoryItem = ({id, name, activeId, setActiveId, active}) => {
   const dispatch = useDispatch();
   const {priceSelect} = useSelector((state) => state.user);
-  const [activeItem, setActiveItem] = useState(activeId === id ? true : (active ? true : false))
+  const [activeItem, setActiveItem] = useState(activeId === id ? true : (active ? true : false));
 
   let pSelect = JSON.parse(JSON.stringify(priceSelect));
   let priceItem = find(pSelect, {cat_id: id});

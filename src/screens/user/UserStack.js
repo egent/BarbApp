@@ -5,7 +5,7 @@ import HeaderLeft from '../../components/HeaderLeft';
 import HeaderRight from '../../components/HeaderRight';
 import HeaderRightIcon from '../../components/HeaderRightIcon';
 import HeaderSaveRight from '../../components/HeaderSaveRight';
-import HeaderRightIconRedux from '../../components/HeaderRightIconRedux';
+import {HeaderRightIconRedux, HeaderRightService} from '@components';
 import HeaderTitleChat from '../../components/HeaderTitleChat';
 import _ from '../../services/i18n';
 import HomeScreen from './Home';
@@ -21,7 +21,7 @@ import PointsList from '../../screens/user/points/PointsList';
 import WorkspaceAdd from '../../screens/user/points/WorkspaceAdd';
 import ScheduleBreak from '../../screens/user/points/ScheduleBreaks';
 import PriceScreen from '../../screens/user/Price';
-import Services from '../../screens/user/Services';
+import {Services, ServicesForm, ServiceCategories} from '@screens';
 
 import {beautyRoomSend, breaksSave} from '../../actions/user';
 
@@ -33,7 +33,7 @@ const UserStack = createStackNavigator();
 
 const UserStackScreens = ({navigation}) => (
   <UserStack.Navigator
-    initialRouteName="Services" // todo delete from production
+    // initialRouteName="ServicesForm" // todo delete from production
     screenOptions={{
       headerTitleStyle: {
         color: 'rgba(0, 0, 0, 0.3)',
@@ -277,6 +277,35 @@ const UserStackScreens = ({navigation}) => (
       options={({navigation, route}) => ({
         headerShown: true,
         headerTitle: _.t('services_prices'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} />
+        ),
+        headerStyle: styles.headerStyle,
+        headerTitleStyle: [styles.headerTitleStyle],
+      })}
+    />
+    <UserStack.Screen
+      name="ServicesForm"
+      component={ServicesForm}
+      options={({navigation, route}) => ({
+        headerShown: true,
+        headerTitle: _.t('service_add'),
+        headerLeft: (props) => (
+          <HeaderLeft {...props} navigation={navigation} />
+        ),
+        headerRight: (props) => {
+          return <HeaderRightService {...props} navigation={navigation} />;
+        },
+        headerStyle: styles.headerStyle,
+        headerTitleStyle: [styles.headerTitleStyle],
+      })}
+    />
+    <UserStack.Screen
+      name="ServiceCategories"
+      component={ServiceCategories}
+      options={({navigation, route}) => ({
+        headerShown: true,
+        headerTitle: _.t('category'),
         headerLeft: (props) => (
           <HeaderLeft {...props} navigation={navigation} />
         ),

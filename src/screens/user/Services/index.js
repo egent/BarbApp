@@ -1,17 +1,26 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TabContainer from '@components/Price/TabContainer';
 import HorizontalScrollingMenu from '@components/ui/HorizontalScrollingMenu';
-import PreLoader from '@components/PreLoader';
+import {PreLoader, ServicesList} from '@components';
 import _ from '@services/i18n';
-import {servicesRequest, servicesCategoryRequest} from '@actions/services';
+import {
+  servicesRequest,
+  servicesCategoryRequest,
+  servicesStateUpdate,
+} from '@actions/services';
 
 import * as S from './styled';
 
 const Services = ({navigation}) => {
   const dispatch = useDispatch();
-  const {services, loading} = useSelector((state) => state.services);
+  const {services, loading, serviceListKey} = useSelector(
+    (state) => state.services,
+  );
+  const data = services.procedures;
+
+  const [active, setActive] = useState('all');
 
   useEffect(() => {
     dispatch(servicesRequest());
@@ -26,6 +35,34 @@ const Services = ({navigation}) => {
     // todo ...
   };
 
+  const onPressMenu = (menu) => {
+    setActive(menu);
+  };
+
+  const pressAdd = () => {
+    navigation.navigate('ServicesForm');
+  };
+
+  const updateItem = (service) => {
+    dispatch(
+      servicesStateUpdate({
+        payload: {
+          serviceId: service.id,
+          serviceName: service.name,
+          serviceCategorySelected: [],
+          serviceCategorySelectedStr: '',
+          serviceCategoryPhotos: [],
+          duration: service.duration,
+          priceFrom: service.price_from,
+          price: service.price,
+          description: '',
+          descriptionShort: '',
+        },
+      }),
+    );
+    navigation.navigate('ServicesForm');
+  };
+
   return (
     <S.Container>
       <TabContainer
@@ -33,14 +70,26 @@ const Services = ({navigation}) => {
         navigation={navigation}
         checkSave={checkSave}
       />
-      <HorizontalScrollingMenu data={services} />
-      <S.EmptyContainer>
-        <S.EmptyText>{_.t('services_empty')}</S.EmptyText>
-      </S.EmptyContainer>
+      <HorizontalScrollingMenu
+        data={services}
+        onPress={onPressMenu}
+        active={active}
+      />
+      {data && data.length > 0 ? (
+        <ServicesList
+          active={active}
+          data={data}
+          key={`services-list-${serviceListKey}`}
+          updateItem={updateItem}
+        />
+      ) : (
+        <S.EmptyContainer>
+          <S.EmptyText>{_.t('services_empty')}</S.EmptyText>
+        </S.EmptyContainer>
+      )}
+
       <S.ButtonContainer>
-        <S.ButtonAdd
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate('ServicesForm')}>
+        <S.ButtonAdd activeOpacity={0.8} onPress={pressAdd}>
           <Icon name="plus" color="#fff" size={48} />
         </S.ButtonAdd>
       </S.ButtonContainer>

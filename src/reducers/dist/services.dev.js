@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = services;
 
+var _lodash = require("lodash");
+
 var _services = require("../actions/services");
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
@@ -26,6 +28,7 @@ var initialState = {
   services: [],
   servicesCategory: [],
   // service begin
+  serviceId: null,
   serviceName: '',
   serviceCategorySelected: [],
   serviceCategorySelectedStr: '',
@@ -34,8 +37,11 @@ var initialState = {
   priceFrom: false,
   price: '',
   description: '',
-  descriptionShort: '' // service end
-
+  descriptionShort: '',
+  // service end
+  isServicesManage: false,
+  selectedServices: [],
+  serviceListKey: Math.random()
 };
 
 function services() {
@@ -51,7 +57,8 @@ function services() {
     case _services.types.SERVICES.SUCCESS:
       return _objectSpread({}, state, {
         loading: false,
-        services: action.payload.data
+        services: action.payload.data,
+        serviceListKey: Math.random()
       });
 
     case _services.types.SERVICES.FAILURE:
@@ -120,6 +127,61 @@ function services() {
       });
 
     case _services.types.SERVICES_ADD.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.SERVICES.MANAGE:
+      var manage = action.payload;
+      return _objectSpread({}, state, {
+        isServicesManage: manage,
+        selectedServices: manage ? state.selectedServices : []
+      });
+
+    case _services.types.SERVICES.SELECT:
+      var id = action.payload;
+
+      var selServices = _toConsumableArray(state.selectedServices);
+
+      if ((0, _lodash.includes)(selServices, id)) {
+        selServices = (0, _lodash.remove)(selServices, function (s) {
+          return s !== id;
+        });
+      } else {
+        selServices.push(id);
+      }
+
+      return _objectSpread({}, state, {
+        selectedServices: selServices
+      });
+
+    case _services.types.SERVICES_UPDATE_STATUS.REQUEST:
+      return _objectSpread({}, state, {
+        loading: true
+      });
+
+    case _services.types.SERVICES_UPDATE_STATUS.SUCCESS:
+      return _objectSpread({}, state, {
+        loading: false,
+        selectedServices: []
+      });
+
+    case _services.types.SERVICES_UPDATE_STATUS.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.SERVICE_UPDATE.REQUEST:
+      return _objectSpread({}, state, {
+        loading: true
+      });
+
+    case _services.types.SERVICE_UPDATE.SUCCESS:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.SERVICE_UPDATE.FAILURE:
       return _objectSpread({}, state, {
         loading: false
       });

@@ -34,6 +34,7 @@ const ServiceForm = ({navigation}) => {
       dispatch(
         servicesStateUpdate({
           payload: {
+            serviceId: null,
             serviceName: '',
             serviceCategorySelected: [],
             serviceCategorySelectedStr: '',
@@ -97,7 +98,7 @@ const ServiceForm = ({navigation}) => {
               onChangeText={(val) =>
                 dispatch(servicesStateUpdate({payload: {price: val}}))
               }
-              value={price}
+              value={price.toString()}
               keyboardType="phone-pad"
               returnKeyType="done"
               blurOnSubmit={true}
@@ -116,7 +117,7 @@ const ServiceForm = ({navigation}) => {
               onChangeText={(val) =>
                 dispatch(servicesStateUpdate({payload: {duration: val}}))
               }
-              value={duration}
+              value={duration.toString()}
               keyboardType="phone-pad"
               returnKeyType="done"
               blurOnSubmit={true}

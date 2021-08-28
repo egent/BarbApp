@@ -265,4 +265,5 @@ export default {
   service_photo: 'Фото процедуры',
   photo_add: 'Добавить фото',
   description_short: 'Краткое описание',
+  servicesManage: 'В черновики / Удалить',
 };

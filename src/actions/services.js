@@ -3,6 +3,8 @@ export const types = {
     REQUEST: 'SERVICES.REQUEST',
     SUCCESS: 'SERVICES.SUCCESS',
     FAILURE: 'SERVICES.FAILURE',
+    MANAGE: 'SERVICES.MANAGE',
+    SELECT: 'SERVICES.SELECT',
   },
   SERVICES_CATEGORY: {
     REQUEST: 'SERVICES_CATEGORY.REQUEST',
@@ -19,6 +21,16 @@ export const types = {
     REQUEST: 'SERVICES_ADD.REQUEST',
     SUCCESS: 'SERVICES_ADD.SUCCESS',
     FAILURE: 'SERVICES_ADD.FAILURE',
+  },
+  SERVICE_UPDATE: {
+    REQUEST: 'SERVICE_UPDATE.REQUEST',
+    SUCCESS: 'SERVICE_UPDATE.SUCCESS',
+    FAILURE: 'SERVICE_UPDATE.FAILURE',
+  },
+  SERVICES_UPDATE_STATUS: {
+    REQUEST: 'SERVICES_UPDATE_STATUS.REQUEST',
+    SUCCESS: 'SERVICES_UPDATE_STATUS.SUCCESS',
+    FAILURE: 'SERVICES_UPDATE_STATUS.FAILURE',
   },
 };
 
@@ -84,5 +96,45 @@ export const serviceAddSuccess = (data) => ({
 
 export const serviceAddFailure = (data) => ({
   type: types.SERVICES_ADD.FAILURE,
+  ...data,
+});
+
+export const serviceUpdateRequest = (payload) => ({
+  type: types.SERVICE_UPDATE.REQUEST,
+  payload,
+});
+
+export const serviceUpdateSuccess = (data) => ({
+  type: types.SERVICE_UPDATE.SUCCESS,
+  ...data,
+});
+
+export const serviceUpdateFailure = (data) => ({
+  type: types.SERVICE_UPDATE.FAILURE,
+  ...data,
+});
+
+export const servicesManage = (payload) => ({
+  type: types.SERVICES.MANAGE,
+  payload,
+});
+
+export const servicesSelect = (payload) => ({
+  type: types.SERVICES.SELECT,
+  payload,
+});
+
+export const serviceUpdateStatusRequest = (payload) => ({
+  type: types.SERVICES_UPDATE_STATUS.REQUEST,
+  payload,
+});
+
+export const serviceUpdateStatusSuccess = (data) => ({
+  type: types.SERVICES_UPDATE_STATUS.SUCCESS,
+  ...data,
+});
+
+export const serviceUpdateStatusFailure = (data) => ({
+  type: types.SERVICES_UPDATE_STATUS.FAILURE,
   ...data,
 });

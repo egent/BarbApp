@@ -1,3 +1,4 @@
+import {includes, remove} from 'lodash';
 import {types} from '../actions/services';
 
 const initialState = {
@@ -5,6 +6,7 @@ const initialState = {
   services: [],
   servicesCategory: [],
   // service begin
+  serviceId: null,
   serviceName: '',
   serviceCategorySelected: [],
   serviceCategorySelectedStr: '',
@@ -15,6 +17,9 @@ const initialState = {
   description: '',
   descriptionShort: '',
   // service end
+  isServicesManage: false,
+  selectedServices: [],
+  serviceListKey: Math.random(),
 };
 
 export default function services(state = initialState, action = {}) {
@@ -29,6 +34,7 @@ export default function services(state = initialState, action = {}) {
         ...state,
         loading: false,
         services: action.payload.data,
+        serviceListKey: Math.random(),
       };
     case types.SERVICES.FAILURE:
       return {
@@ -97,6 +103,58 @@ export default function services(state = initialState, action = {}) {
         loading: false,
       };
     case types.SERVICES_ADD.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.SERVICES.MANAGE:
+      const manage = action.payload;
+      return {
+        ...state,
+        isServicesManage: manage,
+        selectedServices: manage ? state.selectedServices : [],
+      };
+    case types.SERVICES.SELECT:
+      const id = action.payload;
+      let selServices = [...state.selectedServices];
+      if (includes(selServices, id)) {
+        selServices = remove(selServices, (s) => {
+          return s !== id;
+        });
+      } else {
+        selServices.push(id);
+      }
+      return {
+        ...state,
+        selectedServices: selServices,
+      };
+    case types.SERVICES_UPDATE_STATUS.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.SERVICES_UPDATE_STATUS.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        selectedServices: [],
+      };
+    case types.SERVICES_UPDATE_STATUS.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.SERVICE_UPDATE.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.SERVICE_UPDATE.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.SERVICE_UPDATE.FAILURE:
       return {
         ...state,
         loading: false,

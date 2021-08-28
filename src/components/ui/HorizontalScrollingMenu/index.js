@@ -1,16 +1,28 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import _ from '@services/i18n';
 import * as S from './styled';
 
-const HorizontalScrollingMenu = ({data}) => {
-  const listRef = useRef(null);
-  const [active, setActive] = useState(0);
+const HorizontalScrollingMenu = ({data, onPress, active}) => {
   let menu = [];
-
   try {
     menu = Object.keys(data.types);
+    menu.reverse();
   } catch (error) {}
+  const listRef = useRef(null);
+
+  const getCountItems = (type) => {
+    let result = '';
+    let count = 0;
+    if (type === 'all') {
+      result = `(${data.procedures.length})`;
+    } else {
+      data.procedures.map((d) => d.status === type && count++);
+      result = `(${count})`;
+    }
+
+    return result;
+  };
 
   return (
     <S.Container>
@@ -31,10 +43,11 @@ const HorizontalScrollingMenu = ({data}) => {
           if (item === 'uid') {
             return null;
           }
+          const m = item.trim();
           return (
-            <S.MenuItem activeOpacity={0.8} onPress={() => {}}>
-              <S.MenuItemText active={index === active ? true : false}>
-                {_.t(item.trim())}
+            <S.MenuItem activeOpacity={0.8} onPress={() => onPress(m)}>
+              <S.MenuItemText active={m === active ? true : false}>
+                {_.t(m)} {getCountItems(m)}
               </S.MenuItemText>
             </S.MenuItem>
           );

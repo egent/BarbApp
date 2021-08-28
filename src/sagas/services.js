@@ -12,12 +12,19 @@ import {
   servicesCategoryFailure,
   serviceAddSuccess,
   serviceAddFailure,
+  serviceUpdateStatusSuccess,
+  serviceUpdateStatusFailure,
+  serviceUpdateSuccess,
+  serviceUpdateFailure,
 } from '@actions/services';
 import {api} from '@services/api';
 import {
   ENDPOINT_SERVICES,
   ENDPOINT_SERVICES_CATEGORY,
   ENDPOINT_SERVICE_ADD,
+  ENDPOINT_SERVICE_DRAFT,
+  ENDPOINT_SERVICE_DELETE,
+  ENDPOINT_SERVICE_UPDATE,
 } from '@constants/api';
 import {getAccessToken} from './selectors';
 
@@ -91,6 +98,79 @@ function* serviceAddSaga(params) {
   }
 }
 
+function* serviceUpdateSaga(params) {
+  const {data, navigation} = params.payload;
+
+  const token = yield select(getAccessToken);
+  const response = yield call(
+    api,
+    ENDPOINT_SERVICE_UPDATE,
+    'post',
+    data,
+    token,
+  );
+
+  if (response.data.status_code === 200) {
+    yield put(servicesRequest());
+    yield put(serviceUpdateSuccess({payload: response.data}));
+    navigation.goBack();
+    Toast.show({
+      type: 'success',
+      text2: response.data.data.message,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+  } else if (response.status === 401) {
+    yield put(serviceUpdateFailure({}));
+    yield put(authLogout());
+  } else {
+    Toast.show({
+      type: 'error',
+      text1: _.t('error'),
+      text2: response.data.result,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+    yield put(serviceUpdateFailure({}));
+  }
+}
+
+function* servicesUpdateStatusSaga(params) {
+  const {services, operation} = params.payload;
+  const token = yield select(getAccessToken);
+  const url =
+    operation === 'draft' ? ENDPOINT_SERVICE_DRAFT : ENDPOINT_SERVICE_DELETE;
+
+  const response = yield call(api, url, 'POST', {ids: services}, token);
+
+  if (response.data.status_code === 200) {
+    yield put(servicesRequest());
+    yield put(serviceUpdateStatusSuccess());
+    Toast.show({
+      type: 'success',
+      text2: response.data.data.message,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+  } else if (response.status === 401) {
+    yield put(serviceUpdateStatusFailure({}));
+    yield put(authLogout());
+  } else {
+    Toast.show({
+      type: 'error',
+      text1: _.t('error'),
+      text2: response.data.error,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+    yield put(serviceUpdateStatusFailure({}));
+  }
+}
+
 export function* watchServices() {
   yield takeLatest(types.SERVICES.REQUEST, servicesSaga);
 }
@@ -101,4 +181,15 @@ export function* watchServicesCategory() {
 
 export function* watchServiceAdd() {
   yield takeLatest(types.SERVICES_ADD.REQUEST, serviceAddSaga);
+}
+
+export function* watchServiceUpdateStatus() {
+  yield takeLatest(
+    types.SERVICES_UPDATE_STATUS.REQUEST,
+    servicesUpdateStatusSaga,
+  );
+}
+
+export function* watchServiceUpdate() {
+  yield takeLatest(types.SERVICE_UPDATE.REQUEST, serviceUpdateSaga);
 }

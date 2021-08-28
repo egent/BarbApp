@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {find, reject} from 'lodash';
 import {useSelector, useDispatch} from 'react-redux';
-// import NestedList from '@natalia.li/react-native-nested-list';
 import NestedList from '@components/ui/NestedList';
 import {servicesCategorySelect} from '@actions/services';
 
@@ -61,11 +60,11 @@ const ServiceCategories = ({navigation}) => {
       // }}
       itemContent={(item) => {
         const isActive = checkActive(item);
-
         return (
           <View
             style={[
               styles.itemWrapper,
+              // eslint-disable-next-line react-native/no-inline-styles
               {
                 paddingLeft: 20 * item.level,
                 backgroundColor: isActive ? '#e7e7e9' : '#F4F4F5',
@@ -74,6 +73,7 @@ const ServiceCategories = ({navigation}) => {
             <Text
               style={[
                 styles.itemText,
+                // eslint-disable-next-line react-native/no-inline-styles
                 {fontWeight: isActive ? 'bold' : 'normal'},
               ]}>
               {item.name}

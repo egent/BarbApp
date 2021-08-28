@@ -4,10 +4,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import ModalAlert from '@components/modal/Alert';
 import {setValidationAlert} from '@actions/user';
-import {serviceAddRequest} from '@actions/services';
+import {serviceAddRequest, serviceUpdateRequest} from '@actions/services';
 
 const HeaderRightService = ({navigation}) => {
   const {
+    serviceId,
     serviceName,
     serviceCategorySelected,
     priceFrom,
@@ -43,22 +44,35 @@ const HeaderRightService = ({navigation}) => {
         cats.push(cat.id);
       });
 
-      dispatch(
-        serviceAddRequest({
-          data: {
-            name: serviceName,
-            duration,
-            cats,
-            anons: descriptionShort,
-            description,
-            price_from: priceFrom ? 'on' : 'off',
-            images,
-            razdel: '',
-            price_by: 'p',
-          },
-          navigation,
-        }),
-      );
+      let payload = {
+        name: serviceName,
+        duration,
+        cats,
+        anons: descriptionShort,
+        description,
+        price_from: priceFrom ? 'on' : 'off',
+        images,
+        razdel: '',
+        price_by: 'p',
+        price,
+      };
+
+      if (serviceId) {
+        payload = {...payload, procedure_id: serviceId};
+        dispatch(
+          serviceUpdateRequest({
+            data: payload,
+            navigation,
+          }),
+        );
+      } else {
+        dispatch(
+          serviceAddRequest({
+            data: payload,
+            navigation,
+          }),
+        );
+      }
     } else {
       dispatch(setValidationAlert({visible: true}));
     }

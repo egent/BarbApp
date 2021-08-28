@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
+exports.serviceUpdateStatusFailure = exports.serviceUpdateStatusSuccess = exports.serviceUpdateStatusRequest = exports.servicesSelect = exports.servicesManage = exports.serviceUpdateFailure = exports.serviceUpdateSuccess = exports.serviceUpdateRequest = exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -15,7 +15,9 @@ var types = {
   SERVICES: {
     REQUEST: 'SERVICES.REQUEST',
     SUCCESS: 'SERVICES.SUCCESS',
-    FAILURE: 'SERVICES.FAILURE'
+    FAILURE: 'SERVICES.FAILURE',
+    MANAGE: 'SERVICES.MANAGE',
+    SELECT: 'SERVICES.SELECT'
   },
   SERVICES_CATEGORY: {
     REQUEST: 'SERVICES_CATEGORY.REQUEST',
@@ -32,6 +34,16 @@ var types = {
     REQUEST: 'SERVICES_ADD.REQUEST',
     SUCCESS: 'SERVICES_ADD.SUCCESS',
     FAILURE: 'SERVICES_ADD.FAILURE'
+  },
+  SERVICE_UPDATE: {
+    REQUEST: 'SERVICE_UPDATE.REQUEST',
+    SUCCESS: 'SERVICE_UPDATE.SUCCESS',
+    FAILURE: 'SERVICE_UPDATE.FAILURE'
+  },
+  SERVICES_UPDATE_STATUS: {
+    REQUEST: 'SERVICES_UPDATE_STATUS.REQUEST',
+    SUCCESS: 'SERVICES_UPDATE_STATUS.SUCCESS',
+    FAILURE: 'SERVICES_UPDATE_STATUS.FAILURE'
   }
 };
 exports.types = types;
@@ -143,3 +155,71 @@ var serviceAddFailure = function serviceAddFailure(data) {
 };
 
 exports.serviceAddFailure = serviceAddFailure;
+
+var serviceUpdateRequest = function serviceUpdateRequest(payload) {
+  return {
+    type: types.SERVICE_UPDATE.REQUEST,
+    payload: payload
+  };
+};
+
+exports.serviceUpdateRequest = serviceUpdateRequest;
+
+var serviceUpdateSuccess = function serviceUpdateSuccess(data) {
+  return _objectSpread({
+    type: types.SERVICE_UPDATE.SUCCESS
+  }, data);
+};
+
+exports.serviceUpdateSuccess = serviceUpdateSuccess;
+
+var serviceUpdateFailure = function serviceUpdateFailure(data) {
+  return _objectSpread({
+    type: types.SERVICE_UPDATE.FAILURE
+  }, data);
+};
+
+exports.serviceUpdateFailure = serviceUpdateFailure;
+
+var servicesManage = function servicesManage(payload) {
+  return {
+    type: types.SERVICES.MANAGE,
+    payload: payload
+  };
+};
+
+exports.servicesManage = servicesManage;
+
+var servicesSelect = function servicesSelect(payload) {
+  return {
+    type: types.SERVICES.SELECT,
+    payload: payload
+  };
+};
+
+exports.servicesSelect = servicesSelect;
+
+var serviceUpdateStatusRequest = function serviceUpdateStatusRequest(payload) {
+  return {
+    type: types.SERVICES_UPDATE_STATUS.REQUEST,
+    payload: payload
+  };
+};
+
+exports.serviceUpdateStatusRequest = serviceUpdateStatusRequest;
+
+var serviceUpdateStatusSuccess = function serviceUpdateStatusSuccess(data) {
+  return _objectSpread({
+    type: types.SERVICES_UPDATE_STATUS.SUCCESS
+  }, data);
+};
+
+exports.serviceUpdateStatusSuccess = serviceUpdateStatusSuccess;
+
+var serviceUpdateStatusFailure = function serviceUpdateStatusFailure(data) {
+  return _objectSpread({
+    type: types.SERVICES_UPDATE_STATUS.FAILURE
+  }, data);
+};
+
+exports.serviceUpdateStatusFailure = serviceUpdateStatusFailure;

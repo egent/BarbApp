@@ -98,7 +98,7 @@ const ServiceForm = ({navigation}) => {
               onChangeText={(val) =>
                 dispatch(servicesStateUpdate({payload: {price: val}}))
               }
-              value={price.toString()}
+              value={price}
               keyboardType="phone-pad"
               returnKeyType="done"
               blurOnSubmit={true}
@@ -117,7 +117,7 @@ const ServiceForm = ({navigation}) => {
               onChangeText={(val) =>
                 dispatch(servicesStateUpdate({payload: {duration: val}}))
               }
-              value={duration.toString()}
+              value={duration}
               keyboardType="phone-pad"
               returnKeyType="done"
               blurOnSubmit={true}

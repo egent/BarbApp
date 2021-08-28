@@ -159,6 +159,33 @@ export default function services(state = initialState, action = {}) {
         ...state,
         loading: false,
       };
+    case types.SERVICE_DETAILS.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.SERVICE_DETAILS.SUCCESS:
+      const {procedure, procedureCats, gallery} = action.payload.data;
+      // todo .. category name?
+      return {
+        ...state,
+        loading: false,
+        serviceId: procedure.id,
+        serviceName: procedure.name,
+        serviceCategorySelected: procedureCats,
+        // serviceCategorySelectedStr: '',
+        serviceCategoryPhotos: gallery,
+        duration: procedure.duration,
+        priceFrom: procedure.price_from,
+        price: procedure.price,
+        description: procedure.description,
+        descriptionShort: procedure.anons,
+      };
+    case types.SERVICE_DETAILS.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

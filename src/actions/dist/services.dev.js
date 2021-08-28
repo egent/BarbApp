@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.serviceUpdateStatusFailure = exports.serviceUpdateStatusSuccess = exports.serviceUpdateStatusRequest = exports.servicesSelect = exports.servicesManage = exports.serviceUpdateFailure = exports.serviceUpdateSuccess = exports.serviceUpdateRequest = exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
+exports.serviceDetailsFailure = exports.serviceDetailsSuccess = exports.serviceDetailsRequest = exports.serviceUpdateStatusFailure = exports.serviceUpdateStatusSuccess = exports.serviceUpdateStatusRequest = exports.servicesSelect = exports.servicesManage = exports.serviceUpdateFailure = exports.serviceUpdateSuccess = exports.serviceUpdateRequest = exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -34,6 +34,11 @@ var types = {
     REQUEST: 'SERVICES_ADD.REQUEST',
     SUCCESS: 'SERVICES_ADD.SUCCESS',
     FAILURE: 'SERVICES_ADD.FAILURE'
+  },
+  SERVICE_DETAILS: {
+    REQUEST: 'SERVICE_DETAILS.REQUEST',
+    SUCCESS: 'SERVICE_DETAILS.SUCCESS',
+    FAILURE: 'SERVICE_DETAILS.FAILURE'
   },
   SERVICE_UPDATE: {
     REQUEST: 'SERVICE_UPDATE.REQUEST',
@@ -223,3 +228,28 @@ var serviceUpdateStatusFailure = function serviceUpdateStatusFailure(data) {
 };
 
 exports.serviceUpdateStatusFailure = serviceUpdateStatusFailure;
+
+var serviceDetailsRequest = function serviceDetailsRequest(payload) {
+  return {
+    type: types.SERVICE_DETAILS.REQUEST,
+    payload: payload
+  };
+};
+
+exports.serviceDetailsRequest = serviceDetailsRequest;
+
+var serviceDetailsSuccess = function serviceDetailsSuccess(data) {
+  return _objectSpread({
+    type: types.SERVICE_DETAILS.SUCCESS
+  }, data);
+};
+
+exports.serviceDetailsSuccess = serviceDetailsSuccess;
+
+var serviceDetailsFailure = function serviceDetailsFailure(data) {
+  return _objectSpread({
+    type: types.SERVICE_DETAILS.FAILURE
+  }, data);
+};
+
+exports.serviceDetailsFailure = serviceDetailsFailure;

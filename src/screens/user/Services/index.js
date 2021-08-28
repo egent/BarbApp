@@ -8,7 +8,7 @@ import _ from '@services/i18n';
 import {
   servicesRequest,
   servicesCategoryRequest,
-  servicesStateUpdate,
+  serviceDetailsRequest,
 } from '@actions/services';
 
 import * as S from './styled';
@@ -44,22 +44,7 @@ const Services = ({navigation}) => {
   };
 
   const updateItem = (service) => {
-    dispatch(
-      servicesStateUpdate({
-        payload: {
-          serviceId: service.id,
-          serviceName: service.name,
-          serviceCategorySelected: [],
-          serviceCategorySelectedStr: '',
-          serviceCategoryPhotos: [],
-          duration: service.duration,
-          priceFrom: service.price_from,
-          price: service.price,
-          description: '',
-          descriptionShort: '',
-        },
-      }),
-    );
+    dispatch(serviceDetailsRequest({procedure_id: service.id}));
     navigation.navigate('ServicesForm');
   };
 

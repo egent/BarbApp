@@ -186,6 +186,36 @@ function services() {
         loading: false
       });
 
+    case _services.types.SERVICE_DETAILS.REQUEST:
+      return _objectSpread({}, state, {
+        loading: true
+      });
+
+    case _services.types.SERVICE_DETAILS.SUCCESS:
+      var _action$payload$data = action.payload.data,
+          procedure = _action$payload$data.procedure,
+          procedureCats = _action$payload$data.procedureCats,
+          gallery = _action$payload$data.gallery; // todo .. category name?
+
+      return _objectSpread({}, state, {
+        loading: false,
+        serviceId: procedure.id,
+        serviceName: procedure.name,
+        serviceCategorySelected: procedureCats,
+        // serviceCategorySelectedStr: '',
+        serviceCategoryPhotos: gallery,
+        duration: procedure.duration,
+        priceFrom: procedure.price_from,
+        price: procedure.price,
+        description: procedure.description,
+        descriptionShort: procedure.anons
+      });
+
+    case _services.types.SERVICE_DETAILS.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
     default:
       return state;
   }

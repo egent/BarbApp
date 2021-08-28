@@ -38,6 +38,7 @@ import {
   watchServiceAdd,
   watchServiceUpdateStatus,
   watchServiceUpdate,
+  watchServiceDetails,
 } from './services';
 
 export default function* rootSaga() {
@@ -78,5 +79,6 @@ export default function* rootSaga() {
     watchServiceAdd(),
     watchServiceUpdateStatus(),
     watchServiceUpdate(),
+    watchServiceDetails(),
   ]);
 }

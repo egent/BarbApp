@@ -22,6 +22,11 @@ export const types = {
     SUCCESS: 'SERVICES_ADD.SUCCESS',
     FAILURE: 'SERVICES_ADD.FAILURE',
   },
+  SERVICE_DETAILS: {
+    REQUEST: 'SERVICE_DETAILS.REQUEST',
+    SUCCESS: 'SERVICE_DETAILS.SUCCESS',
+    FAILURE: 'SERVICE_DETAILS.FAILURE',
+  },
   SERVICE_UPDATE: {
     REQUEST: 'SERVICE_UPDATE.REQUEST',
     SUCCESS: 'SERVICE_UPDATE.SUCCESS',
@@ -136,5 +141,20 @@ export const serviceUpdateStatusSuccess = (data) => ({
 
 export const serviceUpdateStatusFailure = (data) => ({
   type: types.SERVICES_UPDATE_STATUS.FAILURE,
+  ...data,
+});
+
+export const serviceDetailsRequest = (payload) => ({
+  type: types.SERVICE_DETAILS.REQUEST,
+  payload,
+});
+
+export const serviceDetailsSuccess = (data) => ({
+  type: types.SERVICE_DETAILS.SUCCESS,
+  ...data,
+});
+
+export const serviceDetailsFailure = (data) => ({
+  type: types.SERVICE_DETAILS.FAILURE,
   ...data,
 });

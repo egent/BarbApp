@@ -37,6 +37,16 @@ export const types = {
     SUCCESS: 'SERVICES_UPDATE_STATUS.SUCCESS',
     FAILURE: 'SERVICES_UPDATE_STATUS.FAILURE',
   },
+  PROMOS: {
+    REQUEST: 'PROMOS.REQUEST',
+    SUCCESS: 'PROMOS.SUCCESS',
+    FAILURE: 'PROMOS.FAILURE',
+  },
+  PROMOS_CATS: {
+    REQUEST: 'PROMOS_CATS.REQUEST',
+    SUCCESS: 'PROMOS_CATS.SUCCESS',
+    FAILURE: 'PROMOS_CATS.FAILURE',
+  },
 };
 
 export const servicesRequest = (data) => ({
@@ -156,5 +166,35 @@ export const serviceDetailsSuccess = (data) => ({
 
 export const serviceDetailsFailure = (data) => ({
   type: types.SERVICE_DETAILS.FAILURE,
+  ...data,
+});
+
+export const promosRequest = (payload) => ({
+  type: types.PROMOS.REQUEST,
+  payload,
+});
+
+export const promosSuccess = (data) => ({
+  type: types.PROMOS.SUCCESS,
+  ...data,
+});
+
+export const promosFailure = (data) => ({
+  type: types.PROMOS.FAILURE,
+  ...data,
+});
+
+export const promosCatsRequest = (payload) => ({
+  type: types.PROMOS_CATS.REQUEST,
+  payload,
+});
+
+export const promosCatsSuccess = (data) => ({
+  type: types.PROMOS_CATS.SUCCESS,
+  ...data,
+});
+
+export const promosCatsFailure = (data) => ({
+  type: types.PROMOS_CATS.FAILURE,
   ...data,
 });

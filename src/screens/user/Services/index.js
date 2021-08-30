@@ -6,7 +6,6 @@ import HorizontalScrollingMenu from '@components/ui/HorizontalScrollingMenu';
 import {PreLoader, ServicesList} from '@components';
 import _ from '@services/i18n';
 import {
-  servicesRequest,
   servicesCategoryRequest,
   serviceDetailsRequest,
 } from '@actions/services';
@@ -23,7 +22,6 @@ const Services = ({navigation}) => {
   const [active, setActive] = useState('all');
 
   useEffect(() => {
-    dispatch(servicesRequest());
     dispatch(servicesCategoryRequest());
   }, [dispatch]);
 
@@ -31,9 +29,7 @@ const Services = ({navigation}) => {
     return <PreLoader />;
   }
 
-  const checkSave = () => {
-    // todo ...
-  };
+  const checkSave = () => {};
 
   const onPressMenu = (menu) => {
     setActive(menu);

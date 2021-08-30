@@ -9,6 +9,8 @@ exports.watchServiceAdd = watchServiceAdd;
 exports.watchServiceUpdateStatus = watchServiceUpdateStatus;
 exports.watchServiceUpdate = watchServiceUpdate;
 exports.watchServiceDetails = watchServiceDetails;
+exports.watchPromos = watchPromos;
+exports.watchPromosCats = watchPromosCats;
 
 var _reactNative = require("react-native");
 
@@ -50,22 +52,34 @@ regeneratorRuntime.mark(servicesUpdateStatusSaga),
 regeneratorRuntime.mark(serviceDetailsSaga),
     _marked7 =
 /*#__PURE__*/
-regeneratorRuntime.mark(watchServices),
+regeneratorRuntime.mark(promosSaga),
     _marked8 =
 /*#__PURE__*/
-regeneratorRuntime.mark(watchServicesCategory),
+regeneratorRuntime.mark(promosCatsSaga),
     _marked9 =
 /*#__PURE__*/
-regeneratorRuntime.mark(watchServiceAdd),
+regeneratorRuntime.mark(watchServices),
     _marked10 =
 /*#__PURE__*/
-regeneratorRuntime.mark(watchServiceUpdateStatus),
+regeneratorRuntime.mark(watchServicesCategory),
     _marked11 =
 /*#__PURE__*/
-regeneratorRuntime.mark(watchServiceUpdate),
+regeneratorRuntime.mark(watchServiceAdd),
     _marked12 =
 /*#__PURE__*/
-regeneratorRuntime.mark(watchServiceDetails);
+regeneratorRuntime.mark(watchServiceUpdateStatus),
+    _marked13 =
+/*#__PURE__*/
+regeneratorRuntime.mark(watchServiceUpdate),
+    _marked14 =
+/*#__PURE__*/
+regeneratorRuntime.mark(watchServiceDetails),
+    _marked15 =
+/*#__PURE__*/
+regeneratorRuntime.mark(watchPromos),
+    _marked16 =
+/*#__PURE__*/
+regeneratorRuntime.mark(watchPromosCats);
 
 function servicesSaga() {
   var token, response;
@@ -514,15 +528,68 @@ function serviceDetailsSaga(params) {
   }, _marked6);
 }
 
-function watchServices() {
-  return regeneratorRuntime.wrap(function watchServices$(_context7) {
+function promosSaga() {
+  var token, response;
+  return regeneratorRuntime.wrap(function promosSaga$(_context7) {
     while (1) {
       switch (_context7.prev = _context7.next) {
         case 0:
           _context7.next = 2;
-          return (0, _effects.takeLatest)(_services.types.SERVICES.REQUEST, servicesSaga);
+          return (0, _effects.select)(_selectors.getAccessToken);
 
         case 2:
+          token = _context7.sent;
+          _context7.next = 5;
+          return (0, _effects.call)(_api.api, _api2.ENDPOINT_PROMOS, 'GET', {}, token);
+
+        case 5:
+          response = _context7.sent;
+
+          if (!(response.data.status_code === 200)) {
+            _context7.next = 11;
+            break;
+          }
+
+          _context7.next = 9;
+          return (0, _effects.put)((0, _services.promosSuccess)({
+            payload: response.data.data
+          }));
+
+        case 9:
+          _context7.next = 21;
+          break;
+
+        case 11:
+          if (!(response.status === 401)) {
+            _context7.next = 18;
+            break;
+          }
+
+          _context7.next = 14;
+          return (0, _effects.put)((0, _services.promosFailure)({}));
+
+        case 14:
+          _context7.next = 16;
+          return (0, _effects.put)((0, _user.authLogout)());
+
+        case 16:
+          _context7.next = 21;
+          break;
+
+        case 18:
+          _reactNativeToastMessage["default"].show({
+            type: 'error',
+            text1: _i18n["default"].t('error'),
+            text2: response.data.result,
+            position: 'bottom',
+            autoHide: true,
+            visibilityTime: 2000
+          });
+
+          _context7.next = 21;
+          return (0, _effects.put)((0, _services.promosFailure)({}));
+
+        case 21:
         case "end":
           return _context7.stop();
       }
@@ -530,15 +597,68 @@ function watchServices() {
   }, _marked7);
 }
 
-function watchServicesCategory() {
-  return regeneratorRuntime.wrap(function watchServicesCategory$(_context8) {
+function promosCatsSaga() {
+  var token, response;
+  return regeneratorRuntime.wrap(function promosCatsSaga$(_context8) {
     while (1) {
       switch (_context8.prev = _context8.next) {
         case 0:
           _context8.next = 2;
-          return (0, _effects.takeLatest)(_services.types.SERVICES_CATEGORY.REQUEST, servicesCategorySaga);
+          return (0, _effects.select)(_selectors.getAccessToken);
 
         case 2:
+          token = _context8.sent;
+          _context8.next = 5;
+          return (0, _effects.call)(_api.api, _api2.ENDPOINT_PROMOS_CATS, 'GET', {}, token);
+
+        case 5:
+          response = _context8.sent;
+
+          if (!(response.data.status_code === 200)) {
+            _context8.next = 11;
+            break;
+          }
+
+          _context8.next = 9;
+          return (0, _effects.put)((0, _services.promosCatsSuccess)({
+            payload: response.data.data
+          }));
+
+        case 9:
+          _context8.next = 21;
+          break;
+
+        case 11:
+          if (!(response.status === 401)) {
+            _context8.next = 18;
+            break;
+          }
+
+          _context8.next = 14;
+          return (0, _effects.put)((0, _services.promosCatsFailure)({}));
+
+        case 14:
+          _context8.next = 16;
+          return (0, _effects.put)((0, _user.authLogout)());
+
+        case 16:
+          _context8.next = 21;
+          break;
+
+        case 18:
+          _reactNativeToastMessage["default"].show({
+            type: 'error',
+            text1: _i18n["default"].t('error'),
+            text2: response.data.result,
+            position: 'bottom',
+            autoHide: true,
+            visibilityTime: 2000
+          });
+
+          _context8.next = 21;
+          return (0, _effects.put)((0, _services.promosCatsFailure)({}));
+
+        case 21:
         case "end":
           return _context8.stop();
       }
@@ -546,13 +666,13 @@ function watchServicesCategory() {
   }, _marked8);
 }
 
-function watchServiceAdd() {
-  return regeneratorRuntime.wrap(function watchServiceAdd$(_context9) {
+function watchServices() {
+  return regeneratorRuntime.wrap(function watchServices$(_context9) {
     while (1) {
       switch (_context9.prev = _context9.next) {
         case 0:
           _context9.next = 2;
-          return (0, _effects.takeLatest)(_services.types.SERVICES_ADD.REQUEST, serviceAddSaga);
+          return (0, _effects.takeLatest)(_services.types.SERVICES.REQUEST, servicesSaga);
 
         case 2:
         case "end":
@@ -562,13 +682,13 @@ function watchServiceAdd() {
   }, _marked9);
 }
 
-function watchServiceUpdateStatus() {
-  return regeneratorRuntime.wrap(function watchServiceUpdateStatus$(_context10) {
+function watchServicesCategory() {
+  return regeneratorRuntime.wrap(function watchServicesCategory$(_context10) {
     while (1) {
       switch (_context10.prev = _context10.next) {
         case 0:
           _context10.next = 2;
-          return (0, _effects.takeLatest)(_services.types.SERVICES_UPDATE_STATUS.REQUEST, servicesUpdateStatusSaga);
+          return (0, _effects.takeLatest)(_services.types.SERVICES_CATEGORY.REQUEST, servicesCategorySaga);
 
         case 2:
         case "end":
@@ -578,13 +698,13 @@ function watchServiceUpdateStatus() {
   }, _marked10);
 }
 
-function watchServiceUpdate() {
-  return regeneratorRuntime.wrap(function watchServiceUpdate$(_context11) {
+function watchServiceAdd() {
+  return regeneratorRuntime.wrap(function watchServiceAdd$(_context11) {
     while (1) {
       switch (_context11.prev = _context11.next) {
         case 0:
           _context11.next = 2;
-          return (0, _effects.takeLatest)(_services.types.SERVICE_UPDATE.REQUEST, serviceUpdateSaga);
+          return (0, _effects.takeLatest)(_services.types.SERVICES_ADD.REQUEST, serviceAddSaga);
 
         case 2:
         case "end":
@@ -594,13 +714,13 @@ function watchServiceUpdate() {
   }, _marked11);
 }
 
-function watchServiceDetails() {
-  return regeneratorRuntime.wrap(function watchServiceDetails$(_context12) {
+function watchServiceUpdateStatus() {
+  return regeneratorRuntime.wrap(function watchServiceUpdateStatus$(_context12) {
     while (1) {
       switch (_context12.prev = _context12.next) {
         case 0:
           _context12.next = 2;
-          return (0, _effects.takeLatest)(_services.types.SERVICE_DETAILS.REQUEST, serviceDetailsSaga);
+          return (0, _effects.takeLatest)(_services.types.SERVICES_UPDATE_STATUS.REQUEST, servicesUpdateStatusSaga);
 
         case 2:
         case "end":
@@ -608,4 +728,68 @@ function watchServiceDetails() {
       }
     }
   }, _marked12);
+}
+
+function watchServiceUpdate() {
+  return regeneratorRuntime.wrap(function watchServiceUpdate$(_context13) {
+    while (1) {
+      switch (_context13.prev = _context13.next) {
+        case 0:
+          _context13.next = 2;
+          return (0, _effects.takeLatest)(_services.types.SERVICE_UPDATE.REQUEST, serviceUpdateSaga);
+
+        case 2:
+        case "end":
+          return _context13.stop();
+      }
+    }
+  }, _marked13);
+}
+
+function watchServiceDetails() {
+  return regeneratorRuntime.wrap(function watchServiceDetails$(_context14) {
+    while (1) {
+      switch (_context14.prev = _context14.next) {
+        case 0:
+          _context14.next = 2;
+          return (0, _effects.takeLatest)(_services.types.SERVICE_DETAILS.REQUEST, serviceDetailsSaga);
+
+        case 2:
+        case "end":
+          return _context14.stop();
+      }
+    }
+  }, _marked14);
+}
+
+function watchPromos() {
+  return regeneratorRuntime.wrap(function watchPromos$(_context15) {
+    while (1) {
+      switch (_context15.prev = _context15.next) {
+        case 0:
+          _context15.next = 2;
+          return (0, _effects.takeLatest)(_services.types.PROMOS.REQUEST, promosSaga);
+
+        case 2:
+        case "end":
+          return _context15.stop();
+      }
+    }
+  }, _marked15);
+}
+
+function watchPromosCats() {
+  return regeneratorRuntime.wrap(function watchPromosCats$(_context16) {
+    while (1) {
+      switch (_context16.prev = _context16.next) {
+        case 0:
+          _context16.next = 2;
+          return (0, _effects.takeLatest)(_services.types.PROMOS_CATS.REQUEST, promosCatsSaga);
+
+        case 2:
+        case "end":
+          return _context16.stop();
+      }
+    }
+  }, _marked16);
 }

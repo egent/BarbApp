@@ -41,7 +41,10 @@ var initialState = {
   // service end
   isServicesManage: false,
   selectedServices: [],
-  serviceListKey: Math.random()
+  serviceListKey: Math.random(),
+  //
+  promos: [],
+  promosCats: []
 };
 
 function services() {
@@ -195,23 +198,60 @@ function services() {
       var _action$payload$data = action.payload.data,
           procedure = _action$payload$data.procedure,
           procedureCats = _action$payload$data.procedureCats,
-          gallery = _action$payload$data.gallery; // todo .. category name?
-
+          gallery = _action$payload$data.gallery;
+      var cats = [];
+      var catsNames = [];
+      procedureCats.map(function (c) {
+        cats.push(c.id);
+        catsNames.push(c.name);
+      });
       return _objectSpread({}, state, {
         loading: false,
         serviceId: procedure.id,
         serviceName: procedure.name,
-        serviceCategorySelected: procedureCats,
-        // serviceCategorySelectedStr: '',
+        serviceCategorySelected: cats,
+        serviceCategorySelectedStr: catsNames.join(', '),
         serviceCategoryPhotos: gallery,
-        duration: procedure.duration,
+        duration: procedure.duration.toString(),
         priceFrom: procedure.price_from,
-        price: procedure.price,
+        price: procedure.price.toString(),
         description: procedure.description,
         descriptionShort: procedure.anons
       });
 
     case _services.types.SERVICE_DETAILS.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.PROMOS.REQUEST:
+      return _objectSpread({}, state, {
+        loading: true
+      });
+
+    case _services.types.PROMOS.SUCCESS:
+      return _objectSpread({}, state, {
+        loading: false,
+        promos: action.payload
+      });
+
+    case _services.types.PROMOS.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.PROMOS_CATS.REQUEST:
+      return _objectSpread({}, state, {
+        loading: true
+      });
+
+    case _services.types.PROMOS_CATS.SUCCESS:
+      return _objectSpread({}, state, {
+        loading: false,
+        promosCats: action.payload.categories
+      });
+
+    case _services.types.PROMOS_CATS.FAILURE:
       return _objectSpread({}, state, {
         loading: false
       });

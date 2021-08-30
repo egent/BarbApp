@@ -10,15 +10,16 @@ import {
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useSelector, useDispatch} from 'react-redux';
-import _ from '../../services/i18n';
+import _ from '@services/i18n';
 import {
   specsRequest,
   profileDescriptionsRequest,
   getWorkplacesRequest,
   cityInfoRequest,
   priceRequest,
-} from '../../actions/user';
-import Preloader from '../../components/PreLoader';
+} from '@actions/user';
+import {promosRequest, servicesRequest} from '@actions/services';
+import Preloader from '@components/PreLoader';
 
 import businessCenter from '../../assets/images/menu/business_center.png';
 import iconProfile from '../../assets/images/menu/profile.png';
@@ -74,7 +75,7 @@ const menu = [
     check: true,
     counter: 5,
     icon: <Image source={iconSales} width={24} height={24} />,
-    screenName: '',
+    screenName: 'Discounts',
   },
   {
     id: 6,
@@ -107,13 +108,19 @@ const menu = [
 
 const Profile = ({navigation}) => {
   const {
-    info,
-    loading,
-    specsUser,
-    workspaces,
-    priceServiceSum,
-    profileDescription: {description, image},
-  } = useSelector((state) => state.user);
+    user: {
+      info,
+      loading,
+      specsUser,
+      workspaces,
+      priceServiceSum,
+      profileDescription: {description, image},
+    },
+    services: {
+      services,
+      promos,
+    }
+  } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -122,7 +129,9 @@ const Profile = ({navigation}) => {
     dispatch(getWorkplacesRequest());
     dispatch(cityInfoRequest());
     dispatch(priceRequest());
-  }, []);
+    dispatch(servicesRequest());
+    dispatch(promosRequest());
+  }, [dispatch]);
 
   if (loading) {
     return <Preloader />;
@@ -156,6 +165,12 @@ const Profile = ({navigation}) => {
   } catch (error) {}
 
   menu[3].counter = priceServiceSum;
+
+  try {
+    menu[4].counter = promos?.promos.length;
+  } catch (error) {
+    menu[4].counter = 0;
+  }
 
   return (
     <FlatList
@@ -228,7 +243,9 @@ const Profile = ({navigation}) => {
                 <Text style={styles.title}>{_.t(title)}</Text>
                 {isSubTitle && <Text style={styles.subTitle}>{subTitle}</Text>}
               </View>
-              {counter !== null && <Text style={styles.counter}>{counter}</Text>}
+              {counter !== null && (
+                <Text style={styles.counter}>{counter}</Text>
+              )}
             </View>
           </TouchableOpacity>
         );

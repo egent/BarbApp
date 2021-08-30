@@ -20,6 +20,9 @@ const initialState = {
   isServicesManage: false,
   selectedServices: [],
   serviceListKey: Math.random(),
+  //
+  promos: [],
+  promosCats: [],
 };
 
 export default function services(state = initialState, action = {}) {
@@ -166,22 +169,61 @@ export default function services(state = initialState, action = {}) {
       };
     case types.SERVICE_DETAILS.SUCCESS:
       const {procedure, procedureCats, gallery} = action.payload.data;
-      // todo .. category name?
+      let cats = [];
+      let catsNames = [];
+
+      procedureCats.map((c) => {
+        cats.push(c.id);
+        catsNames.push(c.name);
+      });
+
       return {
         ...state,
         loading: false,
         serviceId: procedure.id,
         serviceName: procedure.name,
-        serviceCategorySelected: procedureCats,
-        // serviceCategorySelectedStr: '',
+        serviceCategorySelected: cats,
+        serviceCategorySelectedStr: catsNames.join(', '),
         serviceCategoryPhotos: gallery,
-        duration: procedure.duration,
+        duration: procedure.duration.toString(),
         priceFrom: procedure.price_from,
-        price: procedure.price,
+        price: procedure.price.toString(),
         description: procedure.description,
         descriptionShort: procedure.anons,
       };
     case types.SERVICE_DETAILS.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PROMOS.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.PROMOS.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        promos: action.payload,
+      };
+    case types.PROMOS.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PROMOS_CATS.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.PROMOS_CATS.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        promosCats: action.payload.categories,
+      };
+    case types.PROMOS_CATS.FAILURE:
       return {
         ...state,
         loading: false,

@@ -26,7 +26,13 @@ import PointsList from '../../screens/user/points/PointsList';
 import WorkspaceAdd from '../../screens/user/points/WorkspaceAdd';
 import ScheduleBreak from '../../screens/user/points/ScheduleBreaks';
 import PriceScreen from '../../screens/user/Price';
-import {Services, ServicesForm, ServiceCategories} from '@screens';
+import {
+  Services,
+  ServicesForm,
+  ServiceCategories,
+  Discounts,
+  PromocodeBarb,
+} from '@screens';
 
 import {beautyRoomSend, breaksSave} from '../../actions/user';
 
@@ -42,7 +48,7 @@ const UserStackScreens = () => {
   );
   return (
     <UserStack.Navigator
-      initialRouteName="Services" // todo delete from production
+      // initialRouteName="Services" // todo delete from production
       screenOptions={{
         headerTitleStyle: {
           color: 'rgba(0, 0, 0, 0.3)',
@@ -330,6 +336,35 @@ const UserStackScreens = () => {
           headerTitleStyle: [styles.headerTitleStyle],
         })}
       />
+      <UserStack.Screen
+        name="Discounts"
+        component={Discounts}
+        options={({navigation, route}) => ({
+          headerShown: true,
+          headerTitle: _.t('discounts'),
+          headerLeft: (props) => (
+            <HeaderLeft {...props} navigation={navigation} />
+          ),
+          headerStyle: styles.headerStyle,
+          headerTitleStyle: [styles.headerTitleStyle],
+        })}
+      />
+      <UserStack.Screen
+        name="PromocodeBarb"
+        component={PromocodeBarb}
+        options={({navigation, route}) => ({
+          headerShown: true,
+          headerTitle: _.t('promocodeBarbTitle'),
+          headerLeft: (props) => (
+            <HeaderLeft {...props} navigation={navigation} />
+          ),
+          headerStyle: styles.headerStyle,
+          headerTitleStyle: [styles.headerTitleStyle],
+        })}
+      />
+
+
+
       <UserStack.Screen
         name="Test"
         component={Test}

@@ -6,6 +6,7 @@ import ServicesList from './services/List';
 import PreLoader from './PreLoader';
 import ServiceItem from './services/Item';
 import HeaderServiceList from './services/HeaderServiceList';
+import TabContainer from './discounts/TabContainer';
 
 export {
   SelectTree,
@@ -16,4 +17,5 @@ export {
   PreLoader,
   ServiceItem,
   HeaderServiceList,
+  TabContainer,
 };

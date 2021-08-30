@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.serviceDetailsFailure = exports.serviceDetailsSuccess = exports.serviceDetailsRequest = exports.serviceUpdateStatusFailure = exports.serviceUpdateStatusSuccess = exports.serviceUpdateStatusRequest = exports.servicesSelect = exports.servicesManage = exports.serviceUpdateFailure = exports.serviceUpdateSuccess = exports.serviceUpdateRequest = exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
+exports.promosCatsFailure = exports.promosCatsSuccess = exports.promosCatsRequest = exports.promosFailure = exports.promosSuccess = exports.promosRequest = exports.serviceDetailsFailure = exports.serviceDetailsSuccess = exports.serviceDetailsRequest = exports.serviceUpdateStatusFailure = exports.serviceUpdateStatusSuccess = exports.serviceUpdateStatusRequest = exports.servicesSelect = exports.servicesManage = exports.serviceUpdateFailure = exports.serviceUpdateSuccess = exports.serviceUpdateRequest = exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -49,6 +49,16 @@ var types = {
     REQUEST: 'SERVICES_UPDATE_STATUS.REQUEST',
     SUCCESS: 'SERVICES_UPDATE_STATUS.SUCCESS',
     FAILURE: 'SERVICES_UPDATE_STATUS.FAILURE'
+  },
+  PROMOS: {
+    REQUEST: 'PROMOS.REQUEST',
+    SUCCESS: 'PROMOS.SUCCESS',
+    FAILURE: 'PROMOS.FAILURE'
+  },
+  PROMOS_CATS: {
+    REQUEST: 'PROMOS_CATS.REQUEST',
+    SUCCESS: 'PROMOS_CATS.SUCCESS',
+    FAILURE: 'PROMOS_CATS.FAILURE'
   }
 };
 exports.types = types;
@@ -253,3 +263,53 @@ var serviceDetailsFailure = function serviceDetailsFailure(data) {
 };
 
 exports.serviceDetailsFailure = serviceDetailsFailure;
+
+var promosRequest = function promosRequest(payload) {
+  return {
+    type: types.PROMOS.REQUEST,
+    payload: payload
+  };
+};
+
+exports.promosRequest = promosRequest;
+
+var promosSuccess = function promosSuccess(data) {
+  return _objectSpread({
+    type: types.PROMOS.SUCCESS
+  }, data);
+};
+
+exports.promosSuccess = promosSuccess;
+
+var promosFailure = function promosFailure(data) {
+  return _objectSpread({
+    type: types.PROMOS.FAILURE
+  }, data);
+};
+
+exports.promosFailure = promosFailure;
+
+var promosCatsRequest = function promosCatsRequest(payload) {
+  return {
+    type: types.PROMOS_CATS.REQUEST,
+    payload: payload
+  };
+};
+
+exports.promosCatsRequest = promosCatsRequest;
+
+var promosCatsSuccess = function promosCatsSuccess(data) {
+  return _objectSpread({
+    type: types.PROMOS_CATS.SUCCESS
+  }, data);
+};
+
+exports.promosCatsSuccess = promosCatsSuccess;
+
+var promosCatsFailure = function promosCatsFailure(data) {
+  return _objectSpread({
+    type: types.PROMOS_CATS.FAILURE
+  }, data);
+};
+
+exports.promosCatsFailure = promosCatsFailure;

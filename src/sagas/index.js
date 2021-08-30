@@ -39,6 +39,8 @@ import {
   watchServiceUpdateStatus,
   watchServiceUpdate,
   watchServiceDetails,
+  watchPromos,
+  watchPromosCats,
 } from './services';
 
 export default function* rootSaga() {
@@ -80,5 +82,7 @@ export default function* rootSaga() {
     watchServiceUpdateStatus(),
     watchServiceUpdate(),
     watchServiceDetails(),
+    watchPromos(),
+    watchPromosCats(),
   ]);
 }

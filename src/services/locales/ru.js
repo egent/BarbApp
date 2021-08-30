@@ -266,4 +266,8 @@ export default {
   photo_add: 'Добавить фото',
   description_short: 'Краткое описание',
   servicesManage: 'В черновики / Удалить',
+  discounts: 'Акции',
+  myDiscounts: 'Мои акции',
+  promocodeBarb: 'Промокод "Barb"',
+  promocodeBarbTitle: 'СКИДКА ПО ПРОМОКОДУ "Barb"',
 };

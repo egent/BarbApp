@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import TabContainer from '@components/Price/TabContainer';
 import HorizontalScrollingMenu from '@components/ui/HorizontalScrollingMenu';
-import {PreLoader, ServicesList} from '@components';
+import {PreLoader, ServicesList, BottomBlueButton} from '@components';
 import _ from '@services/i18n';
 import {
   servicesCategoryRequest,
@@ -69,11 +68,7 @@ const Services = ({navigation}) => {
         </S.EmptyContainer>
       )}
 
-      <S.ButtonContainer>
-        <S.ButtonAdd activeOpacity={0.8} onPress={pressAdd}>
-          <Icon name="plus" color="#fff" size={48} />
-        </S.ButtonAdd>
-      </S.ButtonContainer>
+      <BottomBlueButton onPress={pressAdd} />
     </S.Container>
   );
 };

@@ -270,4 +270,6 @@ export default {
   myDiscounts: 'Мои акции',
   promocodeBarb: 'Промокод "Barb"',
   promocodeBarbTitle: 'СКИДКА ПО ПРОМОКОДУ "Barb"',
+  discountAdd: 'ДОБАВИТЬ АКЦИЮ',
+  termLess: 'Бессрочно',
 };

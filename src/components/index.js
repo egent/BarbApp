@@ -7,6 +7,9 @@ import PreLoader from './PreLoader';
 import ServiceItem from './services/Item';
 import HeaderServiceList from './services/HeaderServiceList';
 import TabContainer from './discounts/TabContainer';
+import BottomBlueButton from './ui/BottomBlueButton';
+import DiscountsList from './discounts/List';
+import DiscountItem from './discounts/Item';
 
 export {
   SelectTree,
@@ -18,4 +21,7 @@ export {
   ServiceItem,
   HeaderServiceList,
   TabContainer,
+  BottomBlueButton,
+  DiscountsList,
+  DiscountItem,
 };

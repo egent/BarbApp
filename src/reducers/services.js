@@ -168,7 +168,12 @@ export default function services(state = initialState, action = {}) {
         loading: true,
       };
     case types.SERVICE_DETAILS.SUCCESS:
-      const {procedure, procedureCats, gallery} = action.payload.data;
+      const {
+        procedure,
+        procedureCats,
+        gallery,
+        categories,
+      } = action.payload.data;
       let cats = [];
       let catsNames = [];
 
@@ -182,7 +187,7 @@ export default function services(state = initialState, action = {}) {
         loading: false,
         serviceId: procedure.id,
         serviceName: procedure.name,
-        serviceCategorySelected: cats,
+        serviceCategorySelected: categories,
         serviceCategorySelectedStr: catsNames.join(', '),
         serviceCategoryPhotos: gallery,
         duration: procedure.duration.toString(),

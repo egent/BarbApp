@@ -198,7 +198,8 @@ function services() {
       var _action$payload$data = action.payload.data,
           procedure = _action$payload$data.procedure,
           procedureCats = _action$payload$data.procedureCats,
-          gallery = _action$payload$data.gallery;
+          gallery = _action$payload$data.gallery,
+          categories = _action$payload$data.categories;
       var cats = [];
       var catsNames = [];
       procedureCats.map(function (c) {
@@ -209,7 +210,7 @@ function services() {
         loading: false,
         serviceId: procedure.id,
         serviceName: procedure.name,
-        serviceCategorySelected: cats,
+        serviceCategorySelected: categories,
         serviceCategorySelectedStr: catsNames.join(', '),
         serviceCategoryPhotos: gallery,
         duration: procedure.duration.toString(),

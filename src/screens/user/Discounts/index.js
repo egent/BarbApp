@@ -40,6 +40,7 @@ const Discounts = ({navigation, route}) => {
         tabLeft={{name: 'myDiscounts', screen: 'Discounts'}}
         tabRight={{name: 'promocodeBarb', screen: 'PromocodeBarb'}}
       />
+
       <HorizontalScrollingMenu
         data={promos}
         onPress={onPressMenu}

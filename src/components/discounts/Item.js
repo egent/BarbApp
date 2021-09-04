@@ -24,6 +24,8 @@ const DiscountItem = ({
       icon = iconCheck;
     } else if (status === 'active') {
       icon = iconPlay;
+    } else if (status === 'expired') {
+      icon = iconPause;
     }
     return <Icon source={icon} />;
   };

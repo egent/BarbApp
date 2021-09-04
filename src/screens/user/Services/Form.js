@@ -61,7 +61,7 @@ const ServiceForm = ({navigation}) => {
       <Input
         label="service_name"
         value={serviceName}
-        data={serviceCategorySelectedStr}
+        // data={serviceCategorySelectedStr}
         setData={(val) =>
           dispatch(servicesStateUpdate({payload: {serviceName: val}}))
         }
@@ -70,7 +70,7 @@ const ServiceForm = ({navigation}) => {
       <SelectTree
         label="category"
         selected={serviceCategorySelectedStr}
-        navigation={navigation}
+        onPress={() => navigation.navigate('ServiceCategories')}
         data={servicesCategory}
       />
 

@@ -33,6 +33,7 @@ import {
   Discounts,
   PromocodeBarb,
   DiscountForm,
+  PromoCategories,
 } from '@screens';
 
 import {beautyRoomSend, breaksSave} from '../../actions/user';
@@ -369,6 +370,19 @@ const UserStackScreens = () => {
         options={({navigation, route}) => ({
           headerShown: true,
           headerTitle: _.t('discountAdd'),
+          headerLeft: (props) => (
+            <HeaderLeft {...props} navigation={navigation} />
+          ),
+          headerStyle: styles.headerStyle,
+          headerTitleStyle: [styles.headerTitleStyle],
+        })}
+      />
+      <UserStack.Screen
+        name="PromoCategories"
+        component={PromoCategories}
+        options={({navigation, route}) => ({
+          headerShown: true,
+          headerTitle: _.t('category'),
           headerLeft: (props) => (
             <HeaderLeft {...props} navigation={navigation} />
           ),

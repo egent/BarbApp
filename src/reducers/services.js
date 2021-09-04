@@ -23,6 +23,20 @@ const initialState = {
   //
   promos: [],
   promosCats: [],
+  // promos begin
+  promoId: null,
+  promoName: '',
+  promoPrice: '',
+  promoPriceOld: '',
+  promoDiscount: false,
+  promoDateFrom: '',
+  promoDateTo: '',
+  promoDateFree: '',
+  promoModeration: '',
+  promoStatus: '',
+  promoCategoriesStr: '',
+  promoCatsSelected: [],
+  // promos end
 };
 
 export default function services(state = initialState, action = {}) {
@@ -232,6 +246,16 @@ export default function services(state = initialState, action = {}) {
       return {
         ...state,
         loading: false,
+      };
+    case types.PROMOS_CATS.SELECT:
+      let selectedPromos = [];
+      action.data.map((item) => {
+        selectedPromos.push(item.name);
+      });
+      return {
+        ...state,
+        promoCatsSelected: action.data,
+        promoCategoriesStr: selectedPromos.join(', '),
       };
     default:
       return state;

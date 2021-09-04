@@ -10,6 +10,7 @@ import TabContainer from './discounts/TabContainer';
 import BottomBlueButton from './ui/BottomBlueButton';
 import DiscountsList from './discounts/List';
 import DiscountItem from './discounts/Item';
+import Discount from './discounts/Discount';
 
 export {
   SelectTree,
@@ -24,4 +25,5 @@ export {
   BottomBlueButton,
   DiscountsList,
   DiscountItem,
+  Discount,
 };

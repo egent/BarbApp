@@ -46,6 +46,7 @@ export const types = {
     REQUEST: 'PROMOS_CATS.REQUEST',
     SUCCESS: 'PROMOS_CATS.SUCCESS',
     FAILURE: 'PROMOS_CATS.FAILURE',
+    SELECT: 'PROMOS_CATS.SELECT',
   },
 };
 
@@ -197,4 +198,9 @@ export const promosCatsSuccess = (data) => ({
 export const promosCatsFailure = (data) => ({
   type: types.PROMOS_CATS.FAILURE,
   ...data,
+});
+
+export const promosCatsSelect = (data) => ({
+  type: types.PROMOS_CATS.SELECT,
+  data,
 });

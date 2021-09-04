@@ -12,7 +12,7 @@ function toFormatUserTypeOptions(arr, selectedId) {
 
 function toFormatCityOptions(elements, selectedId) {
   const res = [];
-  elements.map(function(item){
+  elements.map(function (item) {
     res.push({
       id: item.id,
       name: item.name,
@@ -27,8 +27,4 @@ function emailValidation(email) {
   return re.test(email);
 }
 
-export {
-  toFormatUserTypeOptions,
-  toFormatCityOptions,
-  emailValidation,
-};
+export {toFormatUserTypeOptions, toFormatCityOptions, emailValidation};

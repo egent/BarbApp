@@ -44,7 +44,21 @@ var initialState = {
   serviceListKey: Math.random(),
   //
   promos: [],
-  promosCats: []
+  promosCats: [],
+  // promos begin
+  promoId: null,
+  promoName: '',
+  promoPrice: '',
+  promoPriceOld: '',
+  promoDiscount: false,
+  promoDateFrom: '',
+  promoDateTo: '',
+  promoDateFree: '',
+  promoModeration: '',
+  promoStatus: '',
+  promoCategoriesStr: '',
+  promoCatsSelected: [] // promos end
+
 };
 
 function services() {
@@ -255,6 +269,16 @@ function services() {
     case _services.types.PROMOS_CATS.FAILURE:
       return _objectSpread({}, state, {
         loading: false
+      });
+
+    case _services.types.PROMOS_CATS.SELECT:
+      var selectedPromos = [];
+      action.data.map(function (item) {
+        selectedPromos.push(item.name);
+      });
+      return _objectSpread({}, state, {
+        promoCatsSelected: action.data,
+        promoCategoriesStr: selectedPromos.join(', ')
       });
 
     default:

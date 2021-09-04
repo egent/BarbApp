@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.promosCatsFailure = exports.promosCatsSuccess = exports.promosCatsRequest = exports.promosFailure = exports.promosSuccess = exports.promosRequest = exports.serviceDetailsFailure = exports.serviceDetailsSuccess = exports.serviceDetailsRequest = exports.serviceUpdateStatusFailure = exports.serviceUpdateStatusSuccess = exports.serviceUpdateStatusRequest = exports.servicesSelect = exports.servicesManage = exports.serviceUpdateFailure = exports.serviceUpdateSuccess = exports.serviceUpdateRequest = exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
+exports.promosCatsSelect = exports.promosCatsFailure = exports.promosCatsSuccess = exports.promosCatsRequest = exports.promosFailure = exports.promosSuccess = exports.promosRequest = exports.serviceDetailsFailure = exports.serviceDetailsSuccess = exports.serviceDetailsRequest = exports.serviceUpdateStatusFailure = exports.serviceUpdateStatusSuccess = exports.serviceUpdateStatusRequest = exports.servicesSelect = exports.servicesManage = exports.serviceUpdateFailure = exports.serviceUpdateSuccess = exports.serviceUpdateRequest = exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -58,7 +58,8 @@ var types = {
   PROMOS_CATS: {
     REQUEST: 'PROMOS_CATS.REQUEST',
     SUCCESS: 'PROMOS_CATS.SUCCESS',
-    FAILURE: 'PROMOS_CATS.FAILURE'
+    FAILURE: 'PROMOS_CATS.FAILURE',
+    SELECT: 'PROMOS_CATS.SELECT'
   }
 };
 exports.types = types;
@@ -313,3 +314,12 @@ var promosCatsFailure = function promosCatsFailure(data) {
 };
 
 exports.promosCatsFailure = promosCatsFailure;
+
+var promosCatsSelect = function promosCatsSelect(data) {
+  return {
+    type: types.PROMOS_CATS.SELECT,
+    data: data
+  };
+};
+
+exports.promosCatsSelect = promosCatsSelect;

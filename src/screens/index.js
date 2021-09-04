@@ -4,6 +4,7 @@ import ServiceCategories from './user/Services/Categories';
 import Discounts from './user/Discounts';
 import PromocodeBarb from './user/Discounts/PromocodeBarb';
 import DiscountForm from './user/Discounts/Form';
+import PromoCategories from './user/Discounts/Categories';
 
 export {
   Services,
@@ -12,4 +13,5 @@ export {
   Discounts,
   PromocodeBarb,
   DiscountForm,
+  PromoCategories,
 };

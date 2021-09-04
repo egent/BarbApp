@@ -272,4 +272,10 @@ export default {
   promocodeBarbTitle: 'СКИДКА ПО ПРОМОКОДУ "Barb"',
   discountAdd: 'ДОБАВИТЬ АКЦИЮ',
   termLess: 'Бессрочно',
+  expired: 'Завершена',
+  promo_name: 'Название акции',
+  discount: 'Скидка',
+  discountInputLegend: 'Укажите цену со скидкой и без:',
+  priceDiscount: 'Со скидкой',
+  priceDiscountOld: 'Без скидки',
 };

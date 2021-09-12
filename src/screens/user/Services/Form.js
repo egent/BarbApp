@@ -14,6 +14,10 @@ import Input from '@components/ui/Input';
 import {SelectTree, MediaPicker} from '@components';
 import Preloader from '@components/PreLoader';
 import {servicesStateUpdate} from '@actions/services';
+import {
+  servicesCategoryPhotos,
+  servicesCategoryPhotoRemove,
+} from '@actions/services';
 
 const ServiceForm = ({navigation}) => {
   const {
@@ -26,6 +30,7 @@ const ServiceForm = ({navigation}) => {
     price,
     description,
     descriptionShort,
+    serviceCategoryPhotos,
   } = useSelector((state) => state.services);
   const dispatch = useDispatch();
 
@@ -52,6 +57,14 @@ const ServiceForm = ({navigation}) => {
   if (loading) {
     return <Preloader />;
   }
+
+  const addPhoto = (photo) => {
+    dispatch(servicesCategoryPhotos(photo));
+  };
+
+  const deletePhoto = (photo) => {
+    dispatch(servicesCategoryPhotoRemove(photo));
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -159,7 +172,13 @@ const ServiceForm = ({navigation}) => {
         value={description}
       />
 
-      <MediaPicker styles={{marginVertical: 10}} />
+      <MediaPicker
+        addPhoto={addPhoto}
+        handleDelete={deletePhoto}
+        styles={styles.media}
+        photos={serviceCategoryPhotos}
+        legend="service_photo"
+      />
     </KeyboardAwareScrollView>
   );
 };
@@ -229,6 +248,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     marginBottom: 10,
   },
+  media: {marginVertical: 10},
 });
 
 export default ServiceForm;

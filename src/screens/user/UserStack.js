@@ -10,6 +10,8 @@ import {
   HeaderRightIconRedux,
   HeaderRightService,
   HeaderServiceList,
+  HeaderRightDiscount,
+  HeaderDiscountList,
 } from '@components';
 import HeaderTitleChat from '../../components/HeaderTitleChat';
 import _ from '../../services/i18n';
@@ -31,26 +33,33 @@ import {
   ServicesForm,
   ServiceCategories,
   Discounts,
-  PromocodeBarb,
+  // PromocodeBarb,
   DiscountForm,
   PromoCategories,
 } from '@screens';
 
 import {beautyRoomSend, breaksSave} from '../../actions/user';
 
-import Test from '../../screens/user/~Profile'; // todo delete in production
+import Test from '../../screens/user/~Profile'; // TODO: delete in production
 
 const {width} = Dimensions.get('window');
 
 const UserStack = createStackNavigator();
 
 const UserStackScreens = () => {
-  const {isServicesManage, selectedServices} = useSelector(
-    (state) => state.services,
-  );
+  const {
+    services: {
+      isPromoManage,
+      selectedPromos,
+      isServicesManage,
+      selectedServices,
+      promoId,
+      serviceId,
+    },
+  } = useSelector((state) => state);
   return (
     <UserStack.Navigator
-      // initialRouteName="Services" // todo delete from production
+      // initialRouteName="Services" // TODO: delete from production
       screenOptions={{
         headerTitleStyle: {
           color: 'rgba(0, 0, 0, 0.3)',
@@ -315,7 +324,7 @@ const UserStackScreens = () => {
         component={ServicesForm}
         options={({navigation, route}) => ({
           headerShown: true,
-          headerTitle: _.t('service_add'),
+          headerTitle: _.t(serviceId ? 'serviceUpdate' : 'service_add'),
           headerLeft: (props) => (
             <HeaderLeft {...props} navigation={navigation} />
           ),
@@ -343,22 +352,18 @@ const UserStackScreens = () => {
         component={Discounts}
         options={({navigation, route}) => ({
           headerShown: true,
-          headerTitle: _.t('discounts'),
+          headerTitle: isPromoManage
+            ? `${_.t('servicesManage')} (${selectedPromos.length})`
+            : _.t('discounts'),
           headerLeft: (props) => (
             <HeaderLeft {...props} navigation={navigation} />
           ),
-          headerStyle: styles.headerStyle,
-          headerTitleStyle: [styles.headerTitleStyle],
-        })}
-      />
-      <UserStack.Screen
-        name="PromocodeBarb"
-        component={PromocodeBarb}
-        options={({navigation, route}) => ({
-          headerShown: true,
-          headerTitle: _.t('promocodeBarbTitle'),
-          headerLeft: (props) => (
-            <HeaderLeft {...props} navigation={navigation} />
+          headerRight: (props) => (
+            <HeaderDiscountList
+              isManage={isPromoManage}
+              selected={selectedPromos}
+              {...props}
+            />
           ),
           headerStyle: styles.headerStyle,
           headerTitleStyle: [styles.headerTitleStyle],
@@ -369,10 +374,13 @@ const UserStackScreens = () => {
         component={DiscountForm}
         options={({navigation, route}) => ({
           headerShown: true,
-          headerTitle: _.t('discountAdd'),
+          headerTitle: _.t(promoId ? 'discountUpdate' : 'discountAdd'),
           headerLeft: (props) => (
             <HeaderLeft {...props} navigation={navigation} />
           ),
+          headerRight: (props) => {
+            return <HeaderRightDiscount {...props} navigation={navigation} />;
+          },
           headerStyle: styles.headerStyle,
           headerTitleStyle: [styles.headerTitleStyle],
         })}

@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {TabContainer, BottomBlueButton, DiscountsList} from '@components';
+import {BottomBlueButton, DiscountsList} from '@components';
 import Preloader from '@components/PreLoader';
 import HorizontalScrollingMenu from '@components/ui/HorizontalScrollingMenu';
 
-import {promosCatsRequest} from '@actions/services';
+import {promosCatsRequest, promoDetailsRequest} from '@actions/services';
 import * as S from './styled';
 
 const Discounts = ({navigation, route}) => {
@@ -29,17 +29,18 @@ const Discounts = ({navigation, route}) => {
   };
 
   const updateItem = (item) => {
-    console.log('update item', item);
+    dispatch(promoDetailsRequest({promo_id: item.id}));
+    navigation.navigate('DiscountForm');
   };
 
   return (
     <S.Container>
-      <TabContainer
+      {/* <TabContainer
         active={route.name}
         navigation={navigation}
         tabLeft={{name: 'myDiscounts', screen: 'Discounts'}}
         tabRight={{name: 'promocodeBarb', screen: 'PromocodeBarb'}}
-      />
+      /> */}
 
       <HorizontalScrollingMenu
         data={promos}
@@ -49,9 +50,12 @@ const Discounts = ({navigation, route}) => {
       />
 
       <DiscountsList
-        data={promos?.promos}
+        data={promos?.promos?.filter((item) => {
+          if (active === 'all' || item.status === active) {
+            return item;
+          }
+        })}
         updateItem={updateItem}
-        active={active}
       />
 
       <BottomBlueButton onPress={pressAdd} />

@@ -23,6 +23,15 @@ import {
   promosFailure,
   promosCatsSuccess,
   promosCatsFailure,
+  promoAddSuccess,
+  promoStoreFailure,
+  promoUpdateSuccess,
+  promoUpdateFailure,
+  promoDetailsSuccess,
+  promoDetailsFailure,
+  servicesStateUpdate,
+  promoStatusUpdateSuccess,
+  promoStatusUpdateFailure,
 } from '@actions/services';
 import {api} from '@services/api';
 import {
@@ -35,6 +44,11 @@ import {
   ENDPOINT_SERVICE_DETAILS,
   ENDPOINT_PROMOS,
   ENDPOINT_PROMOS_CATS,
+  ENDPOINT_PROMO_ADD,
+  ENDPOINT_PROMO_UPDATE,
+  ENDPOINT_PROMO_DETAILS,
+  ENDPOINT_PROMOS_DRAFT,
+  ENDPOINT_PROMOS_DELETE,
 } from '@constants/api';
 import {getAccessToken} from './selectors';
 
@@ -253,6 +267,158 @@ function* promosCatsSaga() {
   }
 }
 
+function* promoAddSaga(params) {
+  const {data, navigation} = params.payload;
+
+  const token = yield select(getAccessToken);
+  const response = yield call(api, ENDPOINT_PROMO_ADD, 'post', data, token);
+
+  if (response.data.status_code === 200) {
+    yield put(promoAddSuccess({payload: response.data}));
+    yield put(promosRequest());
+    navigation.goBack();
+    yield put(
+      servicesStateUpdate({
+        payload: {
+          promoId: null,
+          promoName: '',
+          promoDescription: '',
+          promoPrice: '',
+          promoPriceOld: '',
+          promoDiscount: 0,
+          isDiscount: false,
+          promoDateFrom: '',
+          promoDateTo: '',
+          isPromoDate: false,
+          promoModeration: '',
+          promoStatus: '',
+          promoCategoriesStr: '',
+          promoCatsSelected: [],
+          promoPhotos: [],
+        },
+      }),
+    );
+    Toast.show({
+      type: 'success',
+      text2: response.data.data.message,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+  } else if (response.status === 401) {
+    yield put(promoStoreFailure({}));
+    yield put(authLogout());
+  } else {
+    Toast.show({
+      type: 'error',
+      text1: _.t('error'),
+      text2: response.data.message,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+    yield put(promoStoreFailure());
+  }
+}
+
+function* promoUpdateSaga(params) {
+  const {data, navigation} = params.payload;
+
+  const token = yield select(getAccessToken);
+  const response = yield call(api, ENDPOINT_PROMO_UPDATE, 'post', data, token);
+
+  if (response.data.status_code === 200) {
+    yield put(promosRequest());
+    yield put(promoUpdateSuccess({payload: response.data}));
+    navigation.goBack();
+    Toast.show({
+      type: 'success',
+      text2: response.data.data.message,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+  } else if (response.status === 401) {
+    yield put(promoUpdateFailure());
+    yield put(authLogout());
+  } else {
+    Toast.show({
+      type: 'error',
+      text1: _.t('error'),
+      text2: response.data.result,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+    yield put(promoUpdateFailure());
+  }
+}
+
+function* promoDetailsSaga(params) {
+  const token = yield select(getAccessToken);
+  const response = yield call(
+    api,
+    ENDPOINT_PROMO_DETAILS,
+    'post',
+    params.payload,
+    token,
+  );
+
+  if (response.data.status_code === 200) {
+    yield put(promoDetailsSuccess({payload: response.data}));
+  } else if (response.status === 401) {
+    yield put(promoDetailsFailure({}));
+    yield put(authLogout());
+  } else {
+    Toast.show({
+      type: 'error',
+      text1: _.t('error'),
+      text2:
+        response.data.status_code === 500
+          ? _.t('error_500')
+          : response.data.result,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+    yield put(promoDetailsFailure({}));
+  }
+}
+
+function* promoUpdateStatusSaga(params) {
+  const {discounts, operation} = params.payload;
+  const token = yield select(getAccessToken);
+  const url =
+    operation === 'draft' ? ENDPOINT_PROMOS_DRAFT : ENDPOINT_PROMOS_DELETE;
+
+  const response = yield call(api, url, 'POST', {ids: discounts}, token);
+
+  if (response.data.status_code === 200) {
+    yield put(promosRequest());
+    yield put(promoStatusUpdateSuccess());
+    Toast.show({
+      type: 'success',
+      text2: response.data.data.message,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+  } else if (response.status === 401) {
+    yield put(promoStatusUpdateFailure({}));
+    yield put(authLogout());
+  } else {
+    Toast.show({
+      type: 'error',
+      text1: _.t('error'),
+      text2: response.data.error,
+      position: 'bottom',
+      autoHide: true,
+      visibilityTime: 2000,
+    });
+    yield put(promoStatusUpdateFailure({}));
+  }
+}
+
 export function* watchServices() {
   yield takeLatest(types.SERVICES.REQUEST, servicesSaga);
 }
@@ -286,4 +452,20 @@ export function* watchPromos() {
 
 export function* watchPromosCats() {
   yield takeLatest(types.PROMOS_CATS.REQUEST, promosCatsSaga);
+}
+
+export function* watchPromoAdd() {
+  yield takeLatest(types.PROMO_ADD.REQUEST, promoAddSaga);
+}
+
+export function* watchPromoUpdate() {
+  yield takeLatest(types.PROMO_UPDATE.REQUEST, promoUpdateSaga);
+}
+
+export function* watchPromoDetails() {
+  yield takeLatest(types.PROMO_DETAILS.REQUEST, promoDetailsSaga);
+}
+
+export function* watchPromoStatusUpdate() {
+  yield takeLatest(types.PROMO_STATUS.REQUEST, promoUpdateStatusSaga);
 }

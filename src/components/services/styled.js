@@ -2,11 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.TouchableOpacity`
   flex-direction: row;
-  flex: 1;
   padding: 10px;
   background-color: ${(props) => props.color};
   margin-bottom: 3px;
-  min-height: 60px;
+  height: 80px;
 `;
 
 export const CheckBoxContainer = styled.TouchableOpacity`

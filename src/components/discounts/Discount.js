@@ -4,19 +4,18 @@ import styled from 'styled-components';
 import _ from '@services/i18n';
 import {numberFormat} from '@services/helpers/utils';
 
-const Discount = ({isDiscount, price, priceOld, update}) => {
-  const [percent, setPercent] = useState(0);
+const Discount = ({isDiscount, price, priceOld, update, discount}) => {
 
   const getPercent = (price1, price2) => {
     if (parseInt(price1) > 0 && parseInt(price2) > 0) {
       const discountPercent =
         (parseInt(price2) - parseInt(price1)) / (parseInt(price2) / 100);
-      setPercent(numberFormat(discountPercent));
+      update({promoDiscount: numberFormat(discountPercent)});
     }
   };
 
   const onPressIsDiscount = () => {
-    update({promoDiscount: !isDiscount});
+    update({isDiscount: !isDiscount});
   };
 
   const updatePrice = (val) => {
@@ -39,44 +38,48 @@ const Discount = ({isDiscount, price, priceOld, update}) => {
         />
         <Legend>{_.t('discount')}</Legend>
       </CheckBoxContainer>
-      <LegendInputs>{_.t('discountInputLegend')}</LegendInputs>
-      <InputsContainers>
-        <InputContainer>
-          <Input
-            placeholder={_.t('priceDiscount')}
-            value={price}
-            onChangeText={updatePrice}
-            onFocus={(e) => {
-              updatePrice('');
-            }}
-            blurOnSubmit={true}
-            keyboardType="phone-pad"
-            returnKeyType="done"
-            underlineColorAndroid="transparent"
-          />
-          <Currency>{_.t('uah')}</Currency>
-        </InputContainer>
-        <InputContainer>
-          <Input
-            placeholder={_.t('priceDiscountOld')}
-            value={priceOld}
-            onChangeText={updatePriceOld}
-            onFocus={(e) => {
-              updatePriceOld('');
-            }}
-            blurOnSubmit={true}
-            keyboardType="phone-pad"
-            returnKeyType="done"
-            underlineColorAndroid="transparent"
-          />
-          <Currency>{_.t('uah')}</Currency>
-        </InputContainer>
-      </InputsContainers>
-      <DiscountPercent>
-        <DiscountPercentText>
-          {_.t('discount')} {percent} %
-        </DiscountPercentText>
-      </DiscountPercent>
+      {isDiscount && (
+        <>
+          <LegendInputs>{_.t('discountInputLegend')}</LegendInputs>
+          <InputsContainers>
+            <InputContainer>
+              <Input
+                placeholder={_.t('priceDiscount')}
+                value={price}
+                onChangeText={updatePrice}
+                onFocus={(e) => {
+                  updatePrice('');
+                }}
+                blurOnSubmit={true}
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                underlineColorAndroid="transparent"
+              />
+              <Currency>{_.t('uah')}</Currency>
+            </InputContainer>
+            <InputContainer>
+              <Input
+                placeholder={_.t('priceDiscountOld')}
+                value={priceOld}
+                onChangeText={updatePriceOld}
+                onFocus={(e) => {
+                  updatePriceOld('');
+                }}
+                blurOnSubmit={true}
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                underlineColorAndroid="transparent"
+              />
+              <Currency>{_.t('uah')}</Currency>
+            </InputContainer>
+          </InputsContainers>
+          <DiscountPercent>
+            <DiscountPercentText>
+              {_.t('discount')} {discount} %
+            </DiscountPercentText>
+          </DiscountPercent>
+        </>
+      )}
     </Container>
   );
 };
@@ -127,7 +130,7 @@ const Input = styled.TextInput`
 
 const DiscountPercent = styled.View`
   height: 50px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   margin-top: 10px;
   align-items: center;
   justify-content: center;

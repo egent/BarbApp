@@ -73,7 +73,6 @@ const DateSelector = ({
         mode="date"
         onConfirm={onChangeDate}
         onCancel={() => setVisibleDatePicker(false)}
-        isDarkModeEnabled={false}
         headerTextIOS={_.t(headerTextIOS)}
         cancelTextIOS={_.t('cancel')}
         confirmTextIOS={_.t('select')}

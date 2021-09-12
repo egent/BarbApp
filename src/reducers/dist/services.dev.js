@@ -48,17 +48,22 @@ var initialState = {
   // promos begin
   promoId: null,
   promoName: '',
+  promoDescription: '',
   promoPrice: '',
   promoPriceOld: '',
-  promoDiscount: false,
+  promoDiscount: 0,
+  isDiscount: false,
   promoDateFrom: '',
   promoDateTo: '',
-  promoDateFree: '',
+  isPromoDate: false,
   promoModeration: '',
   promoStatus: '',
   promoCategoriesStr: '',
-  promoCatsSelected: [] // promos end
-
+  promoCatsSelected: [],
+  promoPhotos: [],
+  // promos end
+  isPromoManage: false,
+  selectedPromos: []
 };
 
 function services() {
@@ -279,6 +284,128 @@ function services() {
       return _objectSpread({}, state, {
         promoCatsSelected: action.data,
         promoCategoriesStr: selectedPromos.join(', ')
+      });
+
+    case _services.types.PROMOS.PHOTO_ADD:
+      var promoPhotos = _toConsumableArray(state.promoPhotos);
+
+      promoPhotos.push(action.data);
+      return _objectSpread({}, state, {
+        promoPhotos: promoPhotos
+      });
+
+    case _services.types.PROMOS.PHOTO_DELETE:
+      var pPhotos = [];
+      state.promoPhotos.map(function (p) {
+        p.uri !== action.data.uri && pPhotos.push(p);
+      });
+      return _objectSpread({}, state, {
+        promoPhotos: pPhotos
+      });
+
+    case _services.types.PROMO_ADD.REQUEST:
+      return _objectSpread({}, state, {
+        loading: true
+      });
+
+    case _services.types.PROMO_ADD.SUCCESS:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.PROMO_ADD.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.PROMO_UPDATE.REQUEST:
+      return _objectSpread({}, state, {
+        loading: true
+      });
+
+    case _services.types.PROMO_UPDATE.SUCCESS:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.PROMO_UPDATE.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.PROMO_DETAILS.REQUEST:
+      return _objectSpread({}, state);
+
+    case _services.types.PROMO_DETAILS.SUCCESS:
+      var data = action.payload.data;
+      var promo = data.promo;
+      var promoCatsSelected = [];
+      var promoCatName = [];
+      data.categories.map(function (c) {
+        promoCatsSelected.push(c.id);
+        promoCatName.push(c.name);
+      });
+      return _objectSpread({}, state, {
+        loading: false,
+        promoId: promo.id,
+        promoName: promo.name,
+        promoDescription: promo.description,
+        promoPrice: promo.price,
+        promoPriceOld: promo.price_old,
+        promoDiscount: promo.discount,
+        promoDateFrom: promo.date_from,
+        promoDateTo: promo.date_to,
+        isPromoDate: !!promo.date_free,
+        promoModeration: '',
+        promoStatus: promo.status,
+        promoCategoriesStr: promoCatName.join(', '),
+        promoCatsSelected: promoCatsSelected,
+        promoPhotos: data.gallery
+      });
+
+    case _services.types.PROMO_DETAILS.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
+      });
+
+    case _services.types.PROMOS.SELECT:
+      var promoId = action.payload;
+
+      var selPromos = _toConsumableArray(state.selectedPromos);
+
+      if ((0, _lodash.includes)(selPromos, promoId)) {
+        selPromos = (0, _lodash.remove)(selPromos, function (s) {
+          return s !== promoId;
+        });
+      } else {
+        selPromos.push(promoId);
+      }
+
+      return _objectSpread({}, state, {
+        selectedPromos: selPromos
+      });
+
+    case _services.types.PROMOS.MANAGE:
+      var promosManage = action.payload;
+      return _objectSpread({}, state, {
+        isPromoManage: promosManage,
+        selectedPromos: manage ? state.selectedPromos : []
+      });
+
+    case _services.types.PROMO_STATUS.REQUEST:
+      return _objectSpread({}, state, {
+        loading: true
+      });
+
+    case _services.types.PROMO_STATUS.SUCCESS:
+      return _objectSpread({}, state, {
+        loading: false,
+        selectedPromos: []
+      });
+
+    case _services.types.PROMO_STATUS.FAILURE:
+      return _objectSpread({}, state, {
+        loading: false
       });
 
     default:

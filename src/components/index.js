@@ -11,6 +11,9 @@ import BottomBlueButton from './ui/BottomBlueButton';
 import DiscountsList from './discounts/List';
 import DiscountItem from './discounts/Item';
 import Discount from './discounts/Discount';
+import PromoTimes from './discounts/Times';
+import HeaderRightDiscount from './discounts/HeaderRight';
+import HeaderDiscountList from './discounts/HeaderDiscountList';
 
 export {
   SelectTree,
@@ -26,4 +29,7 @@ export {
   DiscountsList,
   DiscountItem,
   Discount,
+  PromoTimes,
+  HeaderRightDiscount,
+  HeaderDiscountList,
 };

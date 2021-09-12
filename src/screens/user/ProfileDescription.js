@@ -142,15 +142,14 @@ const ProfileDescription = ({navigation}) => {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-
         // console.log(response);
 
         const {data, isVertical, originalRotation} = response;
         dispatch(
           uploadPhotoRequest({
             image: 'data:image/jpeg;base64,' + data,
-            isVertical, 
-            originalRotation
+            isVertical,
+            originalRotation,
           }),
         );
 
@@ -168,87 +167,87 @@ const ProfileDescription = ({navigation}) => {
 
   return (
     <>
-    <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
-      <ValidationAlert
-        title="fill_fields"
-        visible={visibleValidationModal}
-        toggle={toggleValidationModal}
-        btnOutHandler={sendData}
-      />
-      <View style={{height, paddingBottom: 200}} key={key}>
-        <View style={styles.headerContainer}>
-          <View style={styles.box} />
-          <TouchableOpacity
-            onPress={handlePhotoUpdate}
-            style={styles.avatarContainer}>
-            {avatar !== null ? (
-              <Image source={{uri: avatar}} style={styles.avatar} />
-            ) : (
-              <View style={styles.iconContainer}>
-                <Icon name="person" color="#fff" size={45} />
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="always">
+        <ValidationAlert
+          title="fill_fields"
+          visible={visibleValidationModal}
+          toggle={toggleValidationModal}
+          btnOutHandler={sendData}
+        />
+        <View style={{height, paddingBottom: 200}} key={key}>
+          <View style={styles.headerContainer}>
+            <View style={styles.box} />
+            <TouchableOpacity
+              onPress={handlePhotoUpdate}
+              style={styles.avatarContainer}>
+              {avatar !== null ? (
+                <Image source={{uri: avatar}} style={styles.avatar} />
+              ) : (
+                <View style={styles.iconContainer}>
+                  <Icon name="person" color="#fff" size={45} />
+                </View>
+              )}
+              <View style={styles.info}>
+                <Text style={styles.avatarTitle}>{_.t('your_photo')}</Text>
+                <Text onPress={handlePhotoUpdate} style={styles.avatarSubTitle}>
+                  {_.t(avatar !== null ? 'change_photo' : 'upload_photo')}
+                </Text>
               </View>
-            )}
-            <View style={styles.info}>
-              <Text style={styles.avatarTitle}>{_.t('your_photo')}</Text>
-              <Text onPress={handlePhotoUpdate} style={styles.avatarSubTitle}>
-                {_.t(avatar !== null ? 'change_photo' : 'upload_photo')}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.box} />
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.h3}>{_.t('about_textarea')}</Text>
-          <TextInput
-            style={styles.textarea}
-            multiline={true}
-            underlineColorAndroid="transparent"
-            numberOfLines={5}
-            onChangeText={setUserDescription}
-            value={userDescription}
+            </TouchableOpacity>
+            <View style={styles.box} />
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.h3}>{_.t('about_textarea')}</Text>
+            <TextInput
+              style={styles.textarea}
+              multiline={true}
+              underlineColorAndroid="transparent"
+              numberOfLines={5}
+              onChangeText={setUserDescription}
+              value={userDescription}
+            />
+          </View>
+          <View style={styles.content}>
+            <Text style={styles.h3}>{_.t('sex')}</Text>
+            {sexList.map(({title, value, id}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setUserGender(value);
+                  }}
+                  key={`sex-item-${id}`}
+                  style={styles.itemList}>
+                  <Icon
+                    name={
+                      form.gender === value
+                        ? 'radio-button-checked'
+                        : 'radio-button-unchecked'
+                    }
+                    color={form.gender === value ? '#6DB7E8' : '#AFAFAF'}
+                    size={24}
+                  />
+                  <Text style={styles.itemText}>{title}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          <DateSelector
+            title="date_birth"
+            removeDateTitle="delete_birth_day"
+            value={form.birthday}
+            setDate={setUserBirthday}
           />
-        </View>
-        <View style={styles.content}>
-          <Text style={styles.h3}>{_.t('sex')}</Text>
-          {sexList.map(({title, value, id}) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  setUserGender(value);
-                }}
-                key={`sex-item-${id}`}
-                style={styles.itemList}>
-                <Icon
-                  name={
-                    form.gender === value
-                      ? 'radio-button-checked'
-                      : 'radio-button-unchecked'
-                  }
-                  color={form.gender === value ? '#6DB7E8' : '#AFAFAF'}
-                  size={24}
-                />
-                <Text style={styles.itemText}>{title}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
 
-        <DateSelector
-          title="date_birth"
-          removeDateTitle="delete_birth_day"
-          value={form.birthday}
-          setDate={setUserBirthday}
-        />
+          <DateSelector
+            title="work_experience"
+            removeDateTitle="delete_experience_title"
+            value={form.skill}
+            setDate={setUserSkill}
+            formatYearsAgo={true}
+          />
 
-        <DateSelector
-          title="work_experience"
-          removeDateTitle="delete_experience_title"
-          value={form.skill}
-          setDate={setUserSkill}
-          formatYearsAgo={true}
-        />
-
-      {/* <DateMonthSelector
+          {/* <DateMonthSelector
           title="work_experience"
           removeDateTitle="delete_experience_title"
           value={form.skill}
@@ -256,10 +255,8 @@ const ProfileDescription = ({navigation}) => {
           formatYearsAgo={true}
           setDateTitle="set_experience_date"
         /> */}
-      
-      </View>
-    </KeyboardAwareScrollView>
-   
+        </View>
+      </KeyboardAwareScrollView>
     </>
   );
 };

@@ -26,17 +26,22 @@ const initialState = {
   // promos begin
   promoId: null,
   promoName: '',
+  promoDescription: '',
   promoPrice: '',
   promoPriceOld: '',
-  promoDiscount: false,
+  promoDiscount: 0,
+  isDiscount: false,
   promoDateFrom: '',
   promoDateTo: '',
-  promoDateFree: '',
+  isPromoDate: false,
   promoModeration: '',
   promoStatus: '',
   promoCategoriesStr: '',
   promoCatsSelected: [],
+  promoPhotos: [],
   // promos end
+  isPromoManage: false,
+  selectedPromos: [],
 };
 
 export default function services(state = initialState, action = {}) {
@@ -256,6 +261,128 @@ export default function services(state = initialState, action = {}) {
         ...state,
         promoCatsSelected: action.data,
         promoCategoriesStr: selectedPromos.join(', '),
+      };
+    case types.PROMOS.PHOTO_ADD:
+      const promoPhotos = [...state.promoPhotos];
+      promoPhotos.push(action.data);
+      return {
+        ...state,
+        promoPhotos,
+      };
+    case types.PROMOS.PHOTO_DELETE:
+      const pPhotos = [];
+      state.promoPhotos.map((p) => {
+        p.uri !== action.data.uri && pPhotos.push(p);
+      });
+      return {
+        ...state,
+        promoPhotos: pPhotos,
+      };
+    case types.PROMO_ADD.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.PROMO_ADD.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PROMO_ADD.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PROMO_UPDATE.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.PROMO_UPDATE.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PROMO_UPDATE.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PROMO_DETAILS.REQUEST:
+      return {
+        ...state,
+      };
+    case types.PROMO_DETAILS.SUCCESS:
+      const {data} = action.payload;
+      const {promo} = data;
+
+      let promoCatsSelected = [];
+      let promoCatName = [];
+
+      data.categories.map((c) => {
+        promoCatsSelected.push(c.id);
+        promoCatName.push(c.name);
+      });
+
+      return {
+        ...state,
+        loading: false,
+        promoId: promo.id,
+        promoName: promo.name,
+        promoDescription: promo.description,
+        promoPrice: promo.price,
+        promoPriceOld: promo.price_old,
+        promoDiscount: promo.discount,
+        promoDateFrom: promo.date_from,
+        promoDateTo: promo.date_to,
+        isPromoDate: !!promo.date_free,
+        promoModeration: '',
+        promoStatus: promo.status,
+        promoCategoriesStr: promoCatName.join(', '),
+        promoCatsSelected,
+        promoPhotos: data.gallery,
+      };
+    case types.PROMO_DETAILS.FAILURE:
+      return {
+        ...state,
+        loading: false,
+      };
+    case types.PROMOS.SELECT:
+      const promoId = action.payload;
+      let selPromos = [...state.selectedPromos];
+      if (includes(selPromos, promoId)) {
+        selPromos = remove(selPromos, (s) => {
+          return s !== promoId;
+        });
+      } else {
+        selPromos.push(promoId);
+      }
+      return {
+        ...state,
+        selectedPromos: selPromos,
+      };
+    case types.PROMOS.MANAGE:
+      const promosManage = action.payload;
+      return {
+        ...state,
+        isPromoManage: promosManage,
+        selectedPromos: manage ? state.selectedPromos : [],
+      };
+    case types.PROMO_STATUS.REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.PROMO_STATUS.SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        selectedPromos: [],
+      };
+    case types.PROMO_STATUS.FAILURE:
+      return {
+        ...state,
+        loading: false,
       };
     default:
       return state;

@@ -2,6 +2,8 @@ import React from 'react';
 import {TabContainer} from '@components';
 import * as S from './styled';
 
+// TODO: delete screen
+
 const PromocodeBarb = ({navigation, route}) => {
   return (
     <S.Container>

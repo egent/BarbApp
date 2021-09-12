@@ -41,12 +41,36 @@ export const types = {
     REQUEST: 'PROMOS.REQUEST',
     SUCCESS: 'PROMOS.SUCCESS',
     FAILURE: 'PROMOS.FAILURE',
+    PHOTO_ADD: 'PROMOS.PHOTO_ADD',
+    PHOTO_DELETE: 'PROMOS.PHOTO_DELETE',
+    MANAGE: 'PROMOS.MANAGE',
+    SELECT: 'PROMOS.SELECT',
   },
   PROMOS_CATS: {
     REQUEST: 'PROMOS_CATS.REQUEST',
     SUCCESS: 'PROMOS_CATS.SUCCESS',
     FAILURE: 'PROMOS_CATS.FAILURE',
     SELECT: 'PROMOS_CATS.SELECT',
+  },
+  PROMO_ADD: {
+    REQUEST: 'PROMO_ADD.REQUEST',
+    SUCCESS: 'PROMO_ADD.SUCCESS',
+    FAILURE: 'PROMO_ADD.FAILURE',
+  },
+  PROMO_UPDATE: {
+    REQUEST: 'PROMO_UPDATE.REQUEST',
+    SUCCESS: 'PROMO_UPDATE.SUCCESS',
+    FAILURE: 'PROMO_UPDATE.FAILURE',
+  },
+  PROMO_DETAILS: {
+    REQUEST: 'PROMO_DETAILS.REQUEST',
+    SUCCESS: 'PROMO_DETAILS.SUCCESS',
+    FAILURE: 'PROMO_DETAILS.FAILURE',
+  },
+  PROMO_STATUS: {
+    REQUEST: 'PROMO_STATUS.REQUEST',
+    SUCCESS: 'PROMO_STATUS.SUCCESS',
+    FAILURE: 'PROMO_STATUS.FAILURE',
   },
 };
 
@@ -203,4 +227,84 @@ export const promosCatsFailure = (data) => ({
 export const promosCatsSelect = (data) => ({
   type: types.PROMOS_CATS.SELECT,
   data,
+});
+
+export const addPromoPhoto = (data) => ({
+  type: types.PROMOS.PHOTO_ADD,
+  data,
+});
+
+export const deletePromoPhoto = (data) => ({
+  type: types.PROMOS.PHOTO_DELETE,
+  data,
+});
+
+export const promoAddRequest = (payload) => ({
+  type: types.PROMO_ADD.REQUEST,
+  payload,
+});
+
+export const promoAddSuccess = (data) => ({
+  type: types.PROMO_ADD.SUCCESS,
+  ...data,
+});
+
+export const promoStoreFailure = (data) => ({
+  type: types.PROMO_ADD.FAILURE,
+  ...data,
+});
+
+export const promoUpdateRequest = (payload) => ({
+  type: types.PROMO_UPDATE.REQUEST,
+  payload,
+});
+
+export const promoUpdateSuccess = (data) => ({
+  type: types.PROMO_UPDATE.SUCCESS,
+  ...data,
+});
+
+export const promoUpdateFailure = (data) => ({
+  type: types.PROMO_UPDATE.FAILURE,
+  ...data,
+});
+
+export const promoDetailsRequest = (payload) => ({
+  type: types.PROMO_DETAILS.REQUEST,
+  payload,
+});
+
+export const promoDetailsSuccess = (data) => ({
+  type: types.PROMO_DETAILS.SUCCESS,
+  ...data,
+});
+
+export const promoDetailsFailure = (data) => ({
+  type: types.PROMO_DETAILS.FAILURE,
+  ...data,
+});
+
+export const promosManage = (payload) => ({
+  type: types.PROMOS.MANAGE,
+  payload,
+});
+
+export const promosSelect = (payload) => ({
+  type: types.PROMOS.SELECT,
+  payload,
+});
+
+export const promoStatusUpdateRequest = (payload) => ({
+  type: types.PROMO_STATUS.REQUEST,
+  payload,
+});
+
+export const promoStatusUpdateSuccess = (data) => ({
+  type: types.PROMO_STATUS.SUCCESS,
+  ...data,
+});
+
+export const promoStatusUpdateFailure = (data) => ({
+  type: types.PROMO_STATUS.FAILURE,
+  ...data,
 });

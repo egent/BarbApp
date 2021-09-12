@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.promosCatsSelect = exports.promosCatsFailure = exports.promosCatsSuccess = exports.promosCatsRequest = exports.promosFailure = exports.promosSuccess = exports.promosRequest = exports.serviceDetailsFailure = exports.serviceDetailsSuccess = exports.serviceDetailsRequest = exports.serviceUpdateStatusFailure = exports.serviceUpdateStatusSuccess = exports.serviceUpdateStatusRequest = exports.servicesSelect = exports.servicesManage = exports.serviceUpdateFailure = exports.serviceUpdateSuccess = exports.serviceUpdateRequest = exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
+exports.promoStatusUpdateFailure = exports.promoStatusUpdateSuccess = exports.promoStatusUpdateRequest = exports.promosSelect = exports.promosManage = exports.promoDetailsFailure = exports.promoDetailsSuccess = exports.promoDetailsRequest = exports.promoUpdateFailure = exports.promoUpdateSuccess = exports.promoUpdateRequest = exports.promoStoreFailure = exports.promoAddSuccess = exports.promoAddRequest = exports.deletePromoPhoto = exports.addPromoPhoto = exports.promosCatsSelect = exports.promosCatsFailure = exports.promosCatsSuccess = exports.promosCatsRequest = exports.promosFailure = exports.promosSuccess = exports.promosRequest = exports.serviceDetailsFailure = exports.serviceDetailsSuccess = exports.serviceDetailsRequest = exports.serviceUpdateStatusFailure = exports.serviceUpdateStatusSuccess = exports.serviceUpdateStatusRequest = exports.servicesSelect = exports.servicesManage = exports.serviceUpdateFailure = exports.serviceUpdateSuccess = exports.serviceUpdateRequest = exports.serviceAddFailure = exports.serviceAddSuccess = exports.serviceAddRequest = exports.servicesCategoryPhotoRemove = exports.servicesCategoryPhotos = exports.servicesCategorySelect = exports.servicesStateUpdate = exports.servicesCategoryFailure = exports.servicesCategorySuccess = exports.servicesCategoryRequest = exports.servicesFailure = exports.servicesSuccess = exports.servicesRequest = exports.types = void 0;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -53,13 +53,37 @@ var types = {
   PROMOS: {
     REQUEST: 'PROMOS.REQUEST',
     SUCCESS: 'PROMOS.SUCCESS',
-    FAILURE: 'PROMOS.FAILURE'
+    FAILURE: 'PROMOS.FAILURE',
+    PHOTO_ADD: 'PROMOS.PHOTO_ADD',
+    PHOTO_DELETE: 'PROMOS.PHOTO_DELETE',
+    MANAGE: 'PROMOS.MANAGE',
+    SELECT: 'PROMOS.SELECT'
   },
   PROMOS_CATS: {
     REQUEST: 'PROMOS_CATS.REQUEST',
     SUCCESS: 'PROMOS_CATS.SUCCESS',
     FAILURE: 'PROMOS_CATS.FAILURE',
     SELECT: 'PROMOS_CATS.SELECT'
+  },
+  PROMO_ADD: {
+    REQUEST: 'PROMO_ADD.REQUEST',
+    SUCCESS: 'PROMO_ADD.SUCCESS',
+    FAILURE: 'PROMO_ADD.FAILURE'
+  },
+  PROMO_UPDATE: {
+    REQUEST: 'PROMO_UPDATE.REQUEST',
+    SUCCESS: 'PROMO_UPDATE.SUCCESS',
+    FAILURE: 'PROMO_UPDATE.FAILURE'
+  },
+  PROMO_DETAILS: {
+    REQUEST: 'PROMO_DETAILS.REQUEST',
+    SUCCESS: 'PROMO_DETAILS.SUCCESS',
+    FAILURE: 'PROMO_DETAILS.FAILURE'
+  },
+  PROMO_STATUS: {
+    REQUEST: 'PROMO_STATUS.REQUEST',
+    SUCCESS: 'PROMO_STATUS.SUCCESS',
+    FAILURE: 'PROMO_STATUS.FAILURE'
   }
 };
 exports.types = types;
@@ -323,3 +347,139 @@ var promosCatsSelect = function promosCatsSelect(data) {
 };
 
 exports.promosCatsSelect = promosCatsSelect;
+
+var addPromoPhoto = function addPromoPhoto(data) {
+  return {
+    type: types.PROMOS.PHOTO_ADD,
+    data: data
+  };
+};
+
+exports.addPromoPhoto = addPromoPhoto;
+
+var deletePromoPhoto = function deletePromoPhoto(data) {
+  return {
+    type: types.PROMOS.PHOTO_DELETE,
+    data: data
+  };
+};
+
+exports.deletePromoPhoto = deletePromoPhoto;
+
+var promoAddRequest = function promoAddRequest(payload) {
+  return {
+    type: types.PROMO_ADD.REQUEST,
+    payload: payload
+  };
+};
+
+exports.promoAddRequest = promoAddRequest;
+
+var promoAddSuccess = function promoAddSuccess(data) {
+  return _objectSpread({
+    type: types.PROMO_ADD.SUCCESS
+  }, data);
+};
+
+exports.promoAddSuccess = promoAddSuccess;
+
+var promoStoreFailure = function promoStoreFailure(data) {
+  return _objectSpread({
+    type: types.PROMO_ADD.FAILURE
+  }, data);
+};
+
+exports.promoStoreFailure = promoStoreFailure;
+
+var promoUpdateRequest = function promoUpdateRequest(payload) {
+  return {
+    type: types.PROMO_UPDATE.REQUEST,
+    payload: payload
+  };
+};
+
+exports.promoUpdateRequest = promoUpdateRequest;
+
+var promoUpdateSuccess = function promoUpdateSuccess(data) {
+  return _objectSpread({
+    type: types.PROMO_UPDATE.SUCCESS
+  }, data);
+};
+
+exports.promoUpdateSuccess = promoUpdateSuccess;
+
+var promoUpdateFailure = function promoUpdateFailure(data) {
+  return _objectSpread({
+    type: types.PROMO_UPDATE.FAILURE
+  }, data);
+};
+
+exports.promoUpdateFailure = promoUpdateFailure;
+
+var promoDetailsRequest = function promoDetailsRequest(payload) {
+  return {
+    type: types.PROMO_DETAILS.REQUEST,
+    payload: payload
+  };
+};
+
+exports.promoDetailsRequest = promoDetailsRequest;
+
+var promoDetailsSuccess = function promoDetailsSuccess(data) {
+  return _objectSpread({
+    type: types.PROMO_DETAILS.SUCCESS
+  }, data);
+};
+
+exports.promoDetailsSuccess = promoDetailsSuccess;
+
+var promoDetailsFailure = function promoDetailsFailure(data) {
+  return _objectSpread({
+    type: types.PROMO_DETAILS.FAILURE
+  }, data);
+};
+
+exports.promoDetailsFailure = promoDetailsFailure;
+
+var promosManage = function promosManage(payload) {
+  return {
+    type: types.PROMOS.MANAGE,
+    payload: payload
+  };
+};
+
+exports.promosManage = promosManage;
+
+var promosSelect = function promosSelect(payload) {
+  return {
+    type: types.PROMOS.SELECT,
+    payload: payload
+  };
+};
+
+exports.promosSelect = promosSelect;
+
+var promoStatusUpdateRequest = function promoStatusUpdateRequest(payload) {
+  return {
+    type: types.PROMO_STATUS.REQUEST,
+    payload: payload
+  };
+};
+
+exports.promoStatusUpdateRequest = promoStatusUpdateRequest;
+
+var promoStatusUpdateSuccess = function promoStatusUpdateSuccess(data) {
+  return _objectSpread({
+    type: types.PROMO_STATUS.SUCCESS
+  }, data);
+};
+
+exports.promoStatusUpdateSuccess = promoStatusUpdateSuccess;
+
+var promoStatusUpdateFailure = function promoStatusUpdateFailure(data) {
+  return _objectSpread({
+    type: types.PROMO_STATUS.FAILURE
+  }, data);
+};
+
+exports.promoStatusUpdateFailure = promoStatusUpdateFailure;

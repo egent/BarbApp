@@ -11,26 +11,32 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import _ from '@services/i18n';
 import Input from '@components/ui/Input';
 import Preloader from '@components/PreLoader';
-import {SelectTree, MediaPicker, Discount} from '@components';
-import {servicesStateUpdate} from '@actions/services';
+import {SelectTree, MediaPicker, Discount, PromoTimes} from '@components';
+import {
+  servicesStateUpdate,
+  addPromoPhoto,
+  deletePromoPhoto,
+} from '@actions/services';
 
 const DiscountForm = ({navigation}) => {
   const {
     promoId,
     promoName,
+    promoDescription,
     promoPrice,
     promoPriceOld,
     promoDiscount,
+    isDiscount,
     promoDateFrom,
     promoDateTo,
-    promoDateFree,
-    promoModeration,
-    promoStatus,
+    isPromoDate,
     loading,
     promoCategoriesStr,
     promosCats,
+    promoPhotos,
   } = useSelector((state) => state.services);
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     return () =>
@@ -39,16 +45,19 @@ const DiscountForm = ({navigation}) => {
           payload: {
             promoId: null,
             promoName: '',
+            promoDescription: '',
             promoPrice: '',
             promoPriceOld: '',
-            promoDiscount: false,
+            promoDiscount: 0,
+            isDiscount: false,
             promoDateFrom: '',
             promoDateTo: '',
-            promoDateFree: '',
+            isPromoDate: false,
             promoModeration: '',
             promoStatus: '',
             promoCategoriesStr: '',
             promoCatsSelected: [],
+            promoPhotos: [],
           },
         }),
       );
@@ -60,6 +69,14 @@ const DiscountForm = ({navigation}) => {
 
   const stateUpdate = (payload) => {
     dispatch(servicesStateUpdate({payload}));
+  };
+
+  const addPhoto = (photo) => {
+    dispatch(addPromoPhoto(photo));
+  };
+
+  const deletePhoto = (photo) => {
+    dispatch(deletePromoPhoto(photo));
   };
 
   return (
@@ -83,10 +100,41 @@ const DiscountForm = ({navigation}) => {
       />
 
       <Discount
-        isDiscount={promoDiscount}
+        isDiscount={isDiscount}
+        discount={promoDiscount}
         price={promoPrice}
         priceOld={promoPriceOld}
         update={stateUpdate}
+      />
+
+      <View style={[styles.legend, {marginTop: 15}]}>
+        <Text style={styles.legendText}>{_.t('promoDescription')}</Text>
+      </View>
+      <TextInput
+        style={styles.textarea}
+        multiline={true}
+        underlineColorAndroid="transparent"
+        numberOfLines={5}
+        onChangeText={(val) =>
+          dispatch(servicesStateUpdate({payload: {promoDescription: val}}))
+        }
+        value={promoDescription}
+      />
+
+      <PromoTimes
+        dateFrom={promoDateFrom}
+        dateTo={promoDateTo}
+        update={stateUpdate}
+        isPromo={isPromoDate}
+      />
+
+      <MediaPicker
+        addPhoto={addPhoto}
+        handleDelete={deletePhoto}
+        styles={styles.media}
+        photos={promoPhotos}
+        legend="promoPhoto"
+        limit={1}
       />
     </KeyboardAwareScrollView>
   );
@@ -157,6 +205,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
     marginBottom: 10,
   },
+  media: {marginVertical: 10, marginTop: 10},
 });
 
 export default DiscountForm;

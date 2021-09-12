@@ -67,7 +67,7 @@ const MediaPiker = ({
                 <S.Photo
                   resizeMode="cover"
                   key={`${photo.uri}`}
-                  source={{uri: photo.uri}}
+                  source={{uri: photo.uri ? photo.uri : photo.src}}
                 />
                 <S.CloseBtn
                   activeOpacity={0.8}

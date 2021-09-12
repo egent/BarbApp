@@ -350,17 +350,18 @@ function services() {
         promoId: promo.id,
         promoName: promo.name,
         promoDescription: promo.description,
-        promoPrice: promo.price,
-        promoPriceOld: promo.price_old,
+        promoPrice: promo.price.toString(),
+        promoPriceOld: promo.price_old.toString(),
         promoDiscount: promo.discount,
         promoDateFrom: promo.date_from,
         promoDateTo: promo.date_to,
-        isPromoDate: !!promo.date_free,
+        isPromoDate: promo.date_free === 1 ? false : true,
         promoModeration: '',
         promoStatus: promo.status,
         promoCategoriesStr: promoCatName.join(', '),
-        promoCatsSelected: promoCatsSelected,
-        promoPhotos: data.gallery
+        promoCatsSelected: data.categories,
+        promoPhotos: data.gallery,
+        isDiscount: promo.discount > 0 ? true : false
       });
 
     case _services.types.PROMO_DETAILS.FAILURE:

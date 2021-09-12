@@ -26,7 +26,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var saveSubsetBlackFilterUser = (0, _reduxPersistTransformFilter.createBlacklistFilter)('user', ['loading']);
 var persistConfig = {
   timeout: 2000,
-  key: 'app_2_1',
+  key: 'app_2_2',
   storage: _asyncStorage["default"],
   stateReconciler: _autoMergeLevel["default"],
   transforms: [saveSubsetBlackFilterUser]

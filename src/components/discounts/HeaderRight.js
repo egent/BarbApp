@@ -38,10 +38,12 @@ const HeaderRightDiscount = ({navigation}) => {
     ) {
       const images = [];
       promoPhotos.map((photo, index) => {
-        images.push({
-          id: index,
-          scr: `data:${photo.type};base64,${photo.data}`,
-        });
+        if (photo.data !== undefined) {
+          images.push({
+            id: index,
+            scr: `data:${photo.type};base64,${photo.data}`,
+          });
+        }
       });
 
       const cats = [];

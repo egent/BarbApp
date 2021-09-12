@@ -134,7 +134,7 @@ android {
         applicationId "com.barbapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
+        versionCode 9
         versionName "1.0"
         manifestPlaceholders = [onesignal_app_id: "69e49fe0-635c-42f2-acda-2ff356bed6e5", onesignal_google_project_number: "REMOTE"]
         multiDexEnabled true

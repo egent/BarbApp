@@ -72,7 +72,7 @@ const DiscountForm = ({navigation}) => {
   };
 
   const addPhoto = (photo) => {
-    dispatch(addPromoPhoto(photo));
+    dispatch(addPromoPhoto(photo[0]));
   };
 
   const deletePhoto = (photo) => {

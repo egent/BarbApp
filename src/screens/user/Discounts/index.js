@@ -30,7 +30,7 @@ const Discounts = ({navigation, route}) => {
 
   const updateItem = (item) => {
     dispatch(promoDetailsRequest({promo_id: item.id}));
-    navigation.navigate('DiscountForm');
+    navigation.navigate('DiscountForm', {promoId: item.id});
   };
 
   return (

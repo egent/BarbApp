@@ -12,8 +12,8 @@ export const Legend = styled.Text`
 export const MediaAdd = styled.TouchableOpacity`
   border-color: #d4d6df;
   border-width: 1px;
-  width: 106px;
-  height: 106px;
+  width: 94px;
+  height: 94px;
   justify-content: center;
   align-items: center;
   margin-right: 20px;
@@ -29,8 +29,8 @@ export const Text = styled.Text`
 `;
 
 export const Photo = styled.Image`
-  width: 100px;
-  height: 100px;
+  width: 86px;
+  height: 86px;
 `;
 
 export const PhotosContainer = styled.View`
@@ -40,8 +40,8 @@ export const PhotosContainer = styled.View`
 
 export const CloseBtn = styled.TouchableOpacity`
   position: absolute;
-  bottom: -5;
-  right: -5;
+  bottom: -7;
+  right: -7;
   /* background-color: #fff; */
 `;
 
@@ -56,6 +56,6 @@ export const PhotoContainer = styled.View`
   border-color: #d4d6df;
   border-width: 1px;
   padding: 3px;
-  width: 106px;
-  height: 106px;
+  width: 94px;
+  height: 94px;
 `;

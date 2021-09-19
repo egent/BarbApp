@@ -1,20 +1,10 @@
 import React from 'react';
-import ImagePicker from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import _ from '@services/i18n';
 import imgClose from '@assets/images/close-blue.png';
 import * as S from './styled';
 
 const photoTxtDesc = _.t('select_photo');
-const options = {
-  title: photoTxtDesc,
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
-  cancelButtonTitle: _.t('cancel'),
-  takePhotoButtonTitle: _.t('take_photo'),
-  chooseFromLibraryButtonTitle: _.t('open_gallery'),
-};
 
 const MediaPiker = ({
   styles,
@@ -24,8 +14,25 @@ const MediaPiker = ({
   legend,
   limit = 100,
 }) => {
+
+  const options = {
+    title: photoTxtDesc,
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+    includeBase64: true,
+    cancelButtonTitle: _.t('cancel'),
+    takePhotoButtonTitle: _.t('take_photo'),
+    chooseFromLibraryButtonTitle: _.t('open_gallery'),
+    options: {
+      selectionLimit: limit === 1 ? limit : 0,
+      allowMultiple: true,
+    },
+  };
+
   const handleAdd = () => {
-    ImagePicker.launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
@@ -33,8 +40,8 @@ const MediaPiker = ({
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        console.log(response);
-        addPhoto(response);
+        addPhoto(response.assets);
+
         // height: 3024
         // origURL: "assets-library://asset/asset.HEIC?id=CC95F08C-88C3-4012-9D6D-64A413D254B3&ext=HEIC"
         // fileName: null

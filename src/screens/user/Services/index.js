@@ -40,7 +40,7 @@ const Services = ({navigation}) => {
 
   const updateItem = (service) => {
     dispatch(serviceDetailsRequest({procedure_id: service.id}));
-    navigation.navigate('ServicesForm');
+    navigation.navigate('ServicesForm', {serviceId: service.id});
   };
 
   return (

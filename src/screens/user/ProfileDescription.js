@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {
   Text,
@@ -10,7 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import ImagePicker from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Preloader from '../../components/PreLoader';
@@ -44,6 +43,7 @@ const options = {
     skipBackup: true,
     path: 'images',
   },
+  includeBase64: true,
   cancelButtonTitle: _.t('cancel'),
   takePhotoButtonTitle: _.t('take_photo'),
   chooseFromLibraryButtonTitle: _.t('open_gallery'),
@@ -133,7 +133,7 @@ const ProfileDescription = ({navigation}) => {
   const handlePhotoUpdate = () => {
     setFileLoading(true);
 
-    ImagePicker.launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, (response) => {
       // console.log('Response = ', response);
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -142,20 +142,17 @@ const ProfileDescription = ({navigation}) => {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        // console.log(response);
 
-        const {data, isVertical, originalRotation} = response;
+        const {base64, uri, type} = response.assets[0];
         dispatch(
           uploadPhotoRequest({
-            image: 'data:image/jpeg;base64,' + data,
-            isVertical,
-            originalRotation,
+            image: `data:${type};base64,${base64}`,
+            // isVertical,
+            // originalRotation,
           }),
         );
 
-        // console.log(response)
-
-        setAvatar(response.uri);
+        setAvatar(uri);
       }
       setFileLoading(false);
     });

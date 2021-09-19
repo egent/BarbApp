@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import {dialogRequest, messageSendRequest} from '../../actions/user';
-import ImagePicker from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import PreLoader from '../../components/PreLoader';
 import globalStyle from '../../components/styles';
@@ -62,7 +62,7 @@ class MessageDetail extends Component {
     // let {saleFile} = this.state;
     this.setState({fileLoading: true});
 
-    ImagePicker.launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, (response) => {
       // console.log('Response = ', response);
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -72,8 +72,9 @@ class MessageDetail extends Component {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         // this.props.uploadPhotoRequest({image: 'data:image/jpeg;base64,' + response.data});
+        const {base64, type} = response.assets[0];
         this.props.messageSendRequest({
-          image: 'data:image/jpeg;base64,' + response.data,
+          image: `data:${type};base64,${base64}`,
           dialog_id: this.props.route.params.dialog_id,
         });
 

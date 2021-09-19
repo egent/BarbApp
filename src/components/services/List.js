@@ -6,7 +6,7 @@ import {servicesManage, servicesSelect} from '@actions/services';
 
 const ServicesList = ({data, active, updateItem}) => {
   const dispatch = useDispatch();
-  const {isServicesManage, selectedServices, serviceListKey} = useSelector(
+  const {isServicesManage, selectedServices} = useSelector(
     (state) => state.services,
   );
 

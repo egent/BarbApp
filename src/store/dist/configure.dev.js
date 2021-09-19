@@ -23,13 +23,14 @@ var _sagas = _interopRequireDefault(require("../sagas"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var saveSubsetBlackFilterUser = (0, _reduxPersistTransformFilter.createBlacklistFilter)('user', ['loading']);
+var blackListUser = (0, _reduxPersistTransformFilter.createBlacklistFilter)('user', ['loading']);
+var blackListServices = (0, _reduxPersistTransformFilter.createBlacklistFilter)('services', ['loading']);
 var persistConfig = {
   timeout: 2000,
-  key: 'app_2_2',
+  key: 'app_2_4',
   storage: _asyncStorage["default"],
   stateReconciler: _autoMergeLevel["default"],
-  transforms: [saveSubsetBlackFilterUser]
+  transforms: [blackListUser, blackListServices]
 };
 var persistedReducer = (0, _reduxPersist.persistReducer)(persistConfig, _reducers["default"]);
 var sagaMiddleware = (0, _reduxSaga["default"])();

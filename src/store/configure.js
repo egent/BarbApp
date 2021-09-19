@@ -7,14 +7,15 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import rootReducer from '../reducers';
 import rootSaga from '../sagas';
 
-const saveSubsetBlackFilterUser = createBlacklistFilter('user', ['loading']);
+const blackListUser = createBlacklistFilter('user', ['loading']);
+const blackListServices = createBlacklistFilter('services', ['loading']);
 
 const persistConfig = {
   timeout: 2000,
-  key: 'app_2_2',
+  key: 'app_2_4',
   storage: AsyncStorage,
   stateReconciler: autoMergeLevel2,
-  transforms: [saveSubsetBlackFilterUser],
+  transforms: [blackListUser, blackListServices],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

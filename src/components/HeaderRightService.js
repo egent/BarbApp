@@ -17,6 +17,7 @@ const HeaderRightService = ({navigation}) => {
     description,
     descriptionShort,
     serviceCategoryPhotos,
+    serviceCategoryPhotosRemove,
   } = useSelector((state) => state.services);
   const dispatch = useDispatch();
   const [alertVisible, setAlertVisible] = useState(false);
@@ -28,14 +29,27 @@ const HeaderRightService = ({navigation}) => {
       duration.length > 0 &&
       price.length > 0 &&
       description.length > 0 &&
-      descriptionShort.length > 0 &&
-      serviceCategoryPhotos.length
+      descriptionShort.length > 0
+      // serviceCategoryPhotos.length
     ) {
       const images = [];
       serviceCategoryPhotos.map((photo, index) => {
+        if (photo.base64 !== undefined) {
+          images.push({
+            id: index,
+            src: `data:${photo.type};base64,${photo.base64}`,
+            name: '',
+            status: 'new',
+            rotate: '0',
+            order_column: '0',
+          });
+        }
+      });
+
+      serviceCategoryPhotosRemove.map((photo) => {
         images.push({
-          id: index,
-          scr: `data:${photo.type};base64,${photo.data}`,
+          ...photo,
+          status: 'deleted',
         });
       });
 
@@ -51,11 +65,14 @@ const HeaderRightService = ({navigation}) => {
         anons: descriptionShort,
         description,
         price_from: priceFrom ? 'on' : 'off',
-        images,
         razdel: '',
         price_by: 'p',
         price,
       };
+
+      if (images.length > 0) {
+        payload = {...payload, images};
+      }
 
       if (serviceId) {
         payload = {...payload, procedure_id: serviceId};

@@ -53,8 +53,6 @@ const UserStackScreens = () => {
       selectedPromos,
       isServicesManage,
       selectedServices,
-      promoId,
-      serviceId,
     },
   } = useSelector((state) => state);
   return (
@@ -322,18 +320,22 @@ const UserStackScreens = () => {
       <UserStack.Screen
         name="ServicesForm"
         component={ServicesForm}
-        options={({navigation, route}) => ({
-          headerShown: true,
-          headerTitle: _.t(serviceId ? 'serviceUpdate' : 'service_add'),
-          headerLeft: (props) => (
-            <HeaderLeft {...props} navigation={navigation} />
-          ),
-          headerRight: (props) => {
-            return <HeaderRightService {...props} navigation={navigation} />;
-          },
-          headerStyle: styles.headerStyle,
-          headerTitleStyle: [styles.headerTitleStyle],
-        })}
+        options={({navigation, route}) => {
+          return {
+            headerShown: true,
+            headerTitle: _.t(
+              route.params?.serviceId ? 'serviceUpdate' : 'service_add',
+            ),
+            headerLeft: (props) => (
+              <HeaderLeft {...props} navigation={navigation} />
+            ),
+            headerRight: (props) => {
+              return <HeaderRightService {...props} navigation={navigation} />;
+            },
+            headerStyle: styles.headerStyle,
+            headerTitleStyle: [styles.headerTitleStyle],
+          };
+        }}
       />
       <UserStack.Screen
         name="ServiceCategories"
@@ -372,18 +374,22 @@ const UserStackScreens = () => {
       <UserStack.Screen
         name="DiscountForm"
         component={DiscountForm}
-        options={({navigation, route}) => ({
-          headerShown: true,
-          headerTitle: _.t(promoId ? 'discountUpdate' : 'discountAdd'),
-          headerLeft: (props) => (
-            <HeaderLeft {...props} navigation={navigation} />
-          ),
-          headerRight: (props) => {
-            return <HeaderRightDiscount {...props} navigation={navigation} />;
-          },
-          headerStyle: styles.headerStyle,
-          headerTitleStyle: [styles.headerTitleStyle],
-        })}
+        options={({navigation, route}) => {
+          return {
+            headerShown: true,
+            headerTitle: _.t(
+              route.params?.promoId ? 'discountUpdate' : 'discountAdd',
+            ),
+            headerLeft: (props) => (
+              <HeaderLeft {...props} navigation={navigation} />
+            ),
+            headerRight: (props) => {
+              return <HeaderRightDiscount {...props} navigation={navigation} />;
+            },
+            headerStyle: styles.headerStyle,
+            headerTitleStyle: [styles.headerTitleStyle],
+          };
+        }}
       />
       <UserStack.Screen
         name="PromoCategories"

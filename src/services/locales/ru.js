@@ -288,4 +288,5 @@ export default {
   promoDefaultDate: 'дд.мм.гггг',
   promoPhoto: 'Афиша акции',
   error_500: 'Внутренняя ошибка сервера',
+  moderator: 'Модератор',
 };

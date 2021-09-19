@@ -32,16 +32,16 @@ const HeaderRightDiscount = ({navigation}) => {
     if (
       promoName?.length > 0 &&
       promoCatsSelected?.length > 0 &&
-      promoDescription?.length > 0 &&
+      promoDescription?.length > 0
       // promoDateFrom?.length > 0 &&
-      promoPhotos?.length > 0
+      // promoPhotos?.length > 0
     ) {
       const images = [];
       promoPhotos.map((photo, index) => {
-        if (photo.data !== undefined) {
+        if (photo.base64 !== undefined) {
           images.push({
             id: index,
-            scr: `data:${photo.type};base64,${photo.data}`,
+            scr: `data:${photo.type};base64,${photo.base64}`,
           });
         }
       });
@@ -61,9 +61,12 @@ const HeaderRightDiscount = ({navigation}) => {
         date_from,
         cats,
         description: promoDescription,
-        photo: images[0],
         discount: promoDiscount,
       };
+
+      if (images.length > 0) {
+        payload = {...payload, photo: images[0]};
+      }
 
       if (promoPrice?.length > 0) {
         payload = {...payload, price: promoPrice};

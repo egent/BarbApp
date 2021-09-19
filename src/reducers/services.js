@@ -11,11 +11,13 @@ const initialState = {
   serviceCategorySelected: [],
   serviceCategorySelectedStr: '',
   serviceCategoryPhotos: [],
+  serviceCategoryPhotosRemove: [],
   duration: '',
   priceFrom: false,
   price: '',
   description: '',
   descriptionShort: '',
+  moderation: null,
   // service end
   isServicesManage: false,
   selectedServices: [],
@@ -99,20 +101,38 @@ export default function services(state = initialState, action = {}) {
         serviceCategorySelectedStr: selected.join(', '),
       };
     case types.SERVICES_CATEGORY.PHOTOS:
-      const serviceCategoryPhotos = [...state.serviceCategoryPhotos];
-      serviceCategoryPhotos.push(action.payload);
+      const catPhotos = [];
+      action.payload.map((p) => {
+        catPhotos.push({
+          id: Math.floor(Math.random() * 1000000),
+          ...p,
+        });
+      });
+
+      const serviceCategoryPhotos = [
+        ...state.serviceCategoryPhotos,
+        ...catPhotos,
+      ];
       return {
         ...state,
         serviceCategoryPhotos,
       };
     case types.SERVICES_CATEGORY.PHOTO_REMOVE:
       const photos = [];
+      const deletePhotos = [...state.serviceCategoryPhotosRemove];
       state.serviceCategoryPhotos.map((p) => {
-        p.uri !== action.payload.uri && photos.push(p);
+        if (p.id !== action.payload.id) {
+          photos.push(p);
+        } else {
+          if (state.serviceId !== null && p.base64 === undefined) {
+            deletePhotos.push(p);
+          }
+        }
       });
       return {
         ...state,
         serviceCategoryPhotos: photos,
+        serviceCategoryPhotosRemove: deletePhotos,
       };
     case types.SERVICES_ADD.REQUEST:
       return {
@@ -214,6 +234,7 @@ export default function services(state = initialState, action = {}) {
         price: procedure.price.toString(),
         description: procedure.description,
         descriptionShort: procedure.anons,
+        moderation: procedure.moderation,
       };
     case types.SERVICE_DETAILS.FAILURE:
       return {
@@ -330,8 +351,8 @@ export default function services(state = initialState, action = {}) {
         promoId: promo.id,
         promoName: promo.name,
         promoDescription: promo.description,
-        promoPrice: promo?.price.toString(),
-        promoPriceOld: promo?.price_old.toString(),
+        promoPrice: promo?.price?.toString(),
+        promoPriceOld: promo?.price_old?.toString(),
         promoDiscount: promo.discount,
         promoDateFrom: promo.date_from,
         promoDateTo: promo.date_to,

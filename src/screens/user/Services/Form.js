@@ -31,6 +31,7 @@ const ServiceForm = ({navigation}) => {
     description,
     descriptionShort,
     serviceCategoryPhotos,
+    moderation,
   } = useSelector((state) => state.services);
   const dispatch = useDispatch();
 
@@ -44,11 +45,13 @@ const ServiceForm = ({navigation}) => {
             serviceCategorySelected: [],
             serviceCategorySelectedStr: '',
             serviceCategoryPhotos: [],
+            serviceCategoryPhotosRemove: [],
             duration: '',
             priceFrom: false,
             price: '',
             description: '',
             descriptionShort: '',
+            moderation: null,
           },
         }),
       );
@@ -71,120 +74,133 @@ const ServiceForm = ({navigation}) => {
       showsVerticalScrollIndicator={false}
       style={styles.container}
       keyboardShouldPersistTaps="always">
-      <Input
-        label="service_name"
-        value={serviceName}
-        // data={serviceCategorySelectedStr}
-        setData={(val) =>
-          dispatch(servicesStateUpdate({payload: {serviceName: val}}))
-        }
-      />
-
-      <SelectTree
-        label="category"
-        selected={serviceCategorySelectedStr}
-        onPress={() => navigation.navigate('ServiceCategories')}
-        data={servicesCategory}
-      />
-
-      <View style={styles.legend}>
-        <Text style={styles.legendText}>{_.t('cost_long')}</Text>
-      </View>
-      <View style={styles.form}>
-        <TouchableOpacity
-          onPress={() =>
-            dispatch(servicesStateUpdate({payload: {priceFrom: !priceFrom}}))
+      {moderation !== null && (
+        <View style={styles.moderation}>
+          <Text style={styles.moderationLegend}>{_.t('moderator')}:</Text>
+          <Text style={styles.moderationText}>{moderation}</Text>
+        </View>
+      )}
+      <View style={styles.formContainer}>
+        <Input
+          label="service_name"
+          value={serviceName}
+          // data={serviceCategorySelectedStr}
+          setData={(val) =>
+            dispatch(servicesStateUpdate({payload: {serviceName: val}}))
           }
-          style={styles.radioBtn}>
-          <Icon
-            name={priceFrom ? 'radio-button-checked' : 'radio-button-unchecked'}
-            color="#B1B1B1"
-            size={24}
-          />
-        </TouchableOpacity>
-        <View style={styles.inputs}>
-          <View style={styles.inputItem}>
-            <Text style={styles.txt}>{_.t('from_price')}</Text>
-            <TextInput
-              style={[styles.input, {marginHorizontal: 5}]}
-              underlineColorAndroid="transparent"
-              onChangeText={(val) =>
-                dispatch(servicesStateUpdate({payload: {price: val}}))
-              }
-              value={price}
-              keyboardType="phone-pad"
-              returnKeyType="done"
-              blurOnSubmit={true}
-              placeholder={_.t('price_item')}
-              onFocus={(e) => {
-                dispatch(servicesStateUpdate({payload: {price: ''}}));
-              }}
-            />
+        />
 
-            <Text style={styles.txt}>{_.t('uah')}</Text>
-          </View>
-          <View style={styles.inputItem}>
-            <TextInput
-              style={[styles.input, {marginRight: 5}]}
-              underlineColorAndroid="transparent"
-              onChangeText={(val) =>
-                dispatch(servicesStateUpdate({payload: {duration: val}}))
+        <SelectTree
+          label="category"
+          selected={serviceCategorySelectedStr}
+          onPress={() => navigation.navigate('ServiceCategories')}
+          data={servicesCategory}
+        />
+
+        <View style={styles.legend}>
+          <Text style={styles.legendText}>{_.t('cost_long')}</Text>
+        </View>
+        <View style={styles.form}>
+          <TouchableOpacity
+            onPress={() =>
+              dispatch(servicesStateUpdate({payload: {priceFrom: !priceFrom}}))
+            }
+            style={styles.radioBtn}>
+            <Icon
+              name={
+                priceFrom ? 'radio-button-checked' : 'radio-button-unchecked'
               }
-              value={duration}
-              keyboardType="phone-pad"
-              returnKeyType="done"
-              blurOnSubmit={true}
-              placeholder={_.t('time')}
-              onFocus={(e) => {
-                dispatch(servicesStateUpdate({payload: {duration: ''}}));
-              }}
+              color="#B1B1B1"
+              size={24}
             />
-            <Text style={styles.txt}>{_.t('min')}</Text>
+          </TouchableOpacity>
+          <View style={styles.inputs}>
+            <View style={styles.inputItem}>
+              <Text style={styles.txt}>{_.t('from_price')}</Text>
+              <TextInput
+                style={[styles.input, {marginHorizontal: 5}]}
+                underlineColorAndroid="transparent"
+                onChangeText={(val) =>
+                  dispatch(servicesStateUpdate({payload: {price: val}}))
+                }
+                value={price}
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                blurOnSubmit={true}
+                placeholder={_.t('price_item')}
+                onFocus={(e) => {
+                  dispatch(servicesStateUpdate({payload: {price: ''}}));
+                }}
+              />
+
+              <Text style={styles.txt}>{_.t('uah')}</Text>
+            </View>
+            <View style={styles.inputItem}>
+              <TextInput
+                style={[styles.input, {marginRight: 5}]}
+                underlineColorAndroid="transparent"
+                onChangeText={(val) =>
+                  dispatch(servicesStateUpdate({payload: {duration: val}}))
+                }
+                value={duration}
+                keyboardType="phone-pad"
+                returnKeyType="done"
+                blurOnSubmit={true}
+                placeholder={_.t('time')}
+                onFocus={(e) => {
+                  dispatch(servicesStateUpdate({payload: {duration: ''}}));
+                }}
+              />
+              <Text style={styles.txt}>{_.t('min')}</Text>
+            </View>
           </View>
         </View>
-      </View>
 
-      <View style={styles.legend}>
-        <Text style={styles.legendText}>{_.t('description_short')}</Text>
-      </View>
-      <TextInput
-        style={styles.textareaShort}
-        multiline={true}
-        underlineColorAndroid="transparent"
-        numberOfLines={5}
-        onChangeText={(val) =>
-          dispatch(servicesStateUpdate({payload: {descriptionShort: val}}))
-        }
-        value={descriptionShort}
-      />
+        <View style={styles.legend}>
+          <Text style={styles.legendText}>{_.t('description_short')}</Text>
+        </View>
+        <TextInput
+          style={styles.textareaShort}
+          multiline={true}
+          underlineColorAndroid="transparent"
+          numberOfLines={5}
+          onChangeText={(val) =>
+            dispatch(servicesStateUpdate({payload: {descriptionShort: val}}))
+          }
+          value={descriptionShort}
+        />
 
-      <View style={styles.legend}>
-        <Text style={styles.legendText}>{_.t('description')}</Text>
-      </View>
-      <TextInput
-        style={styles.textarea}
-        multiline={true}
-        underlineColorAndroid="transparent"
-        numberOfLines={5}
-        onChangeText={(val) =>
-          dispatch(servicesStateUpdate({payload: {description: val}}))
-        }
-        value={description}
-      />
+        <View style={styles.legend}>
+          <Text style={styles.legendText}>{_.t('description')}</Text>
+        </View>
+        <TextInput
+          style={styles.textarea}
+          multiline={true}
+          underlineColorAndroid="transparent"
+          numberOfLines={5}
+          onChangeText={(val) =>
+            dispatch(servicesStateUpdate({payload: {description: val}}))
+          }
+          value={description}
+        />
 
-      <MediaPicker
-        addPhoto={addPhoto}
-        handleDelete={deletePhoto}
-        styles={styles.media}
-        photos={serviceCategoryPhotos}
-        legend="service_photo"
-      />
+        <MediaPicker
+          addPhoto={addPhoto}
+          handleDelete={deletePhoto}
+          styles={styles.media}
+          photos={serviceCategoryPhotos}
+          legend="service_photo"
+        />
+      </View>
     </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  formContainer: {
     margin: 10,
   },
   form: {
@@ -249,6 +265,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   media: {marginVertical: 10},
+  moderation: {
+    backgroundColor: '#F4F4F5',
+    padding: 10,
+  },
+  moderationText: {
+    fontSize: 12,
+    color: '#F50263',
+  },
+  moderationLegend: {
+    fontSize: 12,
+    marginBottom: 5,
+  },
 });
 
 export default ServiceForm;

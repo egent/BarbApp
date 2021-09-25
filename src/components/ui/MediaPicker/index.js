@@ -25,10 +25,7 @@ const MediaPiker = ({
     cancelButtonTitle: _.t('cancel'),
     takePhotoButtonTitle: _.t('take_photo'),
     chooseFromLibraryButtonTitle: _.t('open_gallery'),
-    options: {
-      selectionLimit: limit === 1 ? limit : 0,
-      allowMultiple: true,
-    },
+    selectionLimit: limit > 1 ? 0 : limit,
   };
 
   const handleAdd = () => {

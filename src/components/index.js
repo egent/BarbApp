@@ -14,6 +14,7 @@ import Discount from './discounts/Discount';
 import PromoTimes from './discounts/Times';
 import HeaderRightDiscount from './discounts/HeaderRight';
 import HeaderDiscountList from './discounts/HeaderDiscountList';
+import ModerationInfo from './ui/ModerationInfo';
 
 export {
   SelectTree,
@@ -32,4 +33,5 @@ export {
   PromoTimes,
   HeaderRightDiscount,
   HeaderDiscountList,
+  ModerationInfo,
 };

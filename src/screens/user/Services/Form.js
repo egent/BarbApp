@@ -11,7 +11,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from '@services/i18n';
 import Input from '@components/ui/Input';
-import {SelectTree, MediaPicker} from '@components';
+import {SelectTree, MediaPicker, ModerationInfo} from '@components';
 import Preloader from '@components/PreLoader';
 import {servicesStateUpdate} from '@actions/services';
 import {
@@ -51,7 +51,7 @@ const ServiceForm = ({navigation}) => {
             price: '',
             description: '',
             descriptionShort: '',
-            moderation: null,
+            moderation: '',
           },
         }),
       );
@@ -74,12 +74,7 @@ const ServiceForm = ({navigation}) => {
       showsVerticalScrollIndicator={false}
       style={styles.container}
       keyboardShouldPersistTaps="always">
-      {moderation !== null && (
-        <View style={styles.moderation}>
-          <Text style={styles.moderationLegend}>{_.t('moderator')}:</Text>
-          <Text style={styles.moderationText}>{moderation}</Text>
-        </View>
-      )}
+      <ModerationInfo info={moderation} />
       <View style={styles.formContainer}>
         <Input
           label="service_name"
@@ -265,18 +260,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   media: {marginVertical: 10},
-  moderation: {
-    backgroundColor: '#F4F4F5',
-    padding: 10,
-  },
-  moderationText: {
-    fontSize: 12,
-    color: '#F50263',
-  },
-  moderationLegend: {
-    fontSize: 12,
-    marginBottom: 5,
-  },
 });
 
 export default ServiceForm;

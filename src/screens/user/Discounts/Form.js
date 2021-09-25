@@ -1,17 +1,17 @@
 import React, {useEffect} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import {Text, View, StyleSheet, TextInput} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import _ from '@services/i18n';
 import Input from '@components/ui/Input';
 import Preloader from '@components/PreLoader';
-import {SelectTree, MediaPicker, Discount, PromoTimes} from '@components';
+import {
+  SelectTree,
+  MediaPicker,
+  Discount,
+  PromoTimes,
+  ModerationInfo,
+} from '@components';
 import {
   servicesStateUpdate,
   addPromoPhoto,
@@ -20,7 +20,6 @@ import {
 
 const DiscountForm = ({navigation}) => {
   const {
-    promoId,
     promoName,
     promoDescription,
     promoPrice,
@@ -34,9 +33,9 @@ const DiscountForm = ({navigation}) => {
     promoCategoriesStr,
     promosCats,
     promoPhotos,
+    promoModeration,
   } = useSelector((state) => state.services);
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     return () =>
@@ -82,60 +81,63 @@ const DiscountForm = ({navigation}) => {
   return (
     <KeyboardAwareScrollView
       showsVerticalScrollIndicator={false}
-      style={styles.container}
       keyboardShouldPersistTaps="always">
-      <Input
-        label="promo_name"
-        value={promoName}
-        setData={(val) =>
-          dispatch(servicesStateUpdate({payload: {promoName: val}}))
-        }
-      />
+      <ModerationInfo info={promoModeration} />
 
-      <SelectTree
-        label="category"
-        selected={promoCategoriesStr}
-        onPress={() => navigation.navigate('PromoCategories')}
-        data={promosCats}
-      />
+      <View style={styles.container}>
+        <Input
+          label="promo_name"
+          value={promoName}
+          setData={(val) =>
+            dispatch(servicesStateUpdate({payload: {promoName: val}}))
+          }
+        />
 
-      <Discount
-        isDiscount={isDiscount}
-        discount={promoDiscount}
-        price={promoPrice}
-        priceOld={promoPriceOld}
-        update={stateUpdate}
-      />
+        <SelectTree
+          label="category"
+          selected={promoCategoriesStr}
+          onPress={() => navigation.navigate('PromoCategories')}
+          data={promosCats}
+        />
 
-      <View style={[styles.legend, {marginTop: 15}]}>
-        <Text style={styles.legendText}>{_.t('promoDescription')}</Text>
+        <Discount
+          isDiscount={isDiscount}
+          discount={promoDiscount}
+          price={promoPrice}
+          priceOld={promoPriceOld}
+          update={stateUpdate}
+        />
+
+        <View style={[styles.legend, {marginTop: 15}]}>
+          <Text style={styles.legendText}>{_.t('promoDescription')}</Text>
+        </View>
+        <TextInput
+          style={styles.textarea}
+          multiline={true}
+          underlineColorAndroid="transparent"
+          numberOfLines={5}
+          onChangeText={(val) =>
+            dispatch(servicesStateUpdate({payload: {promoDescription: val}}))
+          }
+          value={promoDescription}
+        />
+
+        <PromoTimes
+          dateFrom={promoDateFrom}
+          dateTo={promoDateTo}
+          update={stateUpdate}
+          isPromo={isPromoDate}
+        />
+
+        <MediaPicker
+          addPhoto={addPhoto}
+          handleDelete={deletePhoto}
+          styles={styles.media}
+          photos={promoPhotos}
+          legend="promoPhoto"
+          limit={1}
+        />
       </View>
-      <TextInput
-        style={styles.textarea}
-        multiline={true}
-        underlineColorAndroid="transparent"
-        numberOfLines={5}
-        onChangeText={(val) =>
-          dispatch(servicesStateUpdate({payload: {promoDescription: val}}))
-        }
-        value={promoDescription}
-      />
-
-      <PromoTimes
-        dateFrom={promoDateFrom}
-        dateTo={promoDateTo}
-        update={stateUpdate}
-        isPromo={isPromoDate}
-      />
-
-      <MediaPicker
-        addPhoto={addPhoto}
-        handleDelete={deletePhoto}
-        styles={styles.media}
-        photos={promoPhotos}
-        legend="promoPhoto"
-        limit={1}
-      />
     </KeyboardAwareScrollView>
   );
 };

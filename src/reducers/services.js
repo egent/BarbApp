@@ -17,7 +17,7 @@ const initialState = {
   price: '',
   description: '',
   descriptionShort: '',
-  moderation: null,
+  moderation: '',
   // service end
   isServicesManage: false,
   selectedServices: [],
@@ -234,7 +234,7 @@ export default function services(state = initialState, action = {}) {
         price: procedure.price.toString(),
         description: procedure.description,
         descriptionShort: procedure.anons,
-        moderation: procedure.moderation,
+        moderation: procedure?.moderation || '',
       };
     case types.SERVICE_DETAILS.FAILURE:
       return {
@@ -357,7 +357,7 @@ export default function services(state = initialState, action = {}) {
         promoDateFrom: promo.date_from,
         promoDateTo: promo.date_to,
         isPromoDate: promo.date_free === 1 ? false : true,
-        promoModeration: '',
+        promoModeration: promo?.moderation || '',
         promoStatus: promo.status,
         promoCategoriesStr: promoCatName.join(', '),
         promoCatsSelected: data.categories,

@@ -27,7 +27,7 @@ var blackListUser = (0, _reduxPersistTransformFilter.createBlacklistFilter)('use
 var blackListServices = (0, _reduxPersistTransformFilter.createBlacklistFilter)('services', ['loading']);
 var persistConfig = {
   timeout: 2000,
-  key: 'app_2_4',
+  key: 'app_2_5',
   storage: _asyncStorage["default"],
   stateReconciler: _autoMergeLevel["default"],
   transforms: [blackListUser, blackListServices]

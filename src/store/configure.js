@@ -12,7 +12,7 @@ const blackListServices = createBlacklistFilter('services', ['loading']);
 
 const persistConfig = {
   timeout: 2000,
-  key: 'app_2_4',
+  key: 'app_2_5',
   storage: AsyncStorage,
   stateReconciler: autoMergeLevel2,
   transforms: [blackListUser, blackListServices],

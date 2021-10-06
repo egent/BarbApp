@@ -91,7 +91,7 @@ class Home extends Component {
       info,
       messages_new,
       onBoarding,
-      profileDescription: {description, image},
+      profileDescription: {description},
     } = this.props.user;
 
     if (loading || info === null) {
@@ -102,7 +102,7 @@ class Home extends Component {
       return <OnBoarding navigation={this.props.navigation} />;
     }
 
-    const {city, tarif, tarif_date} = info;
+    const {city, tarif, tarif_date, image} = info;
 
     return (
       <>

@@ -37,6 +37,7 @@ const MediaPiker = ({
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
+
         addPhoto(response.assets);
 
         // height: 3024

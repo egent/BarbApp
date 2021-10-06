@@ -2,6 +2,8 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {find, reject} from 'lodash';
 import {useSelector, useDispatch} from 'react-redux';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import NestedList from '@components/ui/NestedList';
 import {promosCatsSelect} from '@actions/services';
 
@@ -70,6 +72,7 @@ const PromoCategories = ({navigation}) => {
                 backgroundColor: isActive ? '#e7e7e9' : '#F4F4F5',
               },
             ]}>
+            {isActive && <Icon name="check-bold" color="#000" size={24} />}
             <Text
               style={[
                 styles.itemText,
